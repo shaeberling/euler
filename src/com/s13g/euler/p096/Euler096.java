@@ -34,19 +34,22 @@ public class Euler096 {
         List<Grid> content = readFile("data/p096/p096_sudoku.txt");
         System.out.println("Grids: " + content.size());
 
+        long startTimeMillis = System.currentTimeMillis();
         long eulerSolutionSum = 0;
         int numSolved = 0;
         for (int i = 0; i < content.size(); ++i) {
+            long startTimeMillisPuzzle = System.nanoTime();
             Grid grid = content.get(i).solve("start");
+            long endTimeMillisPuzzle = System.nanoTime();
             boolean solved = grid.isFinishedAndValid();
-            System.out.println(i + " Solved: " + solved);
+            System.out.println(i + " Solved: " + solved + " (" + (endTimeMillisPuzzle - startTimeMillisPuzzle) / 1000000f + "ms.)");
             if (solved) {
                 numSolved++;
             }
-            System.out.println("Euler Sum: " + grid.getTopLeftThreeNum());
             eulerSolutionSum += grid.getTopLeftThreeNum();
         }
         System.out.println("Solved: " + numSolved + "/" + content.size());
+        System.out.println("Time: " + (System.currentTimeMillis() - startTimeMillis) + " ms.");
         System.out.println("Project Euler Sum: " + eulerSolutionSum);
     }
 
