@@ -87,6 +87,7 @@ public class Unscramble {
     input = checkNotNull(input, "Input may not be null").toLowerCase();
     String result = "";
     for (int from = 0, to = 1; to <= input.length(); ++to) {
+      // Instead of this, it would be better to use an insertion sort to keep the part updated.
       char[] part = input.substring(from, to).toCharArray();
       Arrays.sort(part);
       String sorted = String.valueOf(part);
