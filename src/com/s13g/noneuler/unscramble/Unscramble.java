@@ -64,17 +64,18 @@ public class Unscramble {
   }
 
   /**
-   * Initializes the dictionary by generating keys of  the sorted chars of the original words.
+   * Initializes the dictionary by generating keys of the sorted chars of the original words.
    */
   private Unscramble initialize() {
     for (String dictWord : mDictionary) {
       char[] word = dictWord.toLowerCase().toCharArray();
       Arrays.sort(word);
+      String sortedWord = String.valueOf(word);
 
-      if (mProcessedDictionary.containsKey(word)) {
+      if (mProcessedDictionary.containsKey(sortedWord)) {
         throw new RuntimeException("Illegal dictionary. Cannot insert " + dictWord);
       }
-      mProcessedDictionary.put(String.valueOf(word), dictWord);
+      mProcessedDictionary.put(sortedWord, dictWord);
     }
     return this;
   }
