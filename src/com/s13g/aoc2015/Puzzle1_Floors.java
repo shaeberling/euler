@@ -27,7 +27,7 @@ public class Puzzle1_Floors {
   private static final int START_FLOOR = 0;
 
   public static void main(String[] args) throws IOException {
-    String input = FileUtil.readAsString("data/aoc2015/day1/input_1.txt");
+    String input = FileUtil.readAsString("data/aoc2015/day1/input.txt");
     char[] inputChars = input.toCharArray();
 
     int floor = START_FLOOR;
