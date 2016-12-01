@@ -14,35 +14,33 @@
  *  limitations under the License.
  */
 
-package com.s13g.aoc2015;
+package com.s13g.aoc.aoc2015;
 
-import com.s13g.FileUtil;
-
-import java.io.IOException;
+import com.s13g.aoc.Puzzle;
 
 /**
  * http://adventofcode.com/2015/day/1
  */
-public class Puzzle1_Floors {
+public class Puzzle1_Floors implements Puzzle {
   private static final int START_FLOOR = 0;
 
-  public static void main(String[] args) throws IOException {
-    String input = FileUtil.readAsString("data/aoc2015/day1/input.txt");
+
+  @Override
+  public Solution solve(String input) {
     char[] inputChars = input.toCharArray();
 
     int floor = START_FLOOR;
-    boolean part2Solved = false;
+    int solutionB = -1;
     for (int i = 0; i < inputChars.length; ++i) {
       if (inputChars[i] == '(') {
         ++floor;
       } else if (inputChars[i] == ')') {
         --floor;
       }
-      if (!part2Solved && floor == -1) {
-        System.out.println("Part 2 solution: " + (i + 1));
-        part2Solved = true;
+      if (solutionB < 0 && floor == -1) {
+        solutionB = i + 1;
       }
     }
-    System.out.println("Result: " + floor);
+    return new Solution(floor, solutionB);
   }
 }

@@ -14,18 +14,46 @@
  *  limitations under the License.
  */
 
-package com.s13g.aoc2015;
+package com.s13g.aoc.aoc2015;
 
-import com.s13g.FileUtil;
+import com.s13g.aoc.Puzzle;
 
-import java.io.IOException;
 import java.util.HashSet;
 import java.util.Set;
 
 /**
  * http://adventofcode.com/2015/day/3
  */
-public class Puzzle3_Houses {
+public class Puzzle3_Houses implements Puzzle {
+
+  @Override
+  public Solution solve(String input) {
+    int partA;
+    char[] directions = input.toCharArray();
+    {
+      Set<String> visitedHouses = new HashSet<>();
+      Location locSanta = new Location();
+      visitedHouses.add(locSanta.toString());
+      for (char direction : directions) {
+        visitedHouses.add(locSanta.go(direction).toString());
+      }
+      partA = visitedHouses.size();
+    }
+
+    {
+      Set<String> visitedHouses = new HashSet<>();
+      Location locSanta = new Location();
+      Location locRobot = new Location();
+      boolean santasTurn = true;
+      visitedHouses.add(locSanta.toString());
+      for (char direction : directions) {
+        Location activeLocation = santasTurn ? locSanta : locRobot;
+        visitedHouses.add(activeLocation.go(direction).toString());
+        santasTurn = !santasTurn;
+      }
+      return new Solution(partA, visitedHouses.size());
+    }
+  }
 
   private static class Location {
     int x = 0;
@@ -47,35 +75,6 @@ public class Puzzle3_Houses {
     @Override
     public String toString() {
       return x + "x" + y;
-    }
-  }
-
-  public static void main(String[] args) throws IOException {
-    String input = FileUtil.readAsString("data/aoc2015/day3/input.txt");
-    char[] directions = input.toCharArray();
-
-    {
-      Set<String> visitedHouses = new HashSet<>();
-      Location locSanta = new Location();
-      visitedHouses.add(locSanta.toString());
-      for (char direction : directions) {
-        visitedHouses.add(locSanta.go(direction).toString());
-      }
-      System.out.println("Num houses Part 1: " + visitedHouses.size());
-    }
-
-    {
-      Set<String> visitedHouses = new HashSet<>();
-      Location locSanta = new Location();
-      Location locRobot = new Location();
-      boolean santasTurn = true;
-      visitedHouses.add(locSanta.toString());
-      for (char direction : directions) {
-        Location activeLocation = santasTurn ? locSanta : locRobot;
-        visitedHouses.add(activeLocation.go(direction).toString());
-        santasTurn = !santasTurn;
-      }
-      System.out.println("Num houses Part 2: " + visitedHouses.size());
     }
   }
 }

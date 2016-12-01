@@ -14,17 +14,30 @@
  *  limitations under the License.
  */
 
-package com.s13g.aoc2015;
+package com.s13g.aoc.aoc2015;
 
-import com.s13g.FileUtil;
+import com.s13g.aoc.Puzzle;
 
-import java.io.IOException;
 import java.util.Arrays;
 
 /**
  * http://adventofcode.com/2015/day/2
  */
-public class Puzzle2_WrappingPaper {
+public class Puzzle2_WrappingPaper implements Puzzle {
+  @Override
+  public Solution solve(String input) {
+    String[] dimensions = input.split("\n");
+
+    int totalPaper = 0;
+    int totalBowLength = 0;
+    for (String dimension : dimensions) {
+      Box box = Box.from(dimension);
+      totalPaper += box.getPaperNeeded();
+      totalBowLength += box.getBowLength();
+    }
+    return new Solution(totalPaper, totalBowLength);
+  }
+
   private static class Box {
     private final int mSide1;
     private final int mSide2;
@@ -66,20 +79,5 @@ public class Puzzle2_WrappingPaper {
     int getBowLength() {
       return mSmallestTwo[0] * 2 + mSmallestTwo[1] * 2 + mVolume;
     }
-  }
-
-  public static void main(String[] args) throws IOException {
-    String input = FileUtil.readAsString("data/aoc2015/day2/input.txt");
-    String[] dimensions = input.split("\n");
-
-    int totalPaper = 0;
-    int totalBowLength = 0;
-    for (String dimension : dimensions) {
-      Box box = Box.from(dimension);
-      totalPaper += box.getPaperNeeded();
-      totalBowLength += box.getBowLength();
-    }
-    System.out.println("Paper needed : " + totalPaper);
-    System.out.println("Ribbon needed: " + totalBowLength);
   }
 }
