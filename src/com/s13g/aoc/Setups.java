@@ -20,6 +20,7 @@ import com.s13g.aoc.PuzzleRunner.PuzzleSetup;
 import com.s13g.aoc.aoc2015.Puzzle1_Floors;
 import com.s13g.aoc.aoc2015.Puzzle2_WrappingPaper;
 import com.s13g.aoc.aoc2015.Puzzle3_Houses;
+import com.s13g.aoc.aoc2016.Puzzle1_Grid;
 
 /**
  * All active puzzles go here
@@ -31,8 +32,10 @@ class Setups {
     return new PuzzleSetup[]{
         new PuzzleSetup(AOC15 + "day1.txt", new Puzzle1_Floors(), 138, 1771),
         new PuzzleSetup(AOC15 + "day2.txt", new Puzzle2_WrappingPaper(), 1586300, 3737498),
-        new PuzzleSetup(AOC15 + "day3.txt", new Puzzle3_Houses(), 2565, 2639)
-    };
+        new PuzzleSetup(AOC15 + "day3.txt", new Puzzle3_Houses(), 2565, 2639),
 
+        // 2016
+        new PuzzleSetup(AOC16 + "day1.txt", new Puzzle1_Grid(), 161, 110)
+    };
   }
 }

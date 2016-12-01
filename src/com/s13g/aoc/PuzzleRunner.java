@@ -47,7 +47,7 @@ public class PuzzleRunner {
     final String expectedResultA;
     final String expectedResultB;
 
-    private PuzzleSetup(String inputFileName,
+    PuzzleSetup(String inputFileName,
                         Puzzle puzzle,
                         String expectedResultA,
                         String expectedResultB) {
