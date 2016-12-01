@@ -13,22 +13,12 @@ import java.util.Locale;
  */
 public class PuzzleRunner {
   private static final String NEW_TMPL = "(%s)[ NEW ] - %s --> %s";
-  private static final String OK_TMPL = "(%s)[ OK ]  - %s --> %s";
+  private static final String OK_TMPL = "(%s)[ OK ]  - %s";
   private static final String FAIL_TMPL = "(%s)[FAIL]  -  %s --> %s (but should be %s)";
 
-  private static PuzzleSetup[] getPuzzles() {
-    final String AOC15 = "data/aoc/2015/";
-    final String AOC16 = "data/aoc/2016/";
-    return new PuzzleSetup[]{
-        new PuzzleSetup(AOC15 + "day1.txt", new Puzzle1_Floors(), 138, 1771),
-        new PuzzleSetup(AOC15 + "day2.txt", new Puzzle2_WrappingPaper(), 1586300, 3737498),
-        new PuzzleSetup(AOC15 + "day3.txt", new Puzzle3_Houses(), 2565, 2639)
-    };
-
-  }
 
   public static void main(String[] args) throws IOException {
-    for (PuzzleSetup setup : getPuzzles()) {
+    for (PuzzleSetup setup : Setups.getPuzzles()) {
       String input = FileUtil.readAsString(setup.inputFileName);
       String className = setup.puzzle.getClass().getSimpleName();
       Puzzle.Solution solution = setup.puzzle.solve(input);
@@ -41,7 +31,7 @@ public class PuzzleRunner {
     if (expected == null) {
       print(NEW_TMPL, prefix, className, result);
     } else if (expected.equals(result)) {
-      print(OK_TMPL, prefix, className, result);
+      print(OK_TMPL, prefix, className);
     } else {
       print(FAIL_TMPL, prefix, className, result, expected);
     }
@@ -51,7 +41,7 @@ public class PuzzleRunner {
     System.out.println(String.format(Locale.US, format, vars));
   }
 
-  private static class PuzzleSetup {
+  static class PuzzleSetup {
     final String inputFileName;
     final Puzzle puzzle;
     final String expectedResultA;
@@ -67,10 +57,10 @@ public class PuzzleRunner {
       this.expectedResultB = expectedResultB;
     }
 
-    private PuzzleSetup(String inputFileName,
-                        Puzzle puzzle,
-                        int expectedResultA,
-                        int expectedResultB) {
+    PuzzleSetup(String inputFileName,
+                Puzzle puzzle,
+                int expectedResultA,
+                int expectedResultB) {
       this.inputFileName = inputFileName;
       this.puzzle = puzzle;
       this.expectedResultA = String.valueOf(expectedResultA);

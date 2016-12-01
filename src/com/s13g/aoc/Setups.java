@@ -16,25 +16,23 @@
 
 package com.s13g.aoc;
 
+import com.s13g.aoc.PuzzleRunner.PuzzleSetup;
+import com.s13g.aoc.aoc2015.Puzzle1_Floors;
+import com.s13g.aoc.aoc2015.Puzzle2_WrappingPaper;
+import com.s13g.aoc.aoc2015.Puzzle3_Houses;
+
 /**
- * All AOC puzzles implement this.
+ * All active puzzles go here
  */
-public interface Puzzle {
-  class Solution {
-    final String solutionA;
-    final String solutionB;
+class Setups {
+  static PuzzleSetup[] getPuzzles() {
+    final String AOC15 = "data/aoc/2015/";
+    final String AOC16 = "data/aoc/2016/";
+    return new PuzzleSetup[]{
+        new PuzzleSetup(AOC15 + "day1.txt", new Puzzle1_Floors(), 138, 1771),
+        new PuzzleSetup(AOC15 + "day2.txt", new Puzzle2_WrappingPaper(), 1586300, 3737498),
+        new PuzzleSetup(AOC15 + "day3.txt", new Puzzle3_Houses(), 2565, 2639)
+    };
 
-    public Solution(String solutionA, String solutionB) {
-      this.solutionA = solutionA;
-      this.solutionB = solutionB;
-    }
-
-    public Solution(int solutionA, int solutionB) {
-      this.solutionA = String.valueOf(solutionA);
-      this.solutionB = String.valueOf(solutionB);
-    }
   }
-
-  Solution solve(String input);
-
 }
