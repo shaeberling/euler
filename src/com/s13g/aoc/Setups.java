@@ -21,6 +21,7 @@ import com.s13g.aoc.aoc2015.Puzzle1_Floors;
 import com.s13g.aoc.aoc2015.Puzzle2_WrappingPaper;
 import com.s13g.aoc.aoc2015.Puzzle3_Houses;
 import com.s13g.aoc.aoc2016.Puzzle1_Grid;
+import com.s13g.aoc.aoc2016.Puzzle2_Keypad;
 
 /**
  * All active puzzles go here
@@ -35,7 +36,8 @@ class Setups {
         new PuzzleSetup(AOC15 + "day3.txt", new Puzzle3_Houses(), 2565, 2639),
 
         // 2016
-        new PuzzleSetup(AOC16 + "day1.txt", new Puzzle1_Grid(), 161, 110)
+        new PuzzleSetup(AOC16 + "day1.txt", new Puzzle1_Grid(), 161, 110),
+        new PuzzleSetup(AOC16 + "day2.txt", new Puzzle2_Keypad(), "69642", "8CB23"),
     };
   }
 }
