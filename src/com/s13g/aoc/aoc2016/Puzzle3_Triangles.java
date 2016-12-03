@@ -19,33 +19,27 @@ package com.s13g.aoc.aoc2016;
 import com.s13g.ArrayUtil;
 import com.s13g.aoc.Puzzle;
 
+import static com.s13g.ArrayUtil.splitAsIntArray;
+
 /**
  * http://adventofcode.com/2016/day/3
  */
 public class Puzzle3_Triangles implements Puzzle {
   @Override
   public Solution solve(String input) {
-    return new Solution(solveForData(input), solvePart2(input));
-  }
-
-  private int solvePart2(String input) {
-    int validTriangles = 0;
-    int[][] cols = ArrayUtil.splitAsIntColumns(input);
-    for (int[] values : cols) {
-      for (int j = 0; j < values.length; j += 3) {
-        validTriangles += isValidTriangle(values[j], values[j + 1], values[j + 2]) ? 1 : 0;
+    int[][] values = splitAsIntArray(input);
+    int solutionA = 0, solutionB = 0;
+    for (int[] value : values) {
+      for (int j = 0; j < value.length; j += 3) {
+        solutionA += isValidTriangle(value[j], value[j + 1], value[j + 2]) ? 1 : 0;
       }
     }
-    return validTriangles;
-  }
-
-  private int solveForData(String input) {
-    int validTriangles = 0;
-    for (String triangle : input.split("\\r?\\n")) {
-      int sides[] = ArrayUtil.splitAsInt(triangle.trim(), "\\s+");
-      validTriangles += isValidTriangle(sides[0], sides[1], sides[2]) ? 1 : 0;
+    for (int j = 0; j < values[0].length; ++j) {
+      for (int i = 0; i < values.length; i += 3) {
+        solutionB += isValidTriangle(values[i][j], values[i + 1][j], values[i + 2][j]) ? 1 : 0;
+      }
     }
-    return validTriangles;
+    return new Solution(solutionA, solutionB);
   }
 
   private static boolean isValidTriangle(int a, int b, int c) {

@@ -55,4 +55,19 @@ public class ArrayUtil {
     }
     return cols;
   }
+
+  public static int[][] splitAsIntArray(String str) {
+    String[] lines = str.split("\\r?\\n");
+    int[][] cols = null;
+    for (int i = 0; i < lines.length; ++i) {
+      String[] values = lines[i].trim().split("\\s+");
+      if (i == 0) {
+        cols = new int[lines.length][values.length];
+      }
+      for (int j = 0; j < values.length; ++j) {
+        cols[i][j] = Integer.parseInt(values[j]);
+      }
+    }
+    return cols;
+  }
 }
