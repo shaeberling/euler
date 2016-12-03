@@ -25,8 +25,7 @@ import com.s13g.aoc.Puzzle;
 public class Puzzle3_Triangles implements Puzzle {
   @Override
   public Solution solve(String input) {
-    String[] triangles = input.split("\\r?\\n");
-    return new Solution(solveForData(triangles), solvePart2(input));
+    return new Solution(solveForData(input), solvePart2(input));
   }
 
   private int solvePart2(String input) {
@@ -40,9 +39,9 @@ public class Puzzle3_Triangles implements Puzzle {
     return validTriangles;
   }
 
-  private int solveForData(String[] triangles) {
+  private int solveForData(String input) {
     int validTriangles = 0;
-    for (String triangle : triangles) {
+    for (String triangle : input.split("\\r?\\n")) {
       int sides[] = ArrayUtil.splitAsInt(triangle.trim(), "\\s+");
       validTriangles += isValidTriangle(sides[0], sides[1], sides[2]) ? 1 : 0;
     }
