@@ -26,32 +26,30 @@ public class Puzzle3_Triangles implements Puzzle {
   @Override
   public Solution solve(String input) {
     String[] triangles = input.split("\\r?\\n");
-    return new Solution(solveForData(triangles), solveForData((mixForPart2(triangles))));
+    return new Solution(solveForData(triangles), solvePart2(input));
   }
 
-  private String[] mixForPart2(String[] triangles) {
-    String[] lines = new String[triangles.length];
-    for (int i = 0; i < triangles.length; i += 3) {
-      String[] row0 = triangles[i].trim().split("\\s+");
-      String[] row1 = triangles[i + 1].trim().split("\\s+");
-      String[] row2 = triangles[i + 2].trim().split("\\s+");
-      lines[i] = row0[0] + " " + row1[0] + " " + row2[0];
-      lines[i + 1] = row0[1] + " " + row1[1] + " " + row2[1];
-      lines[i + 2] = row0[2] + " " + row1[2] + " " + row2[2];
+  private int solvePart2(String input) {
+    int validTriangles = 0;
+    int[][] cols = ArrayUtil.splitAsIntColumns(input);
+    for (int[] values : cols) {
+      for (int j = 0; j < values.length; j += 3) {
+        validTriangles += isValidTriangle(values[j], values[j + 1], values[j + 2]) ? 1 : 0;
+      }
     }
-    return lines;
+    return validTriangles;
   }
 
   private int solveForData(String[] triangles) {
     int validTriangles = 0;
     for (String triangle : triangles) {
       int sides[] = ArrayUtil.splitAsInt(triangle.trim(), "\\s+");
-      if (sides[0] + sides[1] > sides[2] &&
-          sides[1] + sides[2] > sides[0] &&
-          sides[2] + sides[0] > sides[1]) {
-        validTriangles++;
-      }
+      validTriangles += isValidTriangle(sides[0], sides[1], sides[2]) ? 1 : 0;
     }
     return validTriangles;
+  }
+
+  private static boolean isValidTriangle(int a, int b, int c) {
+    return (a + b > c) && (b + c > a) && (c + a > b);
   }
 }

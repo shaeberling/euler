@@ -40,4 +40,19 @@ public class ArrayUtil {
     }
     return splitInts;
   }
+
+  public static int[][] splitAsIntColumns(String str) {
+    String[] lines = str.split("\\r?\\n");
+    int[][] cols = null;
+    for (int i = 0; i < lines.length; ++i) {
+      String[] values = lines[i].trim().split("\\s+");
+      if (i == 0) {
+        cols = new int[values.length][lines.length];
+      }
+      for (int j = 0; j < values.length; ++j) {
+        cols[j][i] = Integer.parseInt(values[j]);
+      }
+    }
+    return cols;
+  }
 }
