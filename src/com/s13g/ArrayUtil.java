@@ -20,7 +20,7 @@ package com.s13g;
  * Array utilities.
  */
 public class ArrayUtil {
-  public String[][] create(String content, int cols, int rows) {
+  public static String[][] create(String content, int cols, int rows) {
     int c = 0;
     char[] chars = content.toCharArray();
     String[][] result = new String[rows][cols];
@@ -30,5 +30,14 @@ public class ArrayUtil {
       }
     }
     return result;
+  }
+
+  public static int[] splitAsInt(String str, String regexp) {
+    String[] splitStr = str.split(regexp);
+    int[] splitInts = new int[splitStr.length];
+    for (int i = 0; i < splitStr.length; ++i) {
+      splitInts[i] = Integer.parseInt(splitStr[i]);
+    }
+    return splitInts;
   }
 }
