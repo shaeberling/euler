@@ -23,6 +23,7 @@ import com.s13g.aoc.aoc2015.Puzzle3_Houses;
 import com.s13g.aoc.aoc2016.Puzzle1_Grid;
 import com.s13g.aoc.aoc2016.Puzzle2_Keypad;
 import com.s13g.aoc.aoc2016.Puzzle3_Triangles;
+import com.s13g.aoc.aoc2016.Puzzle4_Doors;
 
 /**
  * All active puzzles go here
@@ -40,6 +41,7 @@ class Setups {
         new PuzzleSetup(AOC16 + "day1.txt", new Puzzle1_Grid(), 161, 110),
         new PuzzleSetup(AOC16 + "day2.txt", new Puzzle2_Keypad(), "69642", "8CB23"),
         new PuzzleSetup(AOC16 + "day3.txt", new Puzzle3_Triangles(), 1032, 1838),
+        new PuzzleSetup(AOC16 + "day4.txt", new Puzzle4_Doors(), 137896, 501),
     };
   }
 }

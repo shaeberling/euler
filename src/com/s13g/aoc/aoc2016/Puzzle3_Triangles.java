@@ -16,7 +16,6 @@
 
 package com.s13g.aoc.aoc2016;
 
-import com.s13g.ArrayUtil;
 import com.s13g.aoc.Puzzle;
 
 import static com.s13g.ArrayUtil.splitAsIntArray;
