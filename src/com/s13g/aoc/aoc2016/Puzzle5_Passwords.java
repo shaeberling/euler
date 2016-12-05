@@ -39,9 +39,8 @@ public class Puzzle5_Passwords implements Puzzle {
         if (hashed[0] == 0 && hashed[1] == 0 && fiveSixInt < 16) {
           passwordA += passwordA.length() < 8 ? hex[fiveSixInt] : "";
           try {
-            int pos = Integer.parseInt(String.valueOf(hex[fiveSixInt]));
-            if (pos < 8 && passwordB.charAt(pos) == ' ') {
-              passwordB.setCharAt(pos, (hex[sevenInt / 16]));
+            if (fiveSixInt < 8 && passwordB.charAt(fiveSixInt) == ' ') {
+              passwordB.setCharAt(fiveSixInt, (hex[sevenInt / 16]));
             }
           } catch (NumberFormatException ignore) {
           }
