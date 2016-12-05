@@ -1,4 +1,6 @@
 # euler
-My attempts to solve Project Euler problems
+My attempts to solve programming challenges.
 
-See [Project Euler](https://projecteuler.net) website for details.
+ - [Project Euler](http://adventofcode.com/)
+ - [Advent of Code](https://projecteuler.net)
+ 
