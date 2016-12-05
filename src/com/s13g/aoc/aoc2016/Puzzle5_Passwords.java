@@ -27,20 +27,21 @@ import java.security.NoSuchAlgorithmException;
 public class Puzzle5_Passwords implements Puzzle {
   @Override
   public Solution solve(String input) {
+    final char[] hex = "0123456789ABCDEF".toCharArray();
     try {
       String passwordA = "";
       StringBuilder passwordB = new StringBuilder("        ");
       MessageDigest hash = MessageDigest.getInstance("MD5");
       for (int idx = 0; passwordA.length() < 8 || passwordB.toString().contains(" "); ++idx) {
         byte[] hashed = hash.digest((input + String.valueOf(idx)).getBytes());
-        char[] fiveSix = String.format("%02X", hashed[2]).toCharArray();
-        char seven = String.format("%02X", hashed[3]).toCharArray()[0];
-        if (hashed[0] == 0 && hashed[1] == 0 && fiveSix[0] == '0') {
-          passwordA += passwordA.length() < 8 ? fiveSix[1] : "";
+        int fiveSixInt = hashed[2] < 0 ? 256 + hashed[2] : hashed[2];
+        int sevenInt = hashed[3] < 0 ? 256 + hashed[3] : hashed[3];
+        if (hashed[0] == 0 && hashed[1] == 0 && fiveSixInt < 16) {
+          passwordA += passwordA.length() < 8 ? hex[fiveSixInt] : "";
           try {
-            int pos = Integer.parseInt(String.valueOf(fiveSix[1]));
+            int pos = Integer.parseInt(String.valueOf(hex[fiveSixInt]));
             if (pos < 8 && passwordB.charAt(pos) == ' ') {
-              passwordB.setCharAt(pos, seven);
+              passwordB.setCharAt(pos, (hex[sevenInt / 16]));
             }
           } catch (NumberFormatException ignore) {
           }
