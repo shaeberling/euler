@@ -19,6 +19,7 @@ package com.s13g.aoc.aoc2016;
 import com.google.common.collect.Lists;
 import com.s13g.Pair;
 import com.s13g.aoc.Puzzle;
+import com.s13g.util.CharCountCollection;
 
 import java.util.Collections;
 import java.util.HashMap;
@@ -29,15 +30,6 @@ import java.util.Map;
  * http://adventofcode.com/2016/day/4
  */
 public class Puzzle4_Doors implements Puzzle {
-  private static class CharCount {
-    final char c;
-    int count = 0;
-
-    private CharCount(char c) {
-      this.c = c;
-    }
-  }
-
   @Override
   public Solution solve(String input) {
     int sumPartA = 0;
@@ -53,9 +45,10 @@ public class Puzzle4_Doors implements Puzzle {
   private Pair<Integer> processDoor(String entry) {
     String checksum = entry.substring(entry.indexOf('[') + 1, entry.length() - 1);
     String codeStr = "";
-    Map<Character, CharCount> charCounts = new HashMap<>();
+    Map<Character, CharCountCollection> charCounts = new HashMap<>();
     int endOfName = 0;
     char[] charArray = entry.toCharArray();
+    CharCountCollection charCountCollection = new CharCountCollection();
     for (int i = 0; i < charArray.length; i++) {
       char c = charArray[i];
       if (c == '-') {
@@ -71,14 +64,9 @@ public class Puzzle4_Doors implements Puzzle {
         codeStr += String.valueOf(c);
         continue;
       }
-      if (!charCounts.containsKey(c)) {
-        charCounts.put(c, new CharCount(c));
-      } else {
-        charCounts.get(c).count++;
-      }
+      charCountCollection.add(c);
     }
-    List<CharCount> sortedCounts = Lists.newArrayList(charCounts.values());
-    Collections.sort(sortedCounts, (a, b) -> b.count != a.count ? b.count - a.count : a.c - b.c);
+    List<CharCountCollection.CharCount> sortedCounts = charCountCollection.getSortedCounts();
     for (int i = 0; i < checksum.length(); ++i) {
       if (sortedCounts.get(i).c != checksum.charAt(i)) {
         return new Pair<>(0, 0);

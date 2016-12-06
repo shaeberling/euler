@@ -32,6 +32,20 @@ public class ArrayUtil {
     return result;
   }
 
+  public static String[] reverseColsAndRows(String str) {
+    String[] lines = str.split("\\r?\\n");
+    String[] cols = new String[lines[0].length()];
+    for (int i = 0; i < lines.length; ++i) {
+      for (int j = 0; j < lines[i].length(); ++j) {
+        if (cols[j] == null) {
+          cols[j] = "";
+        }
+        cols[j] += lines[i].charAt(j);
+      }
+    }
+    return cols;
+  }
+
   public static int[] splitAsInt(String str, String regexp) {
     String[] splitStr = str.split(regexp);
     int[] splitInts = new int[splitStr.length];
