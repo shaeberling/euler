@@ -23,7 +23,6 @@ import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
-import java.util.function.Function;
 
 import static com.s13g.aoc.CollectionsUtil.containsAny;
 import static java.util.stream.Collectors.toList;

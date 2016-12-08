@@ -1,9 +1,6 @@
 package com.s13g.aoc;
 
 import com.s13g.FileUtil;
-import com.s13g.aoc.aoc2015.Puzzle1_Floors;
-import com.s13g.aoc.aoc2015.Puzzle2_WrappingPaper;
-import com.s13g.aoc.aoc2015.Puzzle3_Houses;
 
 import java.io.IOException;
 import java.util.Locale;

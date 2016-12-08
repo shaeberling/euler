@@ -27,15 +27,17 @@ import com.s13g.aoc.aoc2016.Puzzle4_Doors;
 import com.s13g.aoc.aoc2016.Puzzle5_Passwords;
 import com.s13g.aoc.aoc2016.Puzzle6_Passwords;
 import com.s13g.aoc.aoc2016.Puzzle7;
+import com.s13g.aoc.aoc2016.Puzzle8;
 
 /**
  * All active puzzles go here
  */
 class Setups {
   static PuzzleSetup[] getPuzzles() {
-    final String AOC15 = "data/aoc/2015/";
-    final String AOC16 = "data/aoc/2016/";
+    final String AOC15 = "../data/aoc/2015/";
+    final String AOC16 = "../data/aoc/2016/";
     return new PuzzleSetup[]{
+        // 2015
         new PuzzleSetup(AOC15 + "day1.txt", new Puzzle1_Floors(), 138, 1771),
         new PuzzleSetup(AOC15 + "day2.txt", new Puzzle2_WrappingPaper(), 1586300, 3737498),
         new PuzzleSetup(AOC15 + "day3.txt", new Puzzle3_Houses(), 2565, 2639),
@@ -48,6 +50,7 @@ class Setups {
         // new PuzzleSetup(AOC16 + "day5.txt", new Puzzle5_Passwords(), "801B56A7", "424A0197"),
         new PuzzleSetup(AOC16 + "day6.txt", new Puzzle6_Passwords(), "qrqlznrl", "kgzdfaon"),
         new PuzzleSetup(AOC16 + "day7.txt", new Puzzle7(), 110, 242),
+        new PuzzleSetup(AOC16 + "day8.txt", new Puzzle8(), null, null),
     };
   }
 }

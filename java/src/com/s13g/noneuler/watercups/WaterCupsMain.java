@@ -25,6 +25,8 @@ import java.util.List;
 public final class WaterCupsMain {
 
   public static void main(String[] args) {
+    new WaterCupsSolver().determineEffects();
+
     List<Input> inputs = new ArrayList<>();
     inputs.add(new Input(2, 2, 2, 0.5));
     inputs.add(new Input(10, 4, 3, 0.375));

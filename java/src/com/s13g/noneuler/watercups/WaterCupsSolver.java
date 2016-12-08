@@ -16,11 +16,54 @@
 
 package com.s13g.noneuler.watercups;
 
+import java.math.BigDecimal;
+
 /**
  * Array-based solver for the wate cups problem.
  */
 final class WaterCupsSolver {
   private static final boolean PRINT_DEBUG = false;
+
+  private static class CupData {
+    double unaffectedBy = -1;
+    double fillDuration = -1;
+
+    String toStringIdx(int idx) {
+      return unaffectedBy + "(" + idx + ")" + fillDuration;
+    }
+  }
+
+  void determineEffects() {
+    final double trickleRate = 1;
+    double[] cups = new double[getTotalWaterUpToIncludingRow(13)];
+    CupData[] data = new CupData[cups.length];
+    for (int i = 0; i < data.length; ++i) {
+      data[i] = new CupData();
+    }
+
+    for (int l = 1; l <= 10000; ++l) {
+      pourWaterInto(trickleRate, 0, 0, cups);
+
+      for (int i = 0; i < cups.length; ++i) {
+        // See whether it has started filling up.
+        if (data[i].unaffectedBy == -1 && cups[i] > 0) {
+          data[i].unaffectedBy = ((l - 1) * trickleRate);
+        }
+
+        // Whether the cup is done filling up.
+        if (data[i].fillDuration == -1 && cups[i] == 1) {
+          if (data[i].unaffectedBy == -1) {
+            throw new RuntimeException("'unaffectedBy' must be set before fillDuration can be.");
+          }
+          data[i].fillDuration = (l * trickleRate) - data[i].unaffectedBy;
+        }
+      }
+    }
+
+    for (int i = 0; i < 91; ++i) {
+      System.out.println(data[i].toStringIdx(i));
+    }
+  }
 
   /**
    * Pour water into the glass pyramid and get fill status at given location
