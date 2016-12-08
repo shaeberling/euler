@@ -1,0 +1,13 @@
+<component name="libraryTable">
+  <library name="Rust &lt;euler-rust&gt;">
+    <CLASSES>
+      <root url="file://$USER_HOME$/Downloads/rustc-1.13.0/src/libstd" />
+      <root url="file://$USER_HOME$/Downloads/rustc-1.13.0/src/libcore" />
+      <root url="file://$USER_HOME$/Downloads/rustc-1.13.0/src/libcollections" />
+      <root url="file://$USER_HOME$/Downloads/rustc-1.13.0/src/liballoc" />
+      <root url="file://$USER_HOME$/Downloads/rustc-1.13.0/src/librustc_unicode" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>
