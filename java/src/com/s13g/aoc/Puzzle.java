@@ -29,7 +29,7 @@ public interface Puzzle {
       this.solutionB = solutionB;
     }
 
-    public Solution(int solutionA, int solutionB) {
+    public Solution(long solutionA, long solutionB) {
       this.solutionA = String.valueOf(solutionA);
       this.solutionB = String.valueOf(solutionB);
     }

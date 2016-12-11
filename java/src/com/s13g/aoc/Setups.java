@@ -20,6 +20,7 @@ import com.s13g.aoc.PuzzleRunner.PuzzleSetup;
 import com.s13g.aoc.aoc2015.Puzzle1_Floors;
 import com.s13g.aoc.aoc2015.Puzzle2_WrappingPaper;
 import com.s13g.aoc.aoc2015.Puzzle3_Houses;
+import com.s13g.aoc.aoc2016.Puzzle10;
 import com.s13g.aoc.aoc2016.Puzzle1_Grid;
 import com.s13g.aoc.aoc2016.Puzzle2_Keypad;
 import com.s13g.aoc.aoc2016.Puzzle3_Triangles;
@@ -28,6 +29,7 @@ import com.s13g.aoc.aoc2016.Puzzle5_Passwords;
 import com.s13g.aoc.aoc2016.Puzzle6_Passwords;
 import com.s13g.aoc.aoc2016.Puzzle7;
 import com.s13g.aoc.aoc2016.Puzzle8;
+import com.s13g.aoc.aoc2016.Puzzle9;
 
 /**
  * All active puzzles go here
@@ -50,7 +52,21 @@ class Setups {
         // new PuzzleSetup(AOC16 + "day5.txt", new Puzzle5_Passwords(), "801B56A7", "424A0197"),
         new PuzzleSetup(AOC16 + "day6.txt", new Puzzle6_Passwords(), "qrqlznrl", "kgzdfaon"),
         new PuzzleSetup(AOC16 + "day7.txt", new Puzzle7(), 110, 242),
-        new PuzzleSetup(AOC16 + "day8.txt", new Puzzle8(), null, null),
+        new PuzzleSetup(AOC16 + "day8.txt", new Puzzle8(), "115", getResult8b()),
+        new PuzzleSetup(AOC16 + "day9.txt", new Puzzle9(), 98135L, 10964557606L),
+        new PuzzleSetup(AOC16 + "day10.txt", new Puzzle10(), 73, 3965),
     };
   }
+
+  private static String getResult8b() {
+    return "" +
+        "XXXX XXXX XXXX X   XX  X XXXX XXX  XXXX  XXX   XX \n" +
+        "X    X    X    X   XX X  X    X  X X      X     X \n" +
+        "XXX  XXX  XXX   X X XX   XXX  X  X XXX    X     X \n" +
+        "X    X    X      X  X X  X    XXX  X      X     X \n" +
+        "X    X    X      X  X X  X    X X  X      X  X  X \n" +
+        "XXXX X    XXXX   X  X  X X    X  X X     XXX  XX  \n";
+  }
+
 }
+

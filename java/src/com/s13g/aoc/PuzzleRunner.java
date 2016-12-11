@@ -56,8 +56,8 @@ public class PuzzleRunner {
 
     PuzzleSetup(String inputFileName,
                 Puzzle puzzle,
-                int expectedResultA,
-                int expectedResultB) {
+                long expectedResultA,
+                long expectedResultB) {
       this.inputFileName = inputFileName;
       this.puzzle = puzzle;
       this.expectedResultA = String.valueOf(expectedResultA);
