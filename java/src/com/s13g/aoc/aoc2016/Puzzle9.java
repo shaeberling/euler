@@ -27,54 +27,27 @@ import java.util.Optional;
 public class Puzzle9 implements Puzzle {
   @Override
   public Solution solve(String input) {
-    return new Solution(String.valueOf(solveA(input)), String.valueOf(solveB(input)));
+    return new Solution(String.valueOf(solveB(input, false)), String.valueOf(solveB(input, true)));
   }
 
-  private long solveB(String input) {
+  private long solveB(String input, boolean deep) {
     int markerStart = input.indexOf('(');
     if (markerStart == -1) {
       return input.length();
     } else if (markerStart != 0) {
       String substring = input.substring(markerStart);
-      return markerStart + solveB(substring);
+      return markerStart + solveB(substring, deep);
     }
-
-    // Now we have a string that starts with a marker.
+    // Now we have a string that starts with a marker, guaranteed.
     int markerEnd = input.indexOf(')');
     Optional<Pair<Integer>> marker = parseMarker(
         input.substring(markerStart + 1, markerEnd));
     if (!marker.isPresent()) {
-      return 1 + solveB(input.substring(1));
+      return 1 + solveB(input.substring(1), deep);
     }
-
     String substring = input.substring(markerEnd + 1, markerEnd + 1 + marker.get().first);
     String remainder = input.substring(markerEnd + 1 + substring.length());
-    return solveB(substring) * marker.get().second + solveB(remainder);
-  }
-
-  // TODO: Part A can be rolled into part B.
-  private long solveA(String input) {
-    long resultA = 0;
-
-    while (true) {
-      int markerStart = input.indexOf('(');
-      if (markerStart == -1) {
-        resultA += input.length();
-        break;
-      }
-      int markerEnd = input.indexOf(')', markerStart);
-      Optional<Pair<Integer>> marker = parseMarker(
-          input.substring(markerStart + 1, markerEnd));
-      resultA += (markerStart);
-      input = input.substring(markerEnd + 1);
-      if (marker.isPresent()) {
-        int numChars = marker.get().first;
-        int repeat = marker.get().second;
-        resultA += numChars * repeat;
-        input = input.substring(numChars);
-      }
-    }
-    return resultA;
+    return (deep ? solveB(substring, deep) : substring.length()) * marker.get().second + solveB(remainder, deep);
   }
 
   private Optional<Pair<Integer>> parseMarker(String marker) {
@@ -83,9 +56,7 @@ public class Puzzle9 implements Puzzle {
       return Optional.empty();
     }
     try {
-      int numChars = Integer.parseInt(parts[0]);
-      int repeat = Integer.parseInt(parts[1]);
-      return Optional.of(new Pair<>(numChars, repeat));
+      return Optional.of(new Pair<>(Integer.parseInt(parts[0]), Integer.parseInt(parts[1])));
     } catch (NumberFormatException ex) {
       return Optional.empty();
     }
