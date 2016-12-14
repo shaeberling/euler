@@ -28,40 +28,43 @@ import java.util.Set;
 public class Puzzle13 implements Puzzle {
   private static final int FAV_NUM = 1358; //10;
   private static final Point TO_REACH = new Point(31, 39); // new Point(7L, 4L);
+  private static final int NUM_STEPS_PART_B = 50;
 
   private static final Set<Point> mVisited = new HashSet<>();
-  private static final Set<Point> mNextSet = new HashSet<>();
+
 
   @Override
   public Solution solve(String input) {
-    mNextSet.add(new Point(1, 1));
-    return new Solution(shortestPathSolutionA(), -1);
+    return new Solution(shortestPathSolution(false), shortestPathSolution(true));
   }
 
-  private long shortestPathSolutionA() {
-    Set<Point> newSet = new HashSet<>();
-
+  private long shortestPathSolution(boolean checkMax) {
+    mVisited.clear();
+    Set<Point> nextSet = new HashSet<>();
+    nextSet.add(new Point(1, 1));
     int count = 0;
-    while (!mNextSet.contains(TO_REACH)) {
-      mVisited.addAll(mNextSet);
-      for (Point p : mNextSet) {
+    while (!nextSet.contains(TO_REACH) || checkMax) {
+      mVisited.addAll(nextSet);
+      Set<Point> newSet = new HashSet<>();
+      for (Point p : nextSet) {
         checkValid(new Point(p.x - 1, p.y), newSet);
         checkValid(new Point(p.x, p.y - 1), newSet);
         checkValid(new Point(p.x + 1, p.y), newSet);
         checkValid(new Point(p.x, p.y + 1), newSet);
       }
-      mNextSet.clear();
-      mNextSet.addAll(newSet);
-      count++;
+      nextSet.clear();
+      nextSet.addAll(newSet);
+      if (++count == NUM_STEPS_PART_B && checkMax) {
+        return mVisited.size() + nextSet.size();
+      }
     }
-    return count++;
+    return count;
   }
 
-  private void checkValid(Point p, Set<Point> newSet) {
-    if (p.x < 0 || p.y < 0) {
+  private void checkValid(Point newP, Set<Point> newSet) {
+    if (newP.x < 0 || newP.y < 0) {
       return;
     }
-    Point newP = new Point(p.x, p.y);
     if (!isWall(newP) && !mVisited.contains(newP)) {
       newSet.add(newP);
     }
