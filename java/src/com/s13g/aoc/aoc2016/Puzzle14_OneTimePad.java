@@ -16,11 +16,11 @@
 
 package com.s13g.aoc.aoc2016;
 
+import com.s13g.aoc.HashUtil;
 import com.s13g.aoc.Puzzle;
 import com.s13g.util.CountingMap;
 
 import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
@@ -34,8 +34,7 @@ import static com.s13g.aoc.StringUtil.toHexString;
 public class Puzzle14_OneTimePad implements Puzzle {
   private static final int INDEX_TO_FIND = 64;
   private static final int NEXT_X_HASHES = 1000;
-  private static MessageDigest mMd5 = getMd5();
-  private Map<String, char[]> mSuperHashCache = new HashMap<>();
+  private static MessageDigest mMd5 = HashUtil.getMd5OrNull();
   private Map<String, Result> mResults;
 
   @Override
@@ -84,25 +83,13 @@ public class Puzzle14_OneTimePad implements Puzzle {
   }
 
   private char[] superHash(String str) {
-    if (mSuperHashCache.containsKey(str)) {
-      return mSuperHashCache.get(str);
-    }
     String result = str;
     for (int i = 0; i <= 2016; ++i) {
       result = toHexString(mMd5.digest(result.getBytes()));
     }
-    char[] resultChars = result.toCharArray();
-    mSuperHashCache.put(str, resultChars);
-    return resultChars;
+    return result.toCharArray();
   }
 
-  private static MessageDigest getMd5() {
-    try {
-      return MessageDigest.getInstance("MD5");
-    } catch (NoSuchAlgorithmException ignore) {
-      return null;
-    }
-  }
 
   private static class Result {
     char threes = 0;
