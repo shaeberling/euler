@@ -25,6 +25,7 @@ import com.s13g.aoc.aoc2016.Puzzle11;
 import com.s13g.aoc.aoc2016.Puzzle12_Assembly;
 import com.s13g.aoc.aoc2016.Puzzle13;
 import com.s13g.aoc.aoc2016.Puzzle14_OneTimePad;
+import com.s13g.aoc.aoc2016.Puzzle15_Timing;
 import com.s13g.aoc.aoc2016.Puzzle1_Grid;
 import com.s13g.aoc.aoc2016.Puzzle2_Keypad;
 import com.s13g.aoc.aoc2016.Puzzle3_Triangles;
@@ -62,7 +63,8 @@ class Setups {
         new PuzzleSetup(AOC16 + "day11.txt", new Puzzle11(), null, null),
         // new PuzzleSetup(AOC16 + "day12.txt", new Puzzle12_Assembly(), 318117, 9227771),
         new PuzzleSetup(AOC16 + "day13.txt", new Puzzle13(), 96, 141),
-        new PuzzleSetup(AOC16 + "day14.txt", new Puzzle14_OneTimePad(), 15168, 20864),
+        // new PuzzleSetup(AOC16 + "day14.txt", new Puzzle14_OneTimePad(), 15168, 20864),
+        new PuzzleSetup(AOC16 + "day15.txt", new Puzzle15_Timing(), 203660, 2408135),
     };
   }
 
