@@ -31,6 +31,7 @@ import com.s13g.aoc.aoc2016.Puzzle17;
 import com.s13g.aoc.aoc2016.Puzzle18;
 import com.s13g.aoc.aoc2016.Puzzle19;
 import com.s13g.aoc.aoc2016.Puzzle1_Grid;
+import com.s13g.aoc.aoc2016.Puzzle20;
 import com.s13g.aoc.aoc2016.Puzzle2_Keypad;
 import com.s13g.aoc.aoc2016.Puzzle3_Triangles;
 import com.s13g.aoc.aoc2016.Puzzle4_Doors;
@@ -74,6 +75,7 @@ class Setups {
         new PuzzleSetup(AOC16 + "day17.txt", new Puzzle17(), "RRRLDRDUDD", "706"),
         new PuzzleSetup(AOC16 + "day18.txt", new Puzzle18(), 2035, 20000577),
         // new PuzzleSetup(AOC16 + "day19.txt", new Puzzle19(), null, null),
+        new PuzzleSetup(AOC16 + "day20.txt", new Puzzle20(), 17348574, 104),
     };
   }
 
