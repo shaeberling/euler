@@ -16,6 +16,11 @@
 
 package com.s13g;
 
+import com.google.common.collect.Lists;
+
+import java.util.Collections;
+import java.util.List;
+
 /**
  * Array utilities.
  */
@@ -83,5 +88,11 @@ public class ArrayUtil {
       }
     }
     return cols;
+  }
+
+  public static String[] reverse(String[] in) {
+    List<String> tempList = Lists.newArrayList(in);
+    Collections.reverse(tempList);
+    return tempList.toArray(new String[0]);
   }
 }
