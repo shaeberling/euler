@@ -2,6 +2,7 @@ package com.s13g.aoc;
 
 import com.s13g.FileUtil;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.Locale;
 
@@ -15,8 +16,10 @@ public class PuzzleRunner {
 
 
   public static void main(String[] args) throws IOException {
+    File dataDir = getDataDirectory(args);
+
     for (PuzzleSetup setup : Setups.getPuzzles()) {
-      String input = FileUtil.readAsString(setup.inputFileName);
+      String input = FileUtil.readAsString(new File(dataDir, setup.inputFileName));
       String className = setup.puzzle.getClass().getSimpleName();
       Puzzle.Solution solution = setup.puzzle.solve(input);
       printResult("A", className, setup.expectedResultA, solution.solutionA);
@@ -36,6 +39,17 @@ public class PuzzleRunner {
 
   private static void print(String format, Object... vars) {
     System.out.println(String.format(Locale.US, format, vars));
+  }
+
+  private static File getDataDirectory(String args[]) {
+    if (args.length != 1) {
+      throw new IllegalArgumentException("One argument expected: Data directory.");
+    }
+    File dataDir = new File(args[0]);
+    if (!dataDir.isDirectory()) {
+      throw new IllegalArgumentException("Argument is not a valid directory: " + dataDir.getAbsolutePath());
+    }
+    return dataDir;
   }
 
   static class PuzzleSetup {
