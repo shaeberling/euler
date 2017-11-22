@@ -14,6 +14,13 @@
 **/.idea/gradle.xml
 **/.idea/libraries
 
+# Bazel:
+bazel-bin
+bazel-euler
+bazel-genfiles
+bazel-out
+bazel-testlogs
+
 # Binaries
 **//out/
 **/*.class
@@ -31,3 +38,10 @@ hs_err_pid*
 
 # Rust
 rust/target
+
+# Go
+go/out
+
+# Mac
+.DS_Store
+
