@@ -5,7 +5,7 @@ alias ll='ls -la'
 
 export GOPATH=/usr/src/myapp
 aoc () {
-  go run src/main/runner.go  /usr/eulerdata/
+  go run src/main/main.go  /usr/eulerdata/
 }
 export -f aoc
 

@@ -2,9 +2,10 @@ package main
 
 import (
 	"aoc16"
-	"os"
+	"aoc17"
 	"common"
 	"log"
+	"os"
 )
 
 func main() {
@@ -19,4 +20,5 @@ func main() {
 		return
 	}
 	aoc16.Run(dirname)
+	aoc17.Run(dirname)
 }
