@@ -1,4 +1,4 @@
-package problems
+package p01
 
 import (
 	"strconv"
@@ -9,7 +9,7 @@ import (
 
 // --- Day 1: No Time for a Taxicab ---
 // http://adventofcode.com/2016/day/1
-func Solve01(input string) (string, string) {
+func Solve(input string) (string, string) {
 	visited := make(map[string]bool)
 	visited[fmt.Sprintf("0,0")] = true
 	var solutionB int
