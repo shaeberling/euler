@@ -1,6 +1,6 @@
 # euler
-My attempts to solve programming challenges.
+My attempts to solve programming challenges and learn new programming languages.
 
- - [Project Euler](http://adventofcode.com/)
- - [Advent of Code](https://projecteuler.net)
+ - [Advent of Code](http://adventofcode.com/)
+ - [Project Euler](https://projecteuler.net)
  
