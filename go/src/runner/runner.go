@@ -1,10 +1,11 @@
 package runner
 
 import (
-"fmt"
+	"fmt"
 	"path"
-"io/ioutil"
-"common"
+	"io/ioutil"
+	"common"
+	"time"
 )
 
 // Defines a puzzle.
@@ -21,11 +22,13 @@ func Run(dataDir string, puzzles []Puzzle) {
 
 	// Go through all puzzles and run them.
 	for _, puzzle := range puzzles {
+		start := time.Now()
 		solutionA, solutionB, err := solve(dataDir, &puzzle)
+		elapsed := time.Now().Sub(start)
 		if err != nil {
 			fmt.Printf("Error running puzzle solver: %s\n", err)
 		} else {
-			fmt.Printf(compareResults(solutionA, solutionB, &puzzle))
+			fmt.Printf(compareResults(solutionA, solutionB, &puzzle, elapsed))
 		}
 	}
 }
@@ -46,11 +49,11 @@ func solve(dataDir string, puzzle *Puzzle) (string, string, error) {
 }
 
 // Creates a result string for puzzles results
-func compareResults(solutionA string, solutionB string, puzzle *Puzzle) string {
-	result := "[" + puzzle.Name + "]\n"
+func compareResults(solutionA string, solutionB string, puzzle *Puzzle, elapsed time.Duration) string {
+	result := fmt.Sprintf("[%s] - %v\n", puzzle.Name, elapsed)
 	result += fmt.Sprintf("  --> Solution A: %s\n", compareSolution(solutionA, puzzle.SolutionA))
-	result += fmt.Sprintf("  --> Solution B: %s\n", compareSolution(solutionB, puzzle.SolutionB))
-	return result + "\n"
+	result += fmt.Sprintf("  --> Solution B: %s\n\n", compareSolution(solutionB, puzzle.SolutionB))
+	return result
 }
 
 // Creates a result string for a single solution.

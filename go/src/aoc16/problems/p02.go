@@ -1,4 +1,4 @@
-package p02
+package problems
 
 import (
 	"common"
@@ -7,7 +7,7 @@ import (
 
 // --- Day 2: Bathroom Security ---
 // http://adventofcode.com/2016/day/2
-func Solve(input string) (string, string) {
+func Solve02(input string) (string, string) {
 	return solveA(input), solveB(input)
 }
 
