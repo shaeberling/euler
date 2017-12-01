@@ -5,6 +5,8 @@ import (
 	"common"
 )
 
+// --- Day 1: Inverse Captcha ---
+// http://adventofcode.com/2017/day/1
 func Solve(input string) (string, string) {
 	return solve(input, 1), solve(input, len(input)/2)
 }
