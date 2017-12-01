@@ -1,8 +1,8 @@
 package p01
 
 import (
-	"strconv"
 	"fmt"
+	"common"
 )
 
 func Solve(input string) (string, string) {
@@ -11,14 +11,9 @@ func Solve(input string) (string, string) {
 
 func solve(input string, lookahead int) string {
 	sum := 0
-
 	for i := 0; i < len(input); i += 1 {
 		if input[i] == input[(i+lookahead)%len(input)] {
-			v, err := strconv.ParseInt(string(input[i]), 10, 64)
-			if err != nil {
-				panic("Cannot parse " + err.Error())
-			}
-			sum += int(v)
+			sum += int(common.ToIntOrPanic(string(input[i])))
 		}
 	}
 	return fmt.Sprintf("%d", sum)
