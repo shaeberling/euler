@@ -9,7 +9,7 @@ import (
 func ToIntOrPanic(content string) int {
 	v, err := strconv.ParseInt(content, 10, 64)
 	if err != nil {
-		panic("Cannot parse " + err.Error())
+		log.Fatalf("Cannot parse %v", err.Error())
 	}
 	return int(v)
 }
