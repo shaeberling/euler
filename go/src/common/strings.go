@@ -1,28 +1,17 @@
 package common
 
 import (
-	"os"
-	"strings"
 	"strconv"
 	"log"
+	"strings"
 )
 
-func Max3(a, b, c int) int {
-	return Max(Max(a, b), c)
-}
-
-func Max(a, b int) int {
-	if a > b {
-		return a
+func ToIntOrPanic(content string) int {
+	v, err := strconv.ParseInt(content, 10, 64)
+	if err != nil {
+		panic("Cannot parse " + err.Error())
 	}
-	return b
-}
-
-func Sum(arr []int) (sum int) {
-	for _, x := range arr {
-		sum += x
-	}
-	return
+	return int(v)
 }
 
 func ParseMatrix(content string) [][]string {
@@ -73,20 +62,4 @@ func SplitByNewline(content string) []string {
 		result[i] = strings.TrimSpace(v)
 	}
 	return result
-}
-
-func IsDirectory(filename string) bool {
-	if fileInfo, err := os.Stat(filename); os.IsNotExist(err) {
-		return false
-	} else {
-		return fileInfo.IsDir()
-	}
-}
-
-func IsRegularFile(filename string) bool {
-	if fileInfo, err := os.Stat(filename); os.IsNotExist(err) {
-		return false
-	} else {
-		return !fileInfo.IsDir() && fileInfo.Mode().IsRegular()
-	}
 }
