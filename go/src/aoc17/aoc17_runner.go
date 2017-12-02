@@ -3,6 +3,7 @@ package aoc17
 import (
 	"runner"
 	"aoc17/problems/p01"
+	"aoc17/problems/p02"
 )
 
 // Run all the AOC 2017 puzzles
@@ -10,7 +11,7 @@ func Run(dataDir string) {
 	// Note: Add new puzzles here.
 	puzzles := []runner.Puzzle{
 		{"AOC 2017.01", "aoc/2017/day1.txt", p01.Solve, "995", "1130"},
-		//{"AOC 2017.02", "aoc/2017/day2.txt", p02.Solve, "", ""},
+		{"AOC 2017.02", "aoc/2017/day2.txt", p02.Solve, "48357", "351"},
 		//{"AOC 2017.03", "aoc/2017/day3.txt", p03.Solve, "", ""},
 		//{"AOC 2017.04", "aoc/2017/day4.txt", p04.Solve, "", ""},
 		//{"AOC 2017.05", "aoc/2017/day5.txt", p05.Solve, "", ""},
