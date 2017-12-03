@@ -34,10 +34,33 @@ func Max(a, b int) int {
 	}
 	return b
 }
+func Min(a, b int) int {
+	if a < b {
+		return a
+	}
+	return b
+}
+
+func MinA(arr []int) int {
+	min := math.MaxInt64
+	for _, v := range arr {
+		if v < min {
+			min = v
+		}
+	}
+	return min
+}
 
 func Sum(arr []int) (sum int) {
 	for _, x := range arr {
 		sum += x
 	}
 	return
+}
+
+func Abs(n int) int {
+	if n < 0 {
+		return -n
+	}
+	return n
 }

@@ -4,6 +4,7 @@ import (
 	"strconv"
 	"log"
 	"strings"
+	"fmt"
 )
 
 func ToIntOrPanic(content string) int {
@@ -12,6 +13,10 @@ func ToIntOrPanic(content string) int {
 		log.Fatalf("Cannot parse %v", err.Error())
 	}
 	return int(v)
+}
+
+func ToString(v int) string {
+	return fmt.Sprintf("%d", v)
 }
 
 func ParseMatrix(content string) [][]string {
