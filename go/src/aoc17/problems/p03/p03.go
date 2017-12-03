@@ -16,13 +16,16 @@ func solveA(input int) int {
 	// component.
 	ring := int(math.Ceil((math.Sqrt(float64(input)) - 1) / 2))
 	dim := ring * 2
-	corner := (dim + 1) * (dim + 1)
 
 	// Find the center values (cV) for that ring. The gap between our number to
 	// the closest one (the one on the same side) will determine the other
 	// offset component for our distance.
 	cV := make([]int, 4)
-	cV[0] = corner - (dim / 2)
+
+	// '(dim + 1) * (dim + 1)' is the bottom right corner number in the ring
+	// cV indexes: 0: the south center, 1: west, 2: north, 3: west, going
+	//             counter clockwise on the spiral.
+	cV[0] = ((dim + 1) * (dim + 1)) - (dim / 2)
 	cV[1] = cV[0] - dim
 	cV[2] = cV[1] - dim
 	cV[3] = cV[2] - dim
