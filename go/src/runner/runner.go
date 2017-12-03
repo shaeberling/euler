@@ -22,9 +22,7 @@ func Run(dataDir string, puzzles []Puzzle) {
 
 	// Go through all puzzles and run them.
 	for _, puzzle := range puzzles {
-		start := time.Now()
-		solutionA, solutionB, err := solve(dataDir, &puzzle)
-		elapsed := time.Now().Sub(start)
+		solutionA, solutionB, elapsed, err := solve(dataDir, &puzzle)
 		if err != nil {
 			fmt.Printf("Error running puzzle solver: %s\n", err)
 		} else {
@@ -34,18 +32,20 @@ func Run(dataDir string, puzzles []Puzzle) {
 }
 
 // Solves a given puzzle with the given data directory.
-func solve(dataDir string, puzzle *Puzzle) (string, string, error) {
+func solve(dataDir string, puzzle *Puzzle) (string, string, time.Duration, error) {
 	filename := path.Join(dataDir, puzzle.Filename)
 	if !common.IsRegularFile(filename) {
-		return "", "", fmt.Errorf("not a readable file '%s'", filename)
+		return "", "", 0, fmt.Errorf("not a readable file '%s'", filename)
 	}
 
 	data, err := ioutil.ReadFile(filename)
 	if err != nil {
-		return "", "", fmt.Errorf("cannot read file '%s'", filename)
+		return "", "", 0, fmt.Errorf("cannot read file '%s'", filename)
 	}
+	start := time.Now()
 	solutionA, solutionB := puzzle.Solver(string(data))
-	return solutionA, solutionB, nil
+	elapsed := time.Now().Sub(start)
+	return solutionA, solutionB, elapsed, nil
 }
 
 // Creates a result string for puzzles results
