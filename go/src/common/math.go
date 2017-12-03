@@ -1,6 +1,9 @@
 package common
 
-import "math"
+import (
+	"math"
+	"fmt"
+)
 
 func MinMaxArr(nums []int) (int, int) {
 	min := math.MaxInt64
@@ -63,4 +66,25 @@ func Abs(n int) int {
 		return -n
 	}
 	return n
+}
+
+// A grid that can also have negative indices.
+type Grid struct {
+	values map[string]int
+}
+
+func NewGrid() *Grid {
+	g := new(Grid)
+	g.values = make(map[string]int)
+	return g
+}
+
+func toKey(x, y int) string { return fmt.Sprintf("%d,%d", x, y) }
+
+func (g *Grid) Set(x int, y int, value int) {
+	g.values[toKey(x, y)] = value
+}
+
+func (g *Grid) Get(x int, y int) int {
+	return g.values[toKey(x, y)]
 }

@@ -3,7 +3,6 @@ package p03
 import (
 	c "common"
 	"math"
-	"fmt"
 )
 
 func Solve(input string) (string, string) {
@@ -35,45 +34,41 @@ func solveA(input int) int {
 
 // Brute force. Walk the spiral and add up cells.
 func solveB(input int) int {
-	mtrx := make(map[string]int)
-	toKey := func(x, y int) string { return fmt.Sprintf("%d,%d", x, y) }
+	grid := c.NewGrid()
 
-	mtrx[toKey(0, 0)] = 1
-	mtrx[toKey(1, 0)] = 1
+	grid.Set(0, 0, 1)
+	grid.Set(1, 0, 1)
 	adjSum := 0
 	for ring := 1; adjSum < input; ring++ {
 		x := ring
-		y := ring - 2
+		y := ring - 1
 
 		// Go Up
-		for ; y >= -(ring) && adjSum < input; y -= 1 {
-			adjSum = setAdjSum(x, y, mtrx, toKey)
+		for ; y > -(ring) && adjSum < input; y -= 1 {
+			adjSum = setAdjSum(x, y-1, grid)
 		}
-		y++
 		// Go Left
-		for x--; x >= -(ring) && adjSum < input; x -= 1 {
-			adjSum = setAdjSum(x, y, mtrx, toKey)
+		for ; x > -(ring) && adjSum < input; x -= 1 {
+			adjSum = setAdjSum(x-1, y, grid)
 		}
-		x++
 		// Go Down
-		for y++; y <= ring && adjSum < input; y += 1 {
-			adjSum = setAdjSum(x, y, mtrx, toKey)
+		for ; y < ring && adjSum < input; y += 1 {
+			adjSum = setAdjSum(x, y+1, grid)
 		}
-		y--
 		// Go Right
-		for x++; x <= ring+1 && adjSum < input; x += 1 {
-			adjSum = setAdjSum(x, y, mtrx, toKey)
+		for ; x < ring+1 && adjSum < input; x += 1 {
+			adjSum = setAdjSum(x+1, y, grid)
 		}
 	}
 	return adjSum
 }
 
-func setAdjSum(x, y int, mtrx map[string]int, toKey func(int, int) string) (sum int) {
+func setAdjSum(x, y int, grid *c.Grid) (sum int) {
 	for yy := y - 1; yy <= y+1; yy++ {
 		for xx := x - 1; xx <= x+1; xx++ {
-			sum += mtrx[toKey(xx, yy)]
+			sum += grid.Get(xx, yy)
 		}
 	}
-	mtrx[toKey(x, y)] = sum
+	grid.Set(x, y, sum)
 	return
 }
