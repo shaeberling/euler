@@ -7,7 +7,7 @@ import (
 
 func Solve(input string) (string, string) {
 	inputNum := c.ToIntOrPanic(input)
-	return c.ToString(solveA(inputNum)), c.ToString(solveB(368078))
+	return c.ToString(solveA(inputNum)), c.ToString(solveB(inputNum))
 }
 
 func solveA(input int) int {
@@ -34,30 +34,21 @@ func solveA(input int) int {
 
 // Brute force. Walk the spiral and add up cells.
 func solveB(input int) int {
-	grid := c.NewGrid()
-
+	grid, adjSum := c.NewGrid(), 0
 	grid.Set(0, 0, 1)
 	grid.Set(1, 0, 1)
-	adjSum := 0
-	for ring := 1; adjSum < input; ring++ {
-		x := ring
-		y := ring - 1
-
+	for ring, x, y := 1, 1, 0; adjSum < input; ring, x, y = ring+1, ring+1, ring {
 		// Go Up
-		for ; y > -(ring) && adjSum < input; y -= 1 {
-			adjSum = setAdjSum(x, y-1, grid)
+		for ; y > -(ring) && adjSum < input; y, adjSum = y-1, setAdjSum(x, y-1, grid) {
 		}
 		// Go Left
-		for ; x > -(ring) && adjSum < input; x -= 1 {
-			adjSum = setAdjSum(x-1, y, grid)
+		for ; x > -(ring) && adjSum < input; x, adjSum = x-1, setAdjSum(x-1, y, grid) {
 		}
 		// Go Down
-		for ; y < ring && adjSum < input; y += 1 {
-			adjSum = setAdjSum(x, y+1, grid)
+		for ; y < ring && adjSum < input; y, adjSum = y+1, setAdjSum(x, y+1, grid) {
 		}
 		// Go Right
-		for ; x < ring+1 && adjSum < input; x += 1 {
-			adjSum = setAdjSum(x+1, y, grid)
+		for ; x < ring+1 && adjSum < input; x, adjSum = x+1, setAdjSum(x+1, y, grid) {
 		}
 	}
 	return adjSum
