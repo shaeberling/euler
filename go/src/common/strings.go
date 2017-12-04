@@ -5,6 +5,7 @@ import (
 	"log"
 	"strings"
 	"fmt"
+	"sort"
 )
 
 func ToIntOrPanic(content string) int {
@@ -67,4 +68,10 @@ func SplitByNewline(content string) []string {
 		result[i] = strings.TrimSpace(v)
 	}
 	return result
+}
+
+func SortChars(str string) string {
+	s := strings.Split(str, "")
+	sort.Strings(s)
+	return strings.Join(s, "")
 }
