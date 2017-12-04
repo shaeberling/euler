@@ -6,6 +6,7 @@ import (
 	"strings"
 	"fmt"
 	"sort"
+	"math/big"
 )
 
 func ToIntOrPanic(content string) int {
@@ -18,6 +19,10 @@ func ToIntOrPanic(content string) int {
 
 func ToString(v int) string {
 	return fmt.Sprintf("%d", v)
+}
+
+func ToStringBig(v *big.Int) string {
+	return fmt.Sprintf("%v", v)
 }
 
 func ParseMatrix(content string) [][]string {

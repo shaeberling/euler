@@ -16,6 +16,7 @@ func Run(dataDir string) {
 		{"AOC 2017.02", "aoc/2017/day2.txt", p02.Solve, "48357", "351"},
 		{"AOC 2017.02.hs", "aoc/2017/day2.txt", p02.SolveHs, "48357", "351"},
 		{"AOC 2017.03", "aoc/2017/day3.txt", p03.Solve, "371", "369601"},
+		{"AOC 2017.03.big", "aoc/2017/day3.txt", p03.SolveBig, "371", "369601"},
 		{"AOC 2017.04", "aoc/2017/day4.txt", p04.Solve, "451", "223"},
 		//{"AOC 2017.05", "aoc/2017/day5.txt", p05.Solve, "", ""},
 		//{"AOC 2017.06", "aoc/2017/day6.txt", p06.Solve, "", ""},

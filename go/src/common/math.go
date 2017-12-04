@@ -3,6 +3,7 @@ package common
 import (
 	"math"
 	"fmt"
+	"math/big"
 )
 
 func MinMaxArr(nums []int) (int, int) {
@@ -87,4 +88,32 @@ func (g *Grid) Set(x int, y int, value int) {
 
 func (g *Grid) Get(x int, y int) int {
 	return g.values[toKey(x, y)]
+}
+
+// Same as Grid, but with big.Int values.
+type BigGrid struct {
+	values map[string]*big.Int
+}
+
+func NewBigGrid() *BigGrid {
+	g := new(BigGrid)
+	g.values = make(map[string]*big.Int)
+	return g
+}
+func (g *BigGrid) Set(x int, y int, value *big.Int) {
+	key := toKey(x, y)
+	if g.values[key] == nil {
+		g.values[key] = big.NewInt(0)
+	}
+	g.values[key].Set(value)
+}
+
+func (g *BigGrid) Get(x int, y int, result *big.Int) *big.Int {
+	v := g.values[toKey(x, y)]
+	if v == nil {
+		result.Set(big.NewInt(0))
+	} else {
+		result.Set(v)
+	}
+	return result
 }
