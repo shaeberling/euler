@@ -1,11 +1,11 @@
 package main
 
 import (
-	"aoc16"
-	"aoc17"
 	"common"
 	"log"
 	"os"
+	"aoc16"
+	"aoc17"
 )
 
 func main() {
@@ -20,7 +20,7 @@ func main() {
 		return
 	}
 
-	f, err := os.OpenFile("aoc.log", os.O_RDWR | os.O_CREATE, 0660)
+	f, err := os.OpenFile("aoc.log", os.O_RDWR|os.O_CREATE, 0660)
 	if err != nil {
 		log.Fatalf("cannot open file '%v'", err)
 	}
@@ -29,4 +29,5 @@ func main() {
 
 	aoc16.Run(dirname)
 	aoc17.Run(dirname)
+	//stairs.Stairs()
 }
