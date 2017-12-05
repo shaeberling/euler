@@ -19,6 +19,14 @@ func main() {
 		log.Fatalf("directory does not exist '%s'\n", dirname)
 		return
 	}
+
+	f, err := os.OpenFile("aoc.log", os.O_RDWR | os.O_CREATE, 0660)
+	if err != nil {
+		log.Fatalf("cannot open file '%v'", err)
+	}
+	defer f.Close()
+	log.SetOutput(f)
+
 	aoc16.Run(dirname)
 	aoc17.Run(dirname)
 }
