@@ -7,6 +7,7 @@ import (
 	"aoc17/problems/p03"
 	"aoc17/problems/p04"
 	"aoc17/problems/p05"
+	"aoc17/problems/p06"
 )
 
 // Run all the AOC 2017 puzzles
@@ -20,7 +21,7 @@ func Run(dataDir string) {
 		{"AOC 2017.03.big", "aoc/2017/day3.txt", p03.SolveBig, "371", "369601"},
 		{"AOC 2017.04", "aoc/2017/day4.txt", p04.Solve, "451", "223"},
 		{"AOC 2017.05", "aoc/2017/day5.txt", p05.Solve, "387096", "28040648"},
-		//{"AOC 2017.06", "aoc/2017/day6.txt", p06.Solve, "", ""},
+		{"AOC 2017.06", "aoc/2017/day6.txt", p06.Solve, "6681", "2392"},
 		//{"AOC 2017.07", "aoc/2017/day7.txt", p07.Solve, "", ""},
 		//{"AOC 2017.08", "aoc/2017/day8.txt", p08.Solve, "", ""},
 		//{"AOC 2017.09", "aoc/2017/day9.txt", p09.Solve, "", ""},
