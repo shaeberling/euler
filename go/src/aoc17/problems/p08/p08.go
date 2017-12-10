@@ -2,9 +2,9 @@ package p08
 
 import (
 	c "common"
-	"strings"
 	"log"
 	"math"
+	"strings"
 )
 
 // --- Day 8: I Heard You Like Registers ---
@@ -30,7 +30,7 @@ func solve(instructions []string) (int, int) {
 	// Will hold solution B, which asks for the highest value ever held.
 	maxEver := math.MinInt64
 	// Go through each instruction, check condition and apply the increment or
-	// decrement if conditions holds true.
+	// decrement if the condition holds true.
 	for _, inst := range instructions {
 		split := strings.Split(inst, " if ")
 		if len(split) != 2 {
@@ -41,7 +41,7 @@ func solve(instructions []string) (int, int) {
 			log.Fatalf("Invalid condition: '%s'.", split[1])
 		}
 
-		// If the condition hold, apply the inc/dec operation.
+		// If the condition holds, apply the inc/dec operation.
 		if funcs[condition[1]](condition[0], c.ToIntOrPanic(condition[2])) {
 			operation := c.SplitByWhitespaceTrim(split[0])
 			if len(operation) != 3 {

@@ -1,8 +1,8 @@
 package p02
 
 import (
-	"fmt"
 	h "aoc17/hs"
+	"fmt"
 )
 
 // Trying to solve it like a haskell programmer. (not really ;-) )

@@ -2,8 +2,8 @@ package p04
 
 import (
 	c "common"
-	"strings"
 	"sort"
+	"strings"
 )
 
 // --- Day 4: Security Through Obscurity ---

@@ -2,8 +2,8 @@ package p07
 
 import (
 	c "common"
-	"strings"
 	"log"
+	"strings"
 )
 
 type Node struct {
@@ -31,7 +31,6 @@ func solveA(input []string) string {
 			nonRoots[dep] = true
 		}
 	}
-
 	for name := range names {
 		if !nonRoots[name] {
 			return name
@@ -72,7 +71,7 @@ func calculateWeights(nodes map[string]*Node, nodeName string) int {
 			for _, nn := range node.subNodes {
 				log.Printf("%v", nodes[nn])
 			}
-			// TODO: We don't solve this case, but it wasn't needed for the question.
+			// TODO: We don't solve this case since it wasn't needed for the question.
 			// We cannot find an outlier that's not the first element.
 			return -1
 		}

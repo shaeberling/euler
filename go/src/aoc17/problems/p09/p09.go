@@ -5,7 +5,7 @@ import (
 )
 
 // --- Day 9: Stream Processing ---
-// http://adventofcode.com/2017/day/8
+// http://adventofcode.com/2017/day/9
 func Solve(input string) (string, string) {
 	solutionA, solutionB := solve(input)
 	return common.ToString(solutionA), common.ToString(solutionB)

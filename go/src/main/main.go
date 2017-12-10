@@ -1,11 +1,11 @@
 package main
 
 import (
+	"aoc16"
+	"aoc17"
 	"common"
 	"log"
 	"os"
-	"aoc16"
-	"aoc17"
 )
 
 func main() {

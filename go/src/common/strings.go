@@ -1,12 +1,12 @@
 package common
 
 import (
-	"strconv"
-	"log"
-	"strings"
 	"fmt"
-	"sort"
+	"log"
 	"math/big"
+	"sort"
+	"strconv"
+	"strings"
 )
 
 func ToIntOrPanic(content string) int {

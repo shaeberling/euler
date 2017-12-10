@@ -2,9 +2,9 @@ package hs
 
 import (
 	"common"
+	"log"
 	"math"
 	"strconv"
-	"log"
 )
 
 // Mp maps a string to a slice, splitting my new-line
@@ -26,7 +26,7 @@ func Mps(str []string) [][]string {
 }
 
 // Mpi maps a 2d slice to an integer slice, applying the given function to each row.
-func Mpii(mtrx [][]string, f func([]string) (int)) []int {
+func Mpii(mtrx [][]string, f func([]string) int) []int {
 	result := make([]int, len(mtrx))
 	for i, line := range mtrx {
 		result[i] = f(line)
@@ -35,7 +35,7 @@ func Mpii(mtrx [][]string, f func([]string) (int)) []int {
 }
 
 // Cross-map all values, apply to function and return a single int
-func Xmpi(str []string, f func(int, int) (int)) []int {
+func Xmpi(str []string, f func(int, int) int) []int {
 	var result []int
 	for i := 0; i < len(str); i++ {
 		for j := 0; j < len(str); j++ {

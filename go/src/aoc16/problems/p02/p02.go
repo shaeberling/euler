@@ -38,7 +38,7 @@ func solveA(input string) string {
 }
 
 func solveB(input string) string {
-	pad := "__1___234_56789_ABC___D__";
+	pad := "__1___234_56789_ABC___D__"
 	x := 0
 	y := 2
 	instructions := common.SplitByNewline(input)

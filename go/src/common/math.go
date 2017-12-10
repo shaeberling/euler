@@ -1,8 +1,8 @@
 package common
 
 import (
-	"math"
 	"fmt"
+	"math"
 	"math/big"
 )
 

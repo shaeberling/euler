@@ -1,8 +1,8 @@
 package p01
 
 import (
-	"fmt"
 	"common"
+	"fmt"
 )
 
 // --- Day 1: Inverse Captcha ---

@@ -1,7 +1,6 @@
 package aoc17
 
 import (
-	"runner"
 	"aoc17/problems/p01"
 	"aoc17/problems/p02"
 	"aoc17/problems/p03"
@@ -12,6 +11,7 @@ import (
 	"aoc17/problems/p08"
 	"aoc17/problems/p09"
 	"aoc17/problems/p10"
+	"runner"
 )
 
 // Run all the AOC 2017 puzzles

@@ -2,8 +2,8 @@ package p06
 
 import (
 	c "common"
-	"log"
 	"fmt"
+	"log"
 )
 
 // --- Day 6: Memory Reallocation ---

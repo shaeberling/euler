@@ -1,10 +1,10 @@
 package runner
 
 import (
-	"fmt"
-	"path"
-	"io/ioutil"
 	"common"
+	"fmt"
+	"io/ioutil"
+	"path"
 	"time"
 )
 

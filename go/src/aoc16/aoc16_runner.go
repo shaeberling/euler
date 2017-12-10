@@ -1,11 +1,11 @@
 package aoc16
 
 import (
-	"runner"
 	"aoc16/problems/p01"
 	"aoc16/problems/p02"
 	"aoc16/problems/p03"
 	"aoc16/problems/p04"
+	"runner"
 )
 
 // Run all the AOC 2016 puzzles

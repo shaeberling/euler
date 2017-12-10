@@ -1,10 +1,10 @@
 package p01
 
 import (
-	"strconv"
-	"log"
-	"fmt"
 	"common"
+	"fmt"
+	"log"
+	"strconv"
 )
 
 // --- Day 1: No Time for a Taxicab ---
