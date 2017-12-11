@@ -28,8 +28,7 @@ func solveB(input string) string {
 	// Now create the dense hash.
 	denseHash := make([]int, 16)
 	for block := 0; block < 16; block++ {
-		denseHash[block] = numbers[block*16]
-		for start, i := (block*16)+1, 0; i < 15; i++ {
+		for start, i := block*16, 0; i < 16; i++ {
 			denseHash[block] ^= numbers[start+i]
 		}
 	}
