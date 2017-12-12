@@ -17,3 +17,13 @@ func MapIStr(arr []int, f func(int) string) string {
 	}
 	return result
 }
+
+// Finds the first index that is 'true' and returns it. -1 if none exists.
+func FindFirstTrue(data map[int]bool) int {
+	for n, v := range data {
+		if v {
+			return n
+		}
+	}
+	return -1
+}
