@@ -57,6 +57,15 @@ func SplitByCommaTrim(content string) []string {
 	return result
 }
 
+func SplitTrim(content string, char rune) []string {
+	values := strings.FieldsFunc(content, func(c rune) bool { return c == char})
+	result := make([]string, len(values))
+	for i, v := range values {
+		result[i] = strings.TrimSpace(v)
+	}
+	return result
+}
+
 func SplitByWhitespaceTrim(content string) []string {
 	values := strings.Fields(content)
 	result := make([]string, len(values))
