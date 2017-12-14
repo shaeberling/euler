@@ -12,7 +12,7 @@ func Solve(input string) (string, string) {
 }
 
 func solveA(lengths []int) int {
-	numbers := processLengths(lengths, 1)
+	numbers := ProcessLengths(lengths, 1)
 	return numbers[0] * numbers[1]
 }
 
@@ -23,7 +23,7 @@ func solveB(input string) string {
 		lengths[i] = int(c)
 	}
 	lengths = append(lengths, 17, 31, 73, 47, 23)
-	numbers := processLengths(lengths, 64)
+	numbers := ProcessLengths(lengths, 64)
 
 	// Now create the dense hash.
 	denseHash := make([]int, 16)
@@ -32,10 +32,15 @@ func solveB(input string) string {
 			denseHash[block] ^= numbers[start+i]
 		}
 	}
-	return c.MapIStr(denseHash, func(b int) string { return fmt.Sprintf("%x", b) })
+	return c.MapIStr(denseHash, func(b int) string { return fmt.Sprintf("%02x", b) })
 }
 
-func processLengths(lengths []int, numRounds int) []int {
+// Make this available for future questions that need it.
+func KnotHash(input string) string {
+	return solveB(input)
+}
+
+func ProcessLengths(lengths []int, numRounds int) []int {
 	// Reverses the given sub-section, treating it as a circular list.
 	reverseCircular := func(list []int, start int, length int) {
 		for l, r := start, start+length-1; l < r; l, r = l+1, r-1 {

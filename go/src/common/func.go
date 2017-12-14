@@ -27,3 +27,12 @@ func FindFirstTrue(data map[int]bool) int {
 	}
 	return -1
 }
+
+func CountRunesIf(arr []rune, r rune) (sum int) {
+	for _, c := range arr {
+		if c == r {
+			sum++
+		}
+	}
+	return
+}
