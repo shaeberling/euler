@@ -7,15 +7,17 @@ import (
 // --- Day 13: Packet Scanners ---
 // http://adventofcode.com/2017/day/13
 func Solve(input string) (string, string) {
-	severity, _ := solveA(parseData(input), 0)
+	severity, _ := solveA(parseData(input), 0, false)
 	return c.ToString(severity), c.ToString(solveB(parseData(input)))
 }
 
-func solveA(input map[int]int, delay int) (severity int, caught bool) {
+func solveA(input map[int]int, delay int, returnIfCaught bool) (severity int, caught bool) {
 	for k, v := range input {
 		if (k+delay)%((v-1)*2) == 0 {
 			severity += k * v
-			caught = true
+			if returnIfCaught {
+				return severity, true
+			}
 		}
 	}
 	return
@@ -23,7 +25,7 @@ func solveA(input map[int]int, delay int) (severity int, caught bool) {
 
 func solveB(input map[int]int) int {
 	for i := 0; ; i++ {
-		_, caught := solveA(input, i)
+		_, caught := solveA(input, i, true)
 		if !caught {
 			return i
 		}
