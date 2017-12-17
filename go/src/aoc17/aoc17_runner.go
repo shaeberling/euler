@@ -17,6 +17,7 @@ import (
 	"aoc17/problems/p14"
 	"aoc17/problems/p15"
 	"aoc17/problems/p16"
+	"aoc17/problems/p17"
 	"runner"
 )
 
@@ -42,7 +43,7 @@ func Run(dataDir string) {
 		{"AOC 2017.14", "aoc/2017/day14.txt", p14.Solve, "8140", "1182"},
 		{"AOC 2017.15", "aoc/2017/day15.txt", p15.Solve, "600", "313"},
 		{"AOC 2017.16", "aoc/2017/day16.txt", p16.Solve, "nlciboghjmfdapek", "nlciboghmkedpfja"},
-		//{"AOC 2017.17", "aoc/2017/day17.txt", p17.Solve, "", ""},
+		{"AOC 2017.17", "aoc/2017/day17.txt", p17.Solve, "1506", "39479736"},
 		//{"AOC 2017.18", "aoc/2017/day18.txt", p18.Solve, "", ""},
 		//{"AOC 2017.19", "aoc/2017/day19.txt", p19.Solve, "", ""},
 		//{"AOC 2017.20", "aoc/2017/day20.txt", p20.Solve, "", ""},
