@@ -11,59 +11,42 @@ type particle struct {
 	pos [3]int
 	vel [3]int
 	acc [3]int
-	off bool
 }
 
-func (p *particle) distance() int {
-	return c.Abs(p.pos[0]) + c.Abs(p.pos[1]) + c.Abs(p.pos[2])
-}
-func (p *particle) accel() int {
-	return c.Abs(p.acc[0]) + c.Abs(p.acc[1]) + c.Abs(p.acc[2])
-}
-
+// --- Day 20: Particle Swarm ---
+// http://adventofcode.com/2017/day/20
 func Solve(input string) (string, string) {
 	lines := c.SplitByNewline(input)
 	particles := make([]particle, len(lines))
 	for i, line := range lines {
-		particles[i] = parse(line)
+		particles[i] = parse(strings.Split(line, ", "))
 	}
 	return c.ToString(solveA(particles)), c.ToString(solveB(particles))
 }
 
 func solveA(particles []particle) int {
-	minAccellIdx := -1
-	minAccel := math.MaxInt64
+	minAccellIdx, minAccel := -1, math.MaxInt64
 	for i, p := range particles {
-		if p.accel() < minAccel {
-			minAccel = p.accel()
-			minAccellIdx = i
+		accel := c.Abs(p.acc[0]) + c.Abs(p.acc[1]) + c.Abs(p.acc[2])
+		if accel < minAccel {
+			minAccel, minAccellIdx = accel, i
 		}
 	}
 	return minAccellIdx
 }
 
-type destruction struct {
-	time int
-	pA   int
-	pB   int
-}
-
-type byTime []destruction
-
-func (a byTime) Len() int           { return len(a) }
-func (a byTime) Swap(i, j int)      { a[i], a[j] = a[j], a[i] }
-func (a byTime) Less(i, j int) bool { return a[i].time < a[j].time }
-
 func solveB(particles []particle) int {
 	destructions := make(byTime, 0)
 	for i := 0; i < len(particles)-1; i++ {
 		pi := particles[i]
-		for j := i; j < len(particles); j++ {
-			if i == j {
-				continue
-			}
+		for j := i + 1; j < len(particles); j++ {
 			hits := make([]map[int]bool, 3)
 			matchesAll := make([]bool, 3)
+			markIfValid := func(d int, x float64) {
+				if x > 0 && math.Floor(x) == x {
+					hits[d][int(x)] = true
+				}
+			}
 			// 3D hit means all three axes hit at the same x point. So loop through all 3 axes.
 			for d := 0; d < 3; d++ {
 				hits[d] = make(map[int]bool)
@@ -82,19 +65,12 @@ func solveB(particles []particle) int {
 					if bf == 0 && cf == 0 {
 						matchesAll[d] = true
 					} else {
-						x1 := -cf / bf
-						if x1 > 0 && math.Floor(x1) == x1 {
-							hits[d][int(x1)] = true
-						}
+						markIfValid(d, -cf/bf)
 					}
 				} else {
 					x1, x2 := quadratic(af, bf, cf)
-					if x1 > 0 && math.Floor(x1) == x1 {
-						hits[d][int(x1)] = true
-					}
-					if x2 > 0 && math.Floor(x2) == x2 {
-						hits[d][int(x2)] = true
-					}
+					markIfValid(d, x1)
+					markIfValid(d, x2)
 				}
 			}
 			// Check if there are intersection points in all three dimensions.
@@ -118,18 +94,11 @@ func solveB(particles []particle) int {
 	for _, v := range destructions {
 		// Only if both particles are still alive can they destroy each other.
 		if destroyedWhen[v.pA] >= v.time && destroyedWhen[v.pB] >= v.time {
-			destroyedWhen[v.pA] = v.time
-			destroyedWhen[v.pB] = v.time
+			destroyedWhen[v.pA], destroyedWhen[v.pB] = v.time, v.time
 		}
 	}
 	// Count the survivors which haven't been destroyed.
-	survivors := 0
-	for _, v := range destroyedWhen {
-		if v == math.MaxInt64 {
-			survivors++
-		}
-	}
-	return survivors
+	return c.CountMappedIntsIf(destroyedWhen, math.MaxInt64)
 }
 
 // Solving quadratic equation with a*x^2 + b*x + c = 0
@@ -139,21 +108,27 @@ func quadratic(a, b, c float64) (float64, float64) {
 		// In this case there is no solution. Return negative numbers so we ignore them.
 		return -42, -42
 	}
-	x1 := (-b - math.Sqrt(discriminant)) / (a + a)
-	x2 := (-b + math.Sqrt(discriminant)) / (a + a)
-	return x1, x2
+	return (-b - math.Sqrt(discriminant)) / (a + a), (-b + math.Sqrt(discriminant)) / (a + a)
 }
 
-func parse(line string) particle {
-	parts := strings.Split(line, ", ")
-	var result particle
-	pos := c.ParseIntArray(strings.Split(parts[0][3:len(parts[0])-1], ","))
-	result.pos[0], result.pos[1], result.pos[2] = pos[0], pos[1], pos[2]
-
-	vel := c.ParseIntArray(strings.Split(parts[1][3:len(parts[1])-1], ","))
-	result.vel[0], result.vel[1], result.vel[2] = vel[0], vel[1], vel[2]
-
-	acc := c.ParseIntArray(strings.Split(parts[2][3:len(parts[2])-1], ","))
-	result.acc[0], result.acc[1], result.acc[2] = acc[0], acc[1], acc[2]
-	return result
+func parse(parts [] string) (result particle) {
+	set := func(arr *[3]int, i int) {
+		array := c.ParseIntArray(strings.Split(parts[i][3:len(parts[i])-1], ","))
+		arr[0], arr[1], arr[2] = array[0], array[1], array[2]
+	}
+	set(&result.pos, 0)
+	set(&result.vel, 1)
+	set(&result.acc, 2)
+	return
 }
+
+type destruction struct {
+	time int
+	pA   int
+	pB   int
+}
+type byTime []destruction
+
+func (a byTime) Len() int           { return len(a) }
+func (a byTime) Swap(i, j int)      { a[i], a[j] = a[j], a[i] }
+func (a byTime) Less(i, j int) bool { return a[i].time < a[j].time }
