@@ -28,6 +28,16 @@ func MinMax(a int, b int) (int, int) {
 	}
 }
 
+
+func IsPrime(value int) bool {
+	for i := 2; i <= int(math.Floor(math.Sqrt(float64(value)))); i++ {
+		if value%i == 0 {
+			return false
+		}
+	}
+	return value > 1
+}
+
 func Max3(a, b, c int) int {
 	return Max(Max(a, b), c)
 }
