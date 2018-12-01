@@ -1,8 +1,7 @@
 package main
 
 import (
-	"aoc16"
-	"aoc17"
+	"aoc18"
 	"common"
 	"log"
 	"os"
@@ -10,7 +9,7 @@ import (
 
 func main() {
 	if len(os.Args) != 2 {
-		log.Fatalln("missing argument to data directory\n")
+		log.Fatalln("missing argument to data directory")
 		return
 	}
 
@@ -27,7 +26,8 @@ func main() {
 	defer f.Close()
 	log.SetOutput(f)
 
-	aoc16.Run(dirname)
-	aoc17.Run(dirname)
+	// aoc16.Run(dirname)
+	// aoc17.Run(dirname)
+	aoc18.Run(dirname)
 	//stairs.Stairs()
 }
