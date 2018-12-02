@@ -33,7 +33,6 @@ import com.s13g.aoc.aoc2016.Puzzle19;
 import com.s13g.aoc.aoc2016.Puzzle1_Grid;
 import com.s13g.aoc.aoc2016.Puzzle20;
 import com.s13g.aoc.aoc2016.Puzzle21;
-import com.s13g.aoc.aoc2016.Puzzle22;
 import com.s13g.aoc.aoc2016.Puzzle2_Keypad;
 import com.s13g.aoc.aoc2016.Puzzle3_Triangles;
 import com.s13g.aoc.aoc2016.Puzzle4_Doors;
@@ -42,6 +41,7 @@ import com.s13g.aoc.aoc2016.Puzzle6_Passwords;
 import com.s13g.aoc.aoc2016.Puzzle7;
 import com.s13g.aoc.aoc2016.Puzzle8;
 import com.s13g.aoc.aoc2016.Puzzle9;
+import com.s13g.aoc.aoc2018.Aoc18Day01;
 
 /**
  * All active puzzles go here
@@ -50,40 +50,43 @@ class Setups {
   static PuzzleSetup[] getPuzzles() {
     final String AOC15 = "aoc/2015/";
     final String AOC16 = "aoc/2016/";
+    final String AOC18 = "aoc/2018/";
     return new PuzzleSetup[]{
-        // 2015
-        new PuzzleSetup(AOC15 + "day1.txt", new Puzzle1_Floors(), 138, 1771),
-        new PuzzleSetup(AOC15 + "day2.txt", new Puzzle2_WrappingPaper(), 1586300, 3737498),
-        new PuzzleSetup(AOC15 + "day3.txt", new Puzzle3_Houses(), 2565, 2639),
+//        // 2015
+//        new PuzzleSetup(AOC15 + "day1.txt", new Puzzle1_Floors(), 138, 1771),
+//        new PuzzleSetup(AOC15 + "day2.txt", new Puzzle2_WrappingPaper(), 1586300, 3737498),
+//        new PuzzleSetup(AOC15 + "day3.txt", new Puzzle3_Houses(), 2565, 2639),
+//
+//        // 2016
+//        new PuzzleSetup(AOC16 + "day1.txt", new Puzzle1_Grid(), 161, 110),
+//        new PuzzleSetup(AOC16 + "day2.txt", new Puzzle2_Keypad(), "69642", "8CB23"),
+//        new PuzzleSetup(AOC16 + "day3.txt", new Puzzle3_Triangles(), 1032, 1838),
+//        new PuzzleSetup(AOC16 + "day4.txt", new Puzzle4_Doors(), 137896, 501),
+//        // Long-running.
+//        new PuzzleSetup(AOC16 + "day5.txt", new Puzzle5_Passwords(), "801B56A7", "424A0197"),
+//        new PuzzleSetup(AOC16 + "day6.txt", new Puzzle6_Passwords(), "qrqlznrl", "kgzdfaon"),
+//        new PuzzleSetup(AOC16 + "day7.txt", new Puzzle7(), 110, 242),
+//        new PuzzleSetup(AOC16 + "day8.txt", new Puzzle8(), "115", getResult8b()),
+//        new PuzzleSetup(AOC16 + "day9.txt", new Puzzle9(), 98135L, 10964557606L),
+//        new PuzzleSetup(AOC16 + "day10.txt", new Puzzle10(), 73, 3965),
+//        // new PuzzleSetup(AOC16 + "day11.txt", new Puzzle11(), null, null),
+//        // Long-running.
+//        new PuzzleSetup(AOC16 + "day12.txt", new Puzzle12_Assembly(), 318117, 9227771),
+//        new PuzzleSetup(AOC16 + "day13.txt", new Puzzle13(), 96, 141),
+//        // Long-running.
+//        new PuzzleSetup(AOC16 + "day14.txt", new Puzzle14_OneTimePad(), 15168, 20864),
+//        new PuzzleSetup(AOC16 + "day15.txt", new Puzzle15_Timing(), 203660, 2408135),
+//        // Long-running.
+//        new PuzzleSetup(AOC16 + "day16.txt", new Puzzle16_Dragon(), "10101001010100001",
+//            "10100001110101001"),
+//        new PuzzleSetup(AOC16 + "day17.txt", new Puzzle17(), "RRRLDRDUDD", "706"),
+//        new PuzzleSetup(AOC16 + "day18.txt", new Puzzle18(), 2035, 20000577),
+//        // Long-running.
+//        new PuzzleSetup(AOC16 + "day19.txt", new Puzzle19(), 11, 4),
+//        new PuzzleSetup(AOC16 + "day20.txt", new Puzzle20(), 17348574, 104),
+//        new PuzzleSetup(AOC16 + "day21.txt", new Puzzle21(), "gcedfahb", "hegbdcfa"),
 
-        // 2016
-        new PuzzleSetup(AOC16 + "day1.txt", new Puzzle1_Grid(), 161, 110),
-        new PuzzleSetup(AOC16 + "day2.txt", new Puzzle2_Keypad(), "69642", "8CB23"),
-        new PuzzleSetup(AOC16 + "day3.txt", new Puzzle3_Triangles(), 1032, 1838),
-        new PuzzleSetup(AOC16 + "day4.txt", new Puzzle4_Doors(), 137896, 501),
-        // Long-running.
-        new PuzzleSetup(AOC16 + "day5.txt", new Puzzle5_Passwords(), "801B56A7", "424A0197"),
-        new PuzzleSetup(AOC16 + "day6.txt", new Puzzle6_Passwords(), "qrqlznrl", "kgzdfaon"),
-        new PuzzleSetup(AOC16 + "day7.txt", new Puzzle7(), 110, 242),
-        new PuzzleSetup(AOC16 + "day8.txt", new Puzzle8(), "115", getResult8b()),
-        new PuzzleSetup(AOC16 + "day9.txt", new Puzzle9(), 98135L, 10964557606L),
-        new PuzzleSetup(AOC16 + "day10.txt", new Puzzle10(), 73, 3965),
-        // new PuzzleSetup(AOC16 + "day11.txt", new Puzzle11(), null, null),
-        // Long-running.
-        new PuzzleSetup(AOC16 + "day12.txt", new Puzzle12_Assembly(), 318117, 9227771),
-        new PuzzleSetup(AOC16 + "day13.txt", new Puzzle13(), 96, 141),
-        // Long-running.
-        new PuzzleSetup(AOC16 + "day14.txt", new Puzzle14_OneTimePad(), 15168, 20864),
-        new PuzzleSetup(AOC16 + "day15.txt", new Puzzle15_Timing(), 203660, 2408135),
-        // Long-running.
-        new PuzzleSetup(AOC16 + "day16.txt", new Puzzle16_Dragon(), "10101001010100001",
-            "10100001110101001"),
-        new PuzzleSetup(AOC16 + "day17.txt", new Puzzle17(), "RRRLDRDUDD", "706"),
-        new PuzzleSetup(AOC16 + "day18.txt", new Puzzle18(), 2035, 20000577),
-        // Long-running.
-        new PuzzleSetup(AOC16 + "day19.txt", new Puzzle19(), 11, 4),
-        new PuzzleSetup(AOC16 + "day20.txt", new Puzzle20(), 17348574, 104),
-        new PuzzleSetup(AOC16 + "day21.txt", new Puzzle21(), "gcedfahb", "hegbdcfa"),
+        new PuzzleSetup(AOC18 + "day1.txt", new Aoc18Day01(), "416", "56752")
 //        new PuzzleSetup(AOC16 + "day22.txt", new Puzzle22(), null, null),
     };
   }
