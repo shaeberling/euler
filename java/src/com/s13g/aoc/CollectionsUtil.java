@@ -22,8 +22,8 @@ import java.util.Collection;
  * Various collection utils.
  */
 public class CollectionsUtil {
-  public static boolean containsAny(Collection<String> strs, Collection<String> searchTerms) {
-    for (String str : strs) {
+  public static boolean containsAny(Collection<String> items, Collection<String> searchTerms) {
+    for (String str : items) {
       if (containsAny(str, searchTerms)) {
         return true;
       }
