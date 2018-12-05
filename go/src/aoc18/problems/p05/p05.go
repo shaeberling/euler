@@ -24,16 +24,28 @@ func solveA(input string) int {
 }
 
 func solveB(input string) int {
-	smallest := len(input)
 	lower := strings.ToLower(input)
-	for _, r := range "abcdefghijklmnopqrstuvwxyz" {
-		newInput := ""
-		for i, r2 := range lower {
-			if r != r2 {
-				newInput += string(input[i])
-			}
-		}
-		smallest = c.Min(smallest, solveA(newInput))
+	abc := "abcdefghijklmnopqrstuvwxyz"
+	ch := make(chan int)
+	// Parallelize solving the problem for each letter.
+	for _, r := range abc {
+		go solveBForLetter(&input, &lower, r, ch)
+	}
+
+	// Wait for results from goroutines and find the smallest.
+	smallest := len(input)
+	for i := 0; i < len(abc); i++ {
+		smallest = c.Min(smallest, <-ch)
 	}
 	return smallest
+}
+
+func solveBForLetter(input *string, lower *string, r rune, ch chan<- int) {
+	newInput := ""
+	for i, r2 := range *lower {
+		if r != r2 {
+			newInput += string((*input)[i])
+		}
+	}
+	ch <- solveA(newInput)
 }
