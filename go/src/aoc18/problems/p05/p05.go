@@ -15,7 +15,8 @@ func Solve(input string) (string, string) {
 func solveA(inputStr string) int {
 	input := []rune(inputStr)
 	for i := 0; i < len(input)-2; i = c.Max(i+1, 0) {
-		if (unicode.ToLower(input[i]) == unicode.ToLower(input[i+1])) && (input[i] != input[i+1]) {
+		//if (unicode.ToLower(input[i]) == unicode.ToLower(input[i+1])) && (input[i] != input[i+1]) {
+		if c.Abs(int(input[i])-int(input[i+1])) == 32 {
 			input = append(input[:i], input[i+2:]...)
 			i = i - 2
 		}
