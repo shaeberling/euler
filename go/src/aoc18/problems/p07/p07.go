@@ -2,6 +2,7 @@ package p07
 
 import (
 	c "common"
+	"math"
 	"sort"
 )
 
@@ -16,9 +17,7 @@ func parse(lines []string) map[string][]string {
 	order := make(map[string][]string)
 	for _, l := range lines {
 		splitLine := c.SplitByWhitespaceTrim(l)
-		preReq := splitLine[1]
-		step := splitLine[7]
-
+		preReq, step := splitLine[1], splitLine[7]
 		if _, ok := order[step]; !ok {
 			order[step] = make([]string, 0)
 		}
@@ -44,30 +43,17 @@ func solveA(order map[string][]string) string {
 		delete(order, ready[0])
 
 		// Remove all ready steps from prereqs, since they're done.
-		for step, pre := range order {
-			newPre := make([]string, 0)
-			for _, p := range pre {
-				if p == ready[0] {
-					continue
-				}
-				newPre = append(newPre, p)
-			}
-			order[step] = newPre
-		}
+		removePres(&order, []string{ready[0]})
 		result += ready[0]
 	}
 	return result
 }
 
 // Parameters for part B (different from example).
-const numWorkers = 5
-const addTime = 60
+const numWorkers, addTime = 5, 60
 
 func solveB(order map[string][]string) string {
-	// How many seconds is each worker busy for.
-	workers := [numWorkers]worker{}
-	time := 0
-
+	workers, time := [numWorkers]worker{}, 0
 	for len(order) > 0 {
 		ready := make([]string, 0)
 		for step, pre := range order {
@@ -77,7 +63,6 @@ func solveB(order map[string][]string) string {
 		}
 		// Remove ready tasks alphabetically.
 		sort.Strings(ready)
-
 		for _, r := range ready {
 			for j, w := range workers {
 				// Worker is not busy right now
@@ -89,39 +74,47 @@ func solveB(order map[string][]string) string {
 				}
 			}
 		}
-		readyB := make([]string, 0)
-		// How much time will pass until the next task is done.
-		for len(readyB) == 0 {
-			time++
-			for i := range workers {
-				workers[i].tRemain--
-				if workers[i].tRemain == 0 {
-					// Task is done
-					readyB = append(readyB, workers[i].task)
-				}
-				workers[i].tRemain = c.Max(workers[i].tRemain, 0)
-			}
-		}
 
-		// Remove all ready steps from prereqs, since they're done.
-		for step, pre := range order {
-			newPre := make([]string, 0)
-			for _, p := range pre {
-				skip := false
-				for _, r := range readyB {
-					if p == r {
-						skip = true
-						break
-					}
-				}
-				if !skip {
-					newPre = append(newPre, p)
-				}
+		// How much time will pass until the next task is done.
+		timeToNextEvent := math.MaxInt32
+		for _, w := range workers {
+			if w.tRemain > 0 {
+				timeToNextEvent = c.Min(timeToNextEvent, w.tRemain)
 			}
-			order[step] = newPre
 		}
+		time += timeToNextEvent
+
+		// Fast forward time to next event.
+		for i := range workers {
+			workers[i].tRemain -= timeToNextEvent
+		}
+		// Find ready tasks.
+		readyB := make([]string, 0)
+		for i, w := range workers {
+			// Only tasks finishing right now have tRemain of exactly zero.
+			if w.tRemain == 0 {
+				readyB = append(readyB, w.task)
+			}
+			// Previously finished tasks will have a negative tRemain.
+			workers[i].tRemain = c.Max(workers[i].tRemain, 0)
+		}
+		// Remove all ready steps from prereqs, since they're done.
+		removePres(&order, readyB)
 	}
 	return c.ToString(time)
+}
+
+// Remove prerequisites.
+func removePres(order *map[string][]string, presToRemove []string) {
+	for step, pre := range *order {
+		newPre := make([]string, 0)
+		for _, p := range pre {
+			if !c.Contains(presToRemove, p) {
+				newPre = append(newPre, p)
+			}
+		}
+		(*order)[step] = newPre
+	}
 }
 
 type worker struct {
