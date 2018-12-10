@@ -7,8 +7,8 @@ import (
 	"regexp"
 )
 
-// --- Day 9: Marble Mania ---
-// http://adventofcode.com/2018/day/9
+// --- Day 10: The Stars Align ---
+// http://adventofcode.com/2018/day/10
 func Solve(input string) (string, string) {
 	lines := c.SplitByNewline(input)
 	points := make([]*point, len(lines))
