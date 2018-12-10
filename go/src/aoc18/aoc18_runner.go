@@ -10,6 +10,7 @@ import (
 	"aoc18/problems/p07"
 	"aoc18/problems/p08"
 	"aoc18/problems/p09"
+	"aoc18/problems/p10"
 	"runner"
 )
 
@@ -26,7 +27,7 @@ func Run(dataDir string) {
 		{"AOC 2018.07", "aoc/2018/day7.txt", p07.Solve, "IJLFUVDACEHGRZPNKQWSBTMXOY", "1072"},
 		{"AOC 2018.08", "aoc/2018/day8.txt", p08.Solve, "38567", "24453"},
 		{"AOC 2018.09", "aoc/2018/day9.txt", p09.Solve, "380705", "3171801582"},
-		// {"AOC 2018.10", "aoc/2018/day10.txt", p10.Solve, "n/a", "n/a"},
+		{"AOC 2018.10", "aoc/2018/day10.txt", p10.Solve, "ZNNRZJXP", "10418"},
 		// {"AOC 2018.11", "aoc/2018/day11.txt", p11.Solve, "n/a", "n/a"},
 		// {"AOC 2018.12", "aoc/2018/day12.txt", p12.Solve, "n/a", "n/a"},
 		// {"AOC 2018.13", "aoc/2018/day13.txt", p13.Solve, "n/a", "n/a"},
