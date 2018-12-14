@@ -1,6 +1,7 @@
 package aoc18
 
 import (
+	"aoc17/problems/p11"
 	"aoc18/problems/p01"
 	"aoc18/problems/p02"
 	"aoc18/problems/p03"
@@ -11,9 +12,9 @@ import (
 	"aoc18/problems/p08"
 	"aoc18/problems/p09"
 	"aoc18/problems/p10"
-	"aoc18/problems/p11"
 	"aoc18/problems/p12"
 	"aoc18/problems/p13"
+	"aoc18/problems/p14"
 	"runner"
 )
 
@@ -34,7 +35,7 @@ func Run(dataDir string) {
 		{"AOC 2018.11", "aoc/2018/day11.txt", p11.Solve, "21,77", "224,222,27"},
 		{"AOC 2018.12", "aoc/2018/day12.txt", p12.Solve, "3051", "1300000000669"},
 		{"AOC 2018.13", "aoc/2018/day13.txt", p13.Solve, "82,104", "121,22"},
-		// {"AOC 2018.14", "aoc/2018/day14.txt", p14.Solve, "n/a", "n/a"},
+		{"AOC 2018.14", "aoc/2018/day14.txt", p14.Solve, "5992684592", "20181148"},
 		// {"AOC 2018.15", "aoc/2018/day15.txt", p15.Solve, "n/a", "n/a"},
 		// {"AOC 2018.16", "aoc/2018/day16.txt", p16.Solve, "n/a", "n/a"},
 		// {"AOC 2018.17", "aoc/2018/day17.txt", p17.Solve, "n/a", "n/a"},
