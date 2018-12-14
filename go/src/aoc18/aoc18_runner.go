@@ -31,7 +31,7 @@ func Run(dataDir string) {
 		{"AOC 2018.08", "aoc/2018/day8.txt", p08.Solve, "38567", "24453"},
 		{"AOC 2018.09", "aoc/2018/day9.txt", p09.Solve, "380705", "3171801582"},
 		{"AOC 2018.10", "aoc/2018/day10.txt", p10.Solve, "ZNNRZJXP", "10418"},
-		{"AOC 2018.11", "aoc/2018/day11.txt", p11.Solve, "21,77", "n/a"},
+		{"AOC 2018.11", "aoc/2018/day11.txt", p11.Solve, "21,77", "224,222,27"},
 		{"AOC 2018.12", "aoc/2018/day12.txt", p12.Solve, "3051", "1300000000669"},
 		{"AOC 2018.13", "aoc/2018/day13.txt", p13.Solve, "82,104", "121,22"},
 		// {"AOC 2018.14", "aoc/2018/day14.txt", p14.Solve, "n/a", "n/a"},
