@@ -5,8 +5,8 @@ import (
 	"fmt"
 )
 
-// --- Day 11: Chronal Charge ---
-// http://adventofcode.com/2018/day/11
+// --- Day 14: Chocolate Charts ---
+// http://adventofcode.com/2018/day/14
 func Solve(input string) (string, string) {
 	in := c.ToIntOrPanic(input)
 	return solveA(in), solveB(in)
