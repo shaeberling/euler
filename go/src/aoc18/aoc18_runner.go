@@ -1,7 +1,6 @@
 package aoc18
 
 import (
-	"aoc17/problems/p11"
 	"aoc18/problems/p01"
 	"aoc18/problems/p02"
 	"aoc18/problems/p03"
@@ -12,6 +11,7 @@ import (
 	"aoc18/problems/p08"
 	"aoc18/problems/p09"
 	"aoc18/problems/p10"
+	"aoc18/problems/p11"
 	"aoc18/problems/p12"
 	"aoc18/problems/p13"
 	"aoc18/problems/p14"
