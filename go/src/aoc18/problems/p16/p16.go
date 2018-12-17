@@ -135,75 +135,27 @@ func (s *sample) cpBefore() []int {
 // Interface for all instructions.
 type instruction func(op []int, reg []int)
 
-func iAddr(op []int, reg []int) {
-	reg[op[3]] = reg[op[1]] + reg[op[2]]
-}
-func iAddi(op []int, reg []int) {
-	reg[op[3]] = reg[op[1]] + op[2]
-}
-func iMulr(op []int, reg []int) {
-	reg[op[3]] = reg[op[1]] * reg[op[2]]
-}
-func iMuli(op []int, reg []int) {
-	reg[op[3]] = reg[op[1]] * op[2]
-}
-func iBanr(op []int, reg []int) {
-	reg[op[3]] = reg[op[1]] & reg[op[2]]
-}
-func iBani(op []int, reg []int) {
-	reg[op[3]] = reg[op[1]] & op[2]
-}
-func iBorr(op []int, reg []int) {
-	reg[op[3]] = reg[op[1]] | reg[op[2]]
-}
-func iBori(op []int, reg []int) {
-	reg[op[3]] = reg[op[1]] | op[2]
-}
-func iSetr(op []int, reg []int) {
-	reg[op[3]] = reg[op[1]]
-}
-func iSeti(op []int, reg []int) {
-	reg[op[3]] = op[1]
-}
-func iGtir(op []int, reg []int) {
-	if op[1] > reg[op[2]] {
-		reg[op[3]] = 1
+func iAddr(op []int, reg []int) { reg[op[3]] = reg[op[1]] + reg[op[2]] }
+func iAddi(op []int, reg []int) { reg[op[3]] = reg[op[1]] + op[2] }
+func iMulr(op []int, reg []int) { reg[op[3]] = reg[op[1]] * reg[op[2]] }
+func iMuli(op []int, reg []int) { reg[op[3]] = reg[op[1]] * op[2] }
+func iBanr(op []int, reg []int) { reg[op[3]] = reg[op[1]] & reg[op[2]] }
+func iBani(op []int, reg []int) { reg[op[3]] = reg[op[1]] & op[2] }
+func iBorr(op []int, reg []int) { reg[op[3]] = reg[op[1]] | reg[op[2]] }
+func iBori(op []int, reg []int) { reg[op[3]] = reg[op[1]] | op[2] }
+func iSetr(op []int, reg []int) { reg[op[3]] = reg[op[1]] }
+func iSeti(op []int, reg []int) { reg[op[3]] = op[1] }
+func iGtir(op []int, reg []int) { reg[op[3]] = bin(op[1] > reg[op[2]]) }
+func iGtri(op []int, reg []int) { reg[op[3]] = bin(reg[op[1]] > op[2]) }
+func iGtrr(op []int, reg []int) { reg[op[3]] = bin(reg[op[1]] > reg[op[2]]) }
+func iEqir(op []int, reg []int) { reg[op[3]] = bin(op[1] == reg[op[2]]) }
+func iEqri(op []int, reg []int) { reg[op[3]] = bin(reg[op[1]] == op[2]) }
+func iEqrr(op []int, reg []int) { reg[op[3]] = bin(reg[op[1]] == reg[op[2]]) }
+
+func bin(a bool) int {
+	if a {
+		return 1
 	} else {
-		reg[op[3]] = 0
-	}
-}
-func iGtri(op []int, reg []int) {
-	if reg[op[1]] > op[2] {
-		reg[op[3]] = 1
-	} else {
-		reg[op[3]] = 0
-	}
-}
-func iGtrr(op []int, reg []int) {
-	if reg[op[1]] > reg[op[2]] {
-		reg[op[3]] = 1
-	} else {
-		reg[op[3]] = 0
-	}
-}
-func iEqir(op []int, reg []int) {
-	if op[1] == reg[op[2]] {
-		reg[op[3]] = 1
-	} else {
-		reg[op[3]] = 0
-	}
-}
-func iEqri(op []int, reg []int) {
-	if reg[op[1]] == op[2] {
-		reg[op[3]] = 1
-	} else {
-		reg[op[3]] = 0
-	}
-}
-func iEqrr(op []int, reg []int) {
-	if reg[op[1]] == reg[op[2]] {
-		reg[op[3]] = 1
-	} else {
-		reg[op[3]] = 0
+		return 0
 	}
 }
