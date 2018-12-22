@@ -1,6 +1,7 @@
 package p19
 
 import (
+	"aoc18/problems/aocvm"
 	c "common"
 	"fmt"
 )
@@ -12,21 +13,21 @@ func Solve(input string) (string, string) {
 	return c.ToString(solveA(parse(lines))), c.ToString(optimizedB())
 }
 
-type operation struct {
+type instruction struct {
 	name   string
 	params []int
 }
 
-func (op operation) String() string {
-	return fmt.Sprintf("%s %v", op.name, op.params)
+func (instrs instruction) String() string {
+	return fmt.Sprintf("%s %v", instrs.name, instrs.params)
 }
 
-func parse(lines []string) ([]operation, int) {
+func parse(lines []string) ([]instruction, int) {
 	fcReg := c.ToIntOrPanic(c.SplitByWhitespaceTrim(lines[0])[1])
-	instrs := make([]operation, len(lines)-1)
+	instrs := make([]instruction, len(lines)-1)
 	for i := 1; i < len(lines); i++ {
 		split := c.SplitByWhitespaceTrim(lines[i])
-		instrs[i-1] = operation{
+		instrs[i-1] = instruction{
 			name:   split[0],
 			params: []int{c.ToIntOrPanic(split[1]), c.ToIntOrPanic(split[2]), c.ToIntOrPanic(split[3])},
 		}
@@ -67,58 +68,13 @@ func decompiledB() int {
 	return r[0]
 }
 
-func solveA(ops []operation, fcReg int) int {
-	instrs := make(map[string]instruction, 0)
-	instrs["addr"] = iAddr
-	instrs["addi"] = iAddi
-	instrs["mulr"] = iMulr
-	instrs["muli"] = iMuli
-	instrs["banr"] = iBanr
-	instrs["bani"] = iBani
-	instrs["borr"] = iBorr
-	instrs["bori"] = iBori
-	instrs["setr"] = iSetr
-	instrs["seti"] = iSeti
-	instrs["gtir"] = iGtir
-	instrs["gtri"] = iGtri
-	instrs["gtrr"] = iGtrr
-	instrs["eqir"] = iEqir
-	instrs["eqri"] = iEqri
-	instrs["eqrr"] = iEqrr
-
+func solveA(instrs []instruction, fcReg int) int {
+	ops := aocvm.GetOperations()
 	reg := make([]int, 6)
-	for reg[fcReg] < len(ops) {
-		op := ops[reg[fcReg]]
-		instrs[op.name](op.params, reg)
+	for reg[fcReg] < len(instrs) {
+		instr := instrs[reg[fcReg]]
+		ops[instr.name](instr.params, reg)
 		reg[fcReg]++
 	}
 	return reg[0]
-}
-
-// Interface for all instructions (Copied fro Day 16)
-type instruction func(op []int, reg []int)
-
-func iAddr(op []int, reg []int) { reg[op[2]] = reg[op[0]] + reg[op[1]] }
-func iAddi(op []int, reg []int) { reg[op[2]] = reg[op[0]] + op[1] }
-func iMulr(op []int, reg []int) { reg[op[2]] = reg[op[0]] * reg[op[1]] }
-func iMuli(op []int, reg []int) { reg[op[2]] = reg[op[0]] * op[1] }
-func iBanr(op []int, reg []int) { reg[op[2]] = reg[op[0]] & reg[op[1]] }
-func iBani(op []int, reg []int) { reg[op[2]] = reg[op[0]] & op[1] }
-func iBorr(op []int, reg []int) { reg[op[2]] = reg[op[0]] | reg[op[1]] }
-func iBori(op []int, reg []int) { reg[op[2]] = reg[op[0]] | op[1] }
-func iSetr(op []int, reg []int) { reg[op[2]] = reg[op[0]] }
-func iSeti(op []int, reg []int) { reg[op[2]] = op[0] }
-func iGtir(op []int, reg []int) { reg[op[2]] = bin(op[0] > reg[op[1]]) }
-func iGtri(op []int, reg []int) { reg[op[2]] = bin(reg[op[0]] > op[1]) }
-func iGtrr(op []int, reg []int) { reg[op[2]] = bin(reg[op[0]] > reg[op[1]]) }
-func iEqir(op []int, reg []int) { reg[op[2]] = bin(op[0] == reg[op[1]]) }
-func iEqri(op []int, reg []int) { reg[op[2]] = bin(reg[op[0]] == op[1]) }
-func iEqrr(op []int, reg []int) { reg[op[2]] = bin(reg[op[0]] == reg[op[1]]) }
-
-func bin(a bool) int {
-	if a {
-		return 1
-	} else {
-		return 0
-	}
 }

@@ -1,6 +1,7 @@
 package p16
 
 import (
+	"aoc18/problems/aocvm"
 	c "common"
 )
 
@@ -29,33 +30,17 @@ func Solve(input string) (string, string) {
 			})
 		}
 	}
-	instrs := make(map[string]instruction, 0)
-	instrs["iAddr"] = iAddr
-	instrs["iAddi"] = iAddi
-	instrs["iMulr"] = iMulr
-	instrs["iMuli"] = iMuli
-	instrs["iBanr"] = iBanr
-	instrs["iBani"] = iBani
-	instrs["iBorr"] = iBorr
-	instrs["iBori"] = iBori
-	instrs["iSetr"] = iSetr
-	instrs["iSeti"] = iSeti
-	instrs["iGtir"] = iGtir
-	instrs["iGtri"] = iGtri
-	instrs["iGtrr"] = iGtrr
-	instrs["iEqir"] = iEqir
-	instrs["iEqri"] = iEqri
-	instrs["iEqrr"] = iEqrr
-	return c.ToString(solveA(samples, instrs)), c.ToString(solveB(samples, instrs, testProgram))
+	ops := aocvm.GetOperations()
+	return c.ToString(solveA(samples, ops)), c.ToString(solveB(samples, ops, testProgram))
 }
 
-func solveA(samples []sample, instrs map[string]instruction) int {
+func solveA(samples []sample, ops map[string]aocvm.Operation) int {
 	count := 0
 	for _, s := range samples {
 		numMatched := 0
-		for _, inst := range instrs {
+		for _, op := range ops {
 			before := s.cpBefore()
-			inst(s.instr, before)
+			op(s.instr[1:], before)
 			if eq(before, s.after) {
 				numMatched++
 			}
@@ -67,15 +52,15 @@ func solveA(samples []sample, instrs map[string]instruction) int {
 	return count
 }
 
-func solveB(samples []sample, instrs map[string]instruction, program [][]int) int {
-	identified := make(map[int]instruction)
-	for len(instrs) > 0 {
+func solveB(samples []sample, ops map[string]aocvm.Operation, program [][]int) int {
+	identified := make(map[int]aocvm.Operation)
+	for len(ops) > 0 {
 		for _, s := range samples {
 			numMatched := 0
 			lastMatchedInstr := ""
-			for iName, inst := range instrs {
+			for iName, op := range ops {
 				before := s.cpBefore()
-				inst(s.instr, before)
+				op(s.instr[1:], before)
 				if eq(before, s.after) {
 					lastMatchedInstr = iName
 					numMatched++
@@ -84,8 +69,8 @@ func solveB(samples []sample, instrs map[string]instruction, program [][]int) in
 			// If we matched only then it's clear we have a match!
 			if numMatched == 1 {
 				opcode := s.instr[0]
-				identified[opcode] = instrs[lastMatchedInstr]
-				delete(instrs, lastMatchedInstr)
+				identified[opcode] = ops[lastMatchedInstr]
+				delete(ops, lastMatchedInstr)
 			}
 		}
 	}
@@ -93,8 +78,7 @@ func solveB(samples []sample, instrs map[string]instruction, program [][]int) in
 	// Once all instructions are identified, run the test program!
 	reg := make([]int, 4)
 	for _, p := range program {
-		instr := identified[p[0]]
-		instr(p, reg)
+		identified[p[0]](p[1:], reg)
 	}
 	return reg[0]
 }
@@ -130,32 +114,4 @@ func (s *sample) cpBefore() []int {
 		result[i] = b
 	}
 	return result
-}
-
-// Interface for all instructions.
-type instruction func(op []int, reg []int)
-
-func iAddr(op []int, reg []int) { reg[op[3]] = reg[op[1]] + reg[op[2]] }
-func iAddi(op []int, reg []int) { reg[op[3]] = reg[op[1]] + op[2] }
-func iMulr(op []int, reg []int) { reg[op[3]] = reg[op[1]] * reg[op[2]] }
-func iMuli(op []int, reg []int) { reg[op[3]] = reg[op[1]] * op[2] }
-func iBanr(op []int, reg []int) { reg[op[3]] = reg[op[1]] & reg[op[2]] }
-func iBani(op []int, reg []int) { reg[op[3]] = reg[op[1]] & op[2] }
-func iBorr(op []int, reg []int) { reg[op[3]] = reg[op[1]] | reg[op[2]] }
-func iBori(op []int, reg []int) { reg[op[3]] = reg[op[1]] | op[2] }
-func iSetr(op []int, reg []int) { reg[op[3]] = reg[op[1]] }
-func iSeti(op []int, reg []int) { reg[op[3]] = op[1] }
-func iGtir(op []int, reg []int) { reg[op[3]] = bin(op[1] > reg[op[2]]) }
-func iGtri(op []int, reg []int) { reg[op[3]] = bin(reg[op[1]] > op[2]) }
-func iGtrr(op []int, reg []int) { reg[op[3]] = bin(reg[op[1]] > reg[op[2]]) }
-func iEqir(op []int, reg []int) { reg[op[3]] = bin(op[1] == reg[op[2]]) }
-func iEqri(op []int, reg []int) { reg[op[3]] = bin(reg[op[1]] == op[2]) }
-func iEqrr(op []int, reg []int) { reg[op[3]] = bin(reg[op[1]] == reg[op[2]]) }
-
-func bin(a bool) int {
-	if a {
-		return 1
-	} else {
-		return 0
-	}
 }
