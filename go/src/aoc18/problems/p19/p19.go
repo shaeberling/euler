@@ -10,30 +10,7 @@ import (
 // http://adventofcode.com/2018/day/19
 func Solve(input string) (string, string) {
 	lines := c.SplitByNewline(input)
-	return c.ToString(solveA(parse(lines))), c.ToString(optimizedB())
-}
-
-type instruction struct {
-	name   string
-	params []int
-}
-
-func (instrs instruction) String() string {
-	return fmt.Sprintf("%s %v", instrs.name, instrs.params)
-}
-
-func parse(lines []string) ([]instruction, int) {
-	fcReg := c.ToIntOrPanic(c.SplitByWhitespaceTrim(lines[0])[1])
-	instrs := make([]instruction, len(lines)-1)
-	for i := 1; i < len(lines); i++ {
-		split := c.SplitByWhitespaceTrim(lines[i])
-		instrs[i-1] = instruction{
-			name:   split[0],
-			params: []int{c.ToIntOrPanic(split[1]), c.ToIntOrPanic(split[2]), c.ToIntOrPanic(split[3])},
-		}
-	}
-
-	return instrs, fcReg
+	return c.ToString(solveA(aocvm.ParseProgramWithIP(lines))), c.ToString(optimizedB())
 }
 
 func optimizedB() int {
@@ -68,12 +45,12 @@ func decompiledB() int {
 	return r[0]
 }
 
-func solveA(instrs []instruction, fcReg int) int {
+func solveA(instrs []aocvm.Instruction, fcReg int) int {
 	ops := aocvm.GetOperations()
 	reg := make([]int, 6)
 	for reg[fcReg] < len(instrs) {
 		instr := instrs[reg[fcReg]]
-		ops[instr.name](instr.params, reg)
+		ops[instr.Name](instr.Params, reg)
 		reg[fcReg]++
 	}
 	return reg[0]

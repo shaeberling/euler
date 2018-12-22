@@ -45,7 +45,6 @@ func iEqrr(op []int, reg []int) { reg[op[2]] = bin(reg[op[0]] == reg[op[1]]) }
 func bin(a bool) int {
 	if a {
 		return 1
-	} else {
-		return 0
 	}
+	return 0
 }
