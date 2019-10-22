@@ -16,17 +16,20 @@
 
 package com.s13g.aoc.aoc2015
 
-/** http://adventofcode.com/2015/day/1 */
-class P1Floors(val data: String) : AocSolver {
+import com.s13g.aoc.Solver
+import com.s13g.aoc.Result
 
-    override fun solve() {
+/** http://adventofcode.com/2015/day/1 */
+class P1Floors : Solver {
+
+    override fun solve(data: List<String>): Result {
         var floor = 0
-        for (c in data) {
+        for (c in data[0]) {
             when (c) {
                 '(' -> floor++
                 ')' -> floor--
             }
         }
-        println("Final floor is $floor")
+        return Result("$floor", "")
     }
 }

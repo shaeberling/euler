@@ -16,18 +16,16 @@
 
 package com.s13g.aoc
 
-import com.google.common.io.CharStreams
-import kotlin.text.Charsets
-import java.io.InputStreamReader
-import java.io.FileInputStream
+import com.google.common.collect.ImmutableList
 import java.io.IOException
+import java.nio.file.Files
+import java.nio.file.Path
 
 
 /**
  * Reads a file as string.
  */
 @Throws(IOException::class)
-fun readAsString(filename: String): String {
-    val inputStream = FileInputStream(filename)
-    return CharStreams.toString(InputStreamReader(inputStream, Charsets.UTF_8))
+fun readAsString(file: Path): List<String> {
+    return ImmutableList.copyOf(Files.readAllLines(file))
 }

@@ -14,11 +14,13 @@
  *  limitations under the License.
  */
 
-package com.s13g.aoc.aoc2015
+package com.s13g.aoc
 
 /**
  * Basic interface for AOC solvers.
  */
-interface AocSolver {
-    fun solve();
+interface Solver {
+    fun solve(data: List<String>): Result
 }
+
+data class Result(var a: String, var b: String)
