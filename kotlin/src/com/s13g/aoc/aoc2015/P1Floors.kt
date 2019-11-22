@@ -21,15 +21,14 @@ import com.s13g.aoc.Result
 
 /** http://adventofcode.com/2015/day/1 */
 class P1Floors : Solver {
-
-    override fun solve(data: List<String>): Result {
-        var floor = 0
-        for (c in data[0]) {
-            when (c) {
-                '(' -> floor++
-                ')' -> floor--
-            }
-        }
-        return Result("$floor", "")
+  override fun solve(data: List<String>): Result {
+    var floor = 0
+    for (c in data[0]) {
+      when (c) {
+        '(' -> floor++
+        ')' -> floor--
+      }
     }
+    return Result("$floor", "")
+  }
 }

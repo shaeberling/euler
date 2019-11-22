@@ -20,7 +20,7 @@ package com.s13g.aoc
  * Basic interface for AOC solvers.
  */
 interface Solver {
-    fun solve(data: List<String>): Result
+  fun solve(lines: List<String>): Result
 }
 
-data class Result(var a: String, var b: String)
+data class Result(val a: String, val b: String)
