@@ -23,8 +23,9 @@ private const val AOC18_ROOT = "../data/aoc/2018/"
 
 /** Runs all Kotlin AOC 2018 solvers. */
 fun main(args: Array<String>) {
-    val runner = PuzzleRunner(AOC18_ROOT,
-            arrayOf(Problem("AOC 2018.01", "day1.txt", "416", "56752", Day1()),
-                    Problem("AOC 2018.02", "day2.txt", "8715", "fvstwblgqkhpuixdrnevmaycd", Day2())))
-    runner.run()
+  val runner = PuzzleRunner(AOC18_ROOT,
+      arrayOf(Problem("AOC 2018.01", "day1.txt", "416", "56752", Day1()),
+          Problem("AOC 2018.02", "day2.txt", "8715", "fvstwblgqkhpuixdrnevmaycd", Day2()),
+          Problem("AOC 2018.24", "day24.txt", "19295", "", Day24())))
+  runner.run()
 }
