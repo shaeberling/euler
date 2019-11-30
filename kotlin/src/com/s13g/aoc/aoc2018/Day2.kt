@@ -13,10 +13,7 @@ class Day2 : Solver {
 
   private fun count(line: String): Counts {
     val counts = hashMapOf<Char, Int>()
-    for (c in line) {
-      counts[c] =
-          if (!counts.containsKey(c)) 0 else counts[c]!! + 1
-    }
+    line.forEach { c -> counts[c] = (counts[c] ?: 0) + 1 }
     return Counts(if (counts.containsValue(2)) 1 else 0,
         if (counts.containsValue(3)) 1 else 0)
   }
