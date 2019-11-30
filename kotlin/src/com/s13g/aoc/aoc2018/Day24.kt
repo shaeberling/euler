@@ -25,7 +25,7 @@ class Day24 : Solver {
     val env = parseGroups(lines)
     while (!env.isBattleOver()) fightStep(env)
     val solutionA = env.countUnitsRemaining().toString()
-
+    // Find the lowest boost that makes the immune system win.
     for (boost in 1..100) {
       if (runBattle(env, boost)) break
     }
@@ -37,14 +37,13 @@ class Day24 : Solver {
   private fun runBattle(env: Environment, boost: Int): Boolean {
     env.allGroupsSorted().forEach { g -> g.reset() }
     env.immuneGroups.forEach { g -> g.boost = boost }
-    while (!env.isBattleOver() && fightStep(env)) {
+    while (!env.isBattleOver()) {
+      if (!fightStep(env)) break
     }
     return env.isInfectionDead()
   }
 
-  /**
-   * Returns whether any units were lost. If false, battle is stuck.
-   */
+  /** Returns whether any units were lost. If false, battle is stuck. */
   private fun fightStep(env: Environment): Boolean {
     // Phase 1 - Target Selection (each group)
     val selectedTargets = HashMap<UnitGroup, UnitGroup>()
