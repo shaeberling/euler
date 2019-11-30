@@ -20,12 +20,22 @@ import java.nio.file.Paths
 import java.time.Duration
 import java.time.Instant
 
+const val ANSI_RESET = "\u001B[0m"
+const val ANSI_BLACK = "\u001B[30m"
+const val ANSI_RED = "\u001B[31m"
+const val ANSI_GREEN = "\u001B[32m"
+const val ANSI_YELLOW = "\u001B[33m"
+const val ANSI_BLUE = "\u001B[34m"
+const val ANSI_PURPLE = "\u001B[35m"
+const val ANSI_CYAN = "\u001B[36m"
+const val ANSI_WHITE = "\u001B[37m"
+
 class PuzzleRunner(private val fileRoot: String,
                    private val problems: Array<Problem>) {
 
     fun run() {
         for (p in problems) {
-            println("Running '${p.title}' ...")
+            println("Running $ANSI_YELLOW'${p.title}'$ANSI_RESET ...")
             val start = Instant.now()
             val solution = p.puzzle.solve(readAsString(Paths.get(fileRoot, p.inputFile)))
             val duration = Duration.between(start, Instant.now())
@@ -37,10 +47,10 @@ class PuzzleRunner(private val fileRoot: String,
     }
 
     fun compareResult(expected: String, actual: String): String {
-        if (actual == expected) {
-            return "OK '$actual'"
+        return if (actual == expected) {
+            "${ANSI_GREEN}OK '$actual'$ANSI_RESET"
         } else {
-            return "FAIL - Was '$actual' but expected '$expected'"
+            "${ANSI_RED}FAIL - Was '$actual' but expected '$expected'$ANSI_RESET"
         }
     }
 }
