@@ -11,7 +11,7 @@ class Day1 : Solver {
         getFirstDoubleSum(data.map { s -> Integer.parseInt(s) }))
   }
 
-  fun getFirstDoubleSum(values: List<Int>): String {
+  private fun getFirstDoubleSum(values: List<Int>): String {
     val sums = HashSet<Int>()
     var sum = 0
     while (true) {
