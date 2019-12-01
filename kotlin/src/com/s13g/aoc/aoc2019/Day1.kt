@@ -12,15 +12,8 @@ class Day1 : Solver {
   }
 
   private fun bFuel(mass: Int): Int {
-    var result = 0
-    var cur = mass
-    while (true) {
-      val fuel = calcFuel(cur)
-      if (fuel <= 0) break
-      result += fuel
-      cur = fuel
-    }
-    return result
+    val fuel = calcFuel(mass)
+    return if (fuel <= 0) 0 else fuel + bFuel(fuel)
   }
 
   private fun calcFuel(v: Int) = v / 3 - 2
