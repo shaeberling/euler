@@ -17,8 +17,8 @@
 
 package com.s13g.aoc.aoc2019
 
-import com.s13g.aoc.Problem
 import com.s13g.aoc.PuzzleRunner
+import com.s13g.aoc.createProblem
 
 private const val AOC19_ROOT = "../data/aoc/2019/"
 private const val ONLY_RUN_NEW = true
@@ -26,6 +26,6 @@ private const val ONLY_RUN_NEW = true
 /** Runs all Kotlin AOC 2018 solvers. */
 fun main(args: Array<String>) {
   val runner = PuzzleRunner(ONLY_RUN_NEW, AOC19_ROOT,
-      arrayOf(Problem("AOC 2019.01", "day1.txt", "", "", Day1())))
+      arrayOf(createProblem(2019, 1, "", "", Day1())))
   runner.run()
 }

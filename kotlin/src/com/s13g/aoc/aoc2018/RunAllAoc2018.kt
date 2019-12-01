@@ -16,19 +16,19 @@
 
 package com.s13g.aoc.aoc2018
 
-import com.s13g.aoc.Problem
 import com.s13g.aoc.PuzzleRunner
+import com.s13g.aoc.createProblem
 
 private const val AOC18_ROOT = "../data/aoc/2018/"
-private const val ONLY_RUN_NEW = true
+private const val ONLY_RUN_NEW = false
 
 /** Runs all Kotlin AOC 2018 solvers. */
 fun main(args: Array<String>) {
   val runner = PuzzleRunner(ONLY_RUN_NEW, AOC18_ROOT,
-      arrayOf(Problem("AOC 2018.01", "day1.txt", "416", "56752", Day1()),
-          Problem("AOC 2018.02", "day2.txt", "8715", "fvstwblgqkhpuixdrnevmaycd", Day2()),
-          Problem("AOC 2018.19", "day19.txt", "960", "10750428", Day19()),
-//          Problem("AOC 2018.21", "day21.txt", "", "", Day21()),
-          Problem("AOC 2018.24", "day24.txt", "19295", "12084", Day24())))
+      arrayOf(createProblem(2018, 1, "416", "56752", Day1()),
+          createProblem(2018, 2, "8715", "fvstwblgqkhpuixdrnevmaycd", Day2()),
+          createProblem(2018, 19, "960", "10750428", Day19()),
+          createProblem(2018, 21, "8715", "fvstwblgqkhpuixdrnevmaycd", Day21()),
+          createProblem(2018, 24, "19295", "12084", Day24())))
   runner.run()
 }

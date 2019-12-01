@@ -58,6 +58,11 @@ class PuzzleRunner(private val onlyRunNew: Boolean,
   }
 }
 
+fun createProblem(year: Int, day: Int, solutionA: String, solutionB: String, solver: Solver): Problem {
+  return Problem("$year.${day.toString().padStart(2, '0')}",
+      "day$day.txt", solutionA, solutionB, solver)
+}
+
 data class Problem(val title: String,
                    val inputFile: String,
                    val solutionA: String,

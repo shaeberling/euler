@@ -16,15 +16,15 @@
 
 package com.s13g.aoc.aoc2015
 
-import com.s13g.aoc.Problem
 import com.s13g.aoc.PuzzleRunner
+import com.s13g.aoc.createProblem
 
 private const val AOC15_ROOT = "../data/aoc/2015/"
 private const val ONLY_RUN_NEW = true
 
 /** Runs all Kotlin AOC 2015 solvers. */
 fun main(args: Array<String>) {
-    val runner = PuzzleRunner(ONLY_RUN_NEW, AOC15_ROOT,
-            arrayOf(Problem("AOC 2015.01", "day1.txt", "138", "", P1Floors())))
-    runner.run()
+  val runner = PuzzleRunner(ONLY_RUN_NEW, AOC15_ROOT,
+      arrayOf(createProblem(2015, 1, "138", "", P1Floors())))
+  runner.run()
 }
