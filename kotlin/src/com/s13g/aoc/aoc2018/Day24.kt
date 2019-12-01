@@ -165,21 +165,12 @@ private class Environment(val immuneGroups: List<UnitGroup>,
     return allGroups.sortedWith(initiativeComparator)
   }
 
-  fun isBattleOver(): Boolean {
-    val numUnits1 = immuneGroups.map { g -> g.numUnits }.sum()
-    val numUnits2 = infectionGroups.map { g -> g.numUnits }.sum()
-    return numUnits1 == 0 || numUnits2 == 0
-  }
-
-  fun countUnitsRemaining(): Int {
-    return allGroupsSorted().map { g -> g.numUnits }.sum()
-  }
-
-  fun isInfectionDead(): Boolean {
-    return infectionGroups.map { g -> g.numUnits }.sum() == 0
-  }
+  fun isBattleOver() =
+      immuneGroups.map { g -> g.numUnits }.sum() == 0 ||
+          infectionGroups.map { g -> g.numUnits }.sum() == 0
+  fun countUnitsRemaining() = allGroupsSorted().map { g -> g.numUnits }.sum()
+  fun isInfectionDead() = infectionGroups.map { g -> g.numUnits }.sum() == 0
 }
-
 
 private fun calcDamage(attacker: UnitGroup, defender: UnitGroup): Int {
   if (attacker.numUnits == 0) return 0
@@ -195,9 +186,8 @@ private class UnitGroup(val idx: Int, var numUnits: Int, val hitPoints: Int,
                         val initiative: Int, val weaknesses: List<String>,
                         val immunities: List<String>, val group: String,
                         val origNumUnits: Int = numUnits, var boost: Int = 0) {
-  fun effectivePower(): Int {
-    return this.numUnits * (attackDamage + boost)
-  }
+
+  fun effectivePower() = this.numUnits * (attackDamage + boost)
 
   fun attackedBy(att: UnitGroup): Int {
     val damage = calcDamage(att, this)
@@ -208,9 +198,5 @@ private class UnitGroup(val idx: Int, var numUnits: Int, val hitPoints: Int,
 
   fun reset() {
     numUnits = origNumUnits
-  }
-
-  fun id(): String {
-    return "$group-$idx"
   }
 }
