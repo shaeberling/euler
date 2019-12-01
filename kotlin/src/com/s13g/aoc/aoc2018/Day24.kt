@@ -29,7 +29,7 @@ class Day24 : Solver {
     for (boost in 1..100) {
       if (runBattle(env, boost)) break
     }
-    val immuneUnitsLeft = env.immuneGroups.map { g -> g.numUnits }.sum()
+    val immuneUnitsLeft = env.immuneGroups.sumBy { g -> g.numUnits }
     return Result(solutionA, immuneUnitsLeft.toString())
   }
 
@@ -155,7 +155,6 @@ private val initiativeComparator = Comparator<UnitGroup> { a, b ->
   b.initiative - a.initiative
 }
 
-
 private class Environment(val immuneGroups: List<UnitGroup>,
                           val infectionGroups: List<UnitGroup>) {
   fun allGroupsSorted(): List<UnitGroup> {
@@ -166,10 +165,11 @@ private class Environment(val immuneGroups: List<UnitGroup>,
   }
 
   fun isBattleOver() =
-      immuneGroups.map { g -> g.numUnits }.sum() == 0 ||
-          infectionGroups.map { g -> g.numUnits }.sum() == 0
-  fun countUnitsRemaining() = allGroupsSorted().map { g -> g.numUnits }.sum()
-  fun isInfectionDead() = infectionGroups.map { g -> g.numUnits }.sum() == 0
+      immuneGroups.sumBy { g -> g.numUnits } == 0 ||
+          infectionGroups.sumBy { g -> g.numUnits } == 0
+
+  fun countUnitsRemaining() = allGroupsSorted().sumBy { g -> g.numUnits }
+  fun isInfectionDead() = infectionGroups.sumBy { g -> g.numUnits } == 0
 }
 
 private fun calcDamage(attacker: UnitGroup, defender: UnitGroup): Int {
