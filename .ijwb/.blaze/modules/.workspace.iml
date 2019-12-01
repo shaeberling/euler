@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module external.system.id="Blaze" type="JAVA_MODULE" version="4">
+  <component name="FacetManager">
+    <facet type="Python" name="Python">
+      <configuration sdkName="Python 2.7 (trs-dqn)" />
+    </facet>
+  </component>
+  <component name="NewModuleRootManager">
+    <exclude-output />
+    <content url="file://$MODULE_DIR$/../../../java">
+      <sourceFolder url="file://$MODULE_DIR$/../../../java" isTestSource="false" packagePrefix="java" />
+      <sourceFolder url="file://$MODULE_DIR$/../../../java/src" isTestSource="false" />
+    </content>
+    <orderEntry type="inheritedJdk" />
+    <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="library" name="guava-20.0-ijar_db01634a" level="project" />
+    <orderEntry type="library" name="Python 2.7 (trs-dqn) interpreter library" level="application" />
+  </component>
+</module>
