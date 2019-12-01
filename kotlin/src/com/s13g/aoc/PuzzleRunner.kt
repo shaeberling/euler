@@ -30,29 +30,32 @@ const val ANSI_PURPLE = "\u001B[35m"
 const val ANSI_CYAN = "\u001B[36m"
 const val ANSI_WHITE = "\u001B[37m"
 
-class PuzzleRunner(private val fileRoot: String,
+class PuzzleRunner(private val onlyRunNew: Boolean,
+                   private val fileRoot: String,
                    private val problems: Array<Problem>) {
 
-    fun run() {
-        for (p in problems) {
-            println("Running $ANSI_YELLOW'${p.title}'$ANSI_RESET ...")
-            val start = Instant.now()
-            val solution = p.puzzle.solve(readAsString(Paths.get(fileRoot, p.inputFile)))
-            val duration = Duration.between(start, Instant.now())
+  fun run() {
+    for (p in problems) {
+      if (onlyRunNew && (p.solutionA != "" && p.solutionB != "")) continue
+      println("Running $ANSI_YELLOW'${p.title}'$ANSI_RESET ...")
+      val start = Instant.now()
+      val solution =
+          p.puzzle.solve(readAsString(Paths.get(fileRoot, p.inputFile)))
+      val duration = Duration.between(start, Instant.now())
 
-            println("[${p.title}] - ${duration.toMillis()} ms")
-            println(" --> Solution A:  ${compareResult(p.solutionA, solution.a)}")
-            println(" --> Solution B:  ${compareResult(p.solutionB, solution.b)}\n")
-        }
+      println("[${p.title}] - ${duration.toMillis()} ms")
+      println(" --> Solution A:  ${compareResult(p.solutionA, solution.a)}")
+      println(" --> Solution B:  ${compareResult(p.solutionB, solution.b)}\n")
     }
+  }
 
-    fun compareResult(expected: String, actual: String): String {
-        return if (actual == expected) {
-            "${ANSI_GREEN}OK '$actual'$ANSI_RESET"
-        } else {
-            "${ANSI_RED}FAIL - Was '$actual' but expected '$expected'$ANSI_RESET"
-        }
+  fun compareResult(expected: String, actual: String): String {
+    return if (actual == expected) {
+      "${ANSI_GREEN}OK '$actual'$ANSI_RESET"
+    } else {
+      "${ANSI_RED}FAIL - Was '$actual' but expected '$expected'$ANSI_RESET"
     }
+  }
 }
 
 data class Problem(val title: String,
