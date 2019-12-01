@@ -22,13 +22,13 @@ import com.s13g.aoc.Result
 /** http://adventofcode.com/2015/day/1 */
 class P1Floors : Solver {
   override fun solve(data: List<String>): Result {
+    val resultA = data[0].map { c -> if (c == '(') 1 else -1 }.sum()
+    var resultB = 0
     var floor = 0
-    for (c in data[0]) {
-      when (c) {
-        '(' -> floor++
-        ')' -> floor--
-      }
+    for ((i, c) in data[0].withIndex()) {
+      floor += if (c == '(') 1 else -1
+      if (resultB == 0 && floor == -1) resultB = i + 1
     }
-    return Result("$floor", "")
+    return Result("$resultA", "$resultB")
   }
 }
