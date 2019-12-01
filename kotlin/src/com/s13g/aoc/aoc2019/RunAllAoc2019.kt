@@ -26,6 +26,7 @@ private const val ONLY_RUN_NEW = true
 /** Runs all Kotlin AOC 2018 solvers. */
 fun main(args: Array<String>) {
   val runner = PuzzleRunner(ONLY_RUN_NEW, AOC19_ROOT,
-      arrayOf(createProblem(2019, 1, "", "", Day1())))
+      arrayOf(createProblem(2019, 1, "3394689", "5089160", Day1()),
+      createProblem(2019, 2, "", "", Day2())))
   runner.run()
 }

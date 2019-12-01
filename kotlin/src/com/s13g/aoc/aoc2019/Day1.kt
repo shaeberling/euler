@@ -6,7 +6,22 @@ import com.s13g.aoc.Solver
 /** https://adventofcode.com/2019/day/1 */
 class Day1 : Solver {
   override fun solve(lines: List<String>): Result {
-    return Result("n/a", "n/a")
+    val fuelA = lines.sumBy { l -> calcFuel(l.toInt()) }
+    val fuelB = lines.sumBy { l -> bFuel(l.toInt()) }
+    return Result("$fuelA", "$fuelB")
   }
 
+  private fun bFuel(mass: Int): Int {
+    var result = 0
+    var cur = mass
+    while (true) {
+      val fuel = calcFuel(cur)
+      if (fuel <= 0) break
+      result += fuel
+      cur = fuel
+    }
+    return result
+  }
+
+  private fun calcFuel(v: Int) = v / 3 - 2
 }
