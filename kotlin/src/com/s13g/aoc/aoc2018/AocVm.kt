@@ -12,6 +12,12 @@ class AocVm(private val ipIdx: Int, private val program: List<Instruction>) {
     }
   }
 
+  fun runUntilIp(ipHalt: Int) {
+    do {
+      if (!next()) break
+    } while (ip != ipHalt)
+  }
+
   /** Returns false, if the program execution halted */
   private fun next(): Boolean {
     if (program.size <= ip) return false
@@ -26,9 +32,6 @@ class AocVm(private val ipIdx: Int, private val program: List<Instruction>) {
   }
 
   fun getReg(i: Int) = reg[i]
-  fun setReg(i: Int, v: Int) {
-    reg[i] = v
-  }
 }
 
 fun parseInstructions(program: List<String>): List<Instruction> {
@@ -135,4 +138,69 @@ private fun eqri(param: Params, reg: IntArray) {
 
 private fun eqrr(param: Params, reg: IntArray) {
   reg[param.c] = if (reg[param.a] == reg[param.b]) 1 else 0
+}
+
+
+/** A way to understand the program better. */
+class Decompiler(val ipIndex: Int) {
+  fun decompileProgram(program: List<Instruction>) {
+    for ((n, instr) in program.withIndex()) {
+      print("${n.toString().padStart(2, '0')} ")
+      when (instr.op) {
+        "addr" -> {
+          println("${reg(instr.params.c)} = ${reg(instr.params.a)} + ${reg(instr.params.b)}")
+        }
+        "addi" -> {
+          println("${reg(instr.params.c)} = ${reg(instr.params.a)} + ${instr.params.b}")
+        }
+        "mulr" -> {
+          println("${reg(instr.params.c)} = ${reg(instr.params.a)} * ${reg(instr.params.b)}")
+        }
+        "muli" -> {
+          println("${reg(instr.params.c)} = ${reg(instr.params.a)} * ${instr.params.b}")
+        }
+        "banr" -> {
+          println("${reg(instr.params.c)} = ${reg(instr.params.a)} & ${reg(instr.params.b)}")
+        }
+        "bani" -> {
+          println("${reg(instr.params.c)} = ${reg(instr.params.a)} & ${instr.params.b}")
+        }
+        "borr" -> {
+          println("${reg(instr.params.c)} = ${reg(instr.params.a)} | ${reg(instr.params.b)}")
+        }
+        "bori" -> {
+          println("${reg(instr.params.c)} = ${reg(instr.params.a)} | ${instr.params.b}")
+        }
+        "setr" -> {
+          println("${reg(instr.params.c)} = ${reg(instr.params.a)}")
+        }
+        "seti" -> {
+          println("${reg(instr.params.c)} = ${instr.params.a}")
+        }
+        "gtir" -> {
+          println("${reg(instr.params.c)} = boolToInt(${instr.params.a} > ${reg(instr.params.b)})")
+        }
+        "gtri" -> {
+          println("${reg(instr.params.c)} = boolToInt(${reg(instr.params.a)} > ${instr.params.b})")
+        }
+        "gtrr" -> {
+          println("${reg(instr.params.c)} = boolToInt(${reg(instr.params.a)} > ${reg(instr.params.b)})")
+        }
+        "eqir" -> {
+          println("${reg(instr.params.c)} = boolToInt(${instr.params.a} == ${reg(instr.params.b)})")
+        }
+        "eqri" -> {
+          println("${reg(instr.params.c)} = boolToInt(${reg(instr.params.a)} == ${instr.params.b})")
+        }
+        "eqrr" -> {
+          println("${reg(instr.params.c)} = boolToInt(${reg(instr.params.a)} == ${reg(instr.params.b)})")
+        }
+        else -> {
+          println("[MISSING: '${instr.op}']")
+        }
+      }
+    }
+  }
+
+  private fun reg(reg: Int) = if (reg == ipIndex) "ip" else "reg[$reg]"
 }
