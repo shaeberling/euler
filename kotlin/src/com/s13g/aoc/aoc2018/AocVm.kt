@@ -54,25 +54,23 @@ data class Params(val a: Int, val b: Int, val c: Int) {
 typealias Operation = (Params, IntArray) -> Unit
 
 private fun createOperations(): HashMap<String, Operation> {
-  val operations =
-      hashMapOf<String, Operation>()
-  operations["addr"] = ::addr
-  operations["addi"] = ::addi
-  operations["mulr"] = ::mulr
-  operations["muli"] = ::muli
-  operations["banr"] = ::banr
-  operations["bani"] = ::bani
-  operations["borr"] = ::borr
-  operations["bori"] = ::bori
-  operations["setr"] = ::setr
-  operations["seti"] = ::seti
-  operations["gtir"] = ::gtir
-  operations["gtri"] = ::gtri
-  operations["gtrr"] = ::gtrr
-  operations["eqir"] = ::eqir
-  operations["eqri"] = ::eqri
-  operations["eqrr"] = ::eqrr
-  return operations
+  return hashMapOf(
+      Pair("addr", ::addr),
+      Pair("addi", ::addi),
+      Pair("mulr", ::mulr),
+      Pair("muli", ::muli),
+      Pair("banr", ::banr),
+      Pair("bani", ::bani),
+      Pair("borr", ::borr),
+      Pair("bori", ::bori),
+      Pair("setr", ::setr),
+      Pair("seti", ::seti),
+      Pair("gtir", ::gtir),
+      Pair("gtri", ::gtri),
+      Pair("gtrr", ::gtrr),
+      Pair("eqir", ::eqir),
+      Pair("eqri", ::eqri),
+      Pair("eqrr", ::eqrr))
 }
 
 private fun addr(param: Params, reg: IntArray) {
