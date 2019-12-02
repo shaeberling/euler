@@ -3,6 +3,7 @@ package com.s13g.aoc.aoc2019
 import com.s13g.aoc.Result
 import com.s13g.aoc.Solver
 
+/** https://adventofcode.com/2019/day/2 */
 class Day2 : Solver {
   override fun solve(lines: List<String>): Result {
     val vm = VM(lines[0].split(",").map { n -> n.toInt() })
@@ -23,8 +24,7 @@ class Day2 : Solver {
 
 class VM(private val initV: List<Int>) {
   fun run(noun: Int, verb: Int): Int {
-    val v = arrayListOf<Int>()
-    initV.forEach { n -> v.add(n) }
+    val v = initV.toMutableList()
     v[1] = noun
     v[2] = verb
 
