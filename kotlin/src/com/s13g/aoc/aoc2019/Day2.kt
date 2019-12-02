@@ -5,29 +5,23 @@ import com.s13g.aoc.Solver
 
 class Day2 : Solver {
   override fun solve(lines: List<String>): Result {
-    val values = lines[0].split(",").map { n -> n.toInt() }
-
-    val vm = VM(values)
-    val solutionA = vm.run(12, 2)
-    var solutionB = runB(vm)
-    return Result("$solutionA", "$solutionB")
+    val vm = VM(lines[0].split(",").map { n -> n.toInt() })
+    return Result("${vm.run(12, 2)}", "${runB(vm)}")
   }
 
-  fun runB(vm: VM): Int {
-    while (true) {
-      for (noun in 0..99) {
-        for (verb in 0..99) {
-          if (vm.run(noun, verb) == 19690720) {
-            return 100 * noun + verb
-          }
+  private fun runB(vm: VM): Int {
+    for (noun in 0..99) {
+      for (verb in 0..99) {
+        if (vm.run(noun, verb) == 19690720) {
+          return 100 * noun + verb
         }
       }
     }
-
+    return -1
   }
 }
 
-class VM(val initV: List<Int>) {
+class VM(private val initV: List<Int>) {
   fun run(noun: Int, verb: Int): Int {
     val v = arrayListOf<Int>()
     initV.forEach { n -> v.add(n) }
