@@ -21,11 +21,11 @@ import com.s13g.aoc.Result
 
 /** http://adventofcode.com/2015/day/1 */
 class P1Floors : Solver {
-  override fun solve(data: List<String>): Result {
-    val resultA = data[0].sumBy { c -> if (c == '(') 1 else -1 }
+  override fun solve(lines: List<String>): Result {
+    val resultA = lines[0].sumBy { c -> if (c == '(') 1 else -1 }
     var resultB = 0
     var floor = 0
-    for ((i, c) in data[0].withIndex()) {
+    for ((i, c) in lines[0].withIndex()) {
       floor += if (c == '(') 1 else -1
       if (resultB == 0 && floor == -1) resultB = i + 1
     }

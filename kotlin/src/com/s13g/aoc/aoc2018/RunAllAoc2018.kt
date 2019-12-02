@@ -23,12 +23,13 @@ private const val AOC18_ROOT = "../data/aoc/2018/"
 private const val ONLY_RUN_NEW = true
 
 /** Runs all Kotlin AOC 2018 solvers. */
-fun main(args: Array<String>) {
+fun main() {
   val runner = PuzzleRunner(ONLY_RUN_NEW, AOC18_ROOT,
       arrayOf(createProblem(2018, 1, "416", "56752", Day1()),
           createProblem(2018, 2, "8715", "fvstwblgqkhpuixdrnevmaycd", Day2()),
           createProblem(2018, 19, "960", "10750428", Day19()),
           createProblem(2018, 21, "3941014", "13775890", Day21()),
+          createProblem(2018, 22, "", "", Day22()),
           createProblem(2018, 24, "19295", "12084", Day24())))
   runner.run()
 }
