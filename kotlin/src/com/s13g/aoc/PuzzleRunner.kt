@@ -33,7 +33,6 @@ const val ANSI_WHITE = "\u001B[37m"
 class PuzzleRunner(private val onlyRunNew: Boolean,
                    private val fileRoot: String,
                    private val problems: Array<Problem>) {
-
   fun run() {
     for (p in problems) {
       if (onlyRunNew && (p.solutionA != "" && p.solutionB != "")) continue
@@ -49,19 +48,18 @@ class PuzzleRunner(private val onlyRunNew: Boolean,
     }
   }
 
-  fun compareResult(expected: String, actual: String): String {
-    return if (actual == expected) {
-      "${ANSI_GREEN}OK '$actual'$ANSI_RESET"
-    } else {
-      "${ANSI_RED}FAIL - Was '$actual' but expected '$expected'$ANSI_RESET"
-    }
-  }
+  private fun compareResult(expected: String, actual: String) =
+      if (actual == expected) {
+        "${ANSI_GREEN}OK '$actual'$ANSI_RESET"
+      } else {
+        "${ANSI_RED}FAIL - Was '$actual' but expected '$expected'$ANSI_RESET"
+      }
 }
 
-fun createProblem(year: Int, day: Int, solutionA: String, solutionB: String, solver: Solver): Problem {
-  return Problem("$year.${day.toString().padStart(2, '0')}",
-      "day$day.txt", solutionA, solutionB, solver)
-}
+fun createProblem(year: Int, day: Int, solutionA: String,
+                  solutionB: String, solver: Solver) =
+    Problem("$year.${day.toString().padStart(2, '0')}",
+        "day$day.txt", solutionA, solutionB, solver)
 
 data class Problem(val title: String,
                    val inputFile: String,
