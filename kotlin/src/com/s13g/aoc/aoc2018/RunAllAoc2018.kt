@@ -29,7 +29,7 @@ fun main() {
           createProblem(2018, 2, "8715", "fvstwblgqkhpuixdrnevmaycd", Day2()),
           createProblem(2018, 19, "960", "10750428", Day19()),
           createProblem(2018, 21, "3941014", "13775890", Day21()),
-          createProblem(2018, 22, "", "", Day22()),
+          createProblem(2018, 22, "11810", "", Day22()),
           createProblem(2018, 24, "19295", "12084", Day24())))
   runner.run()
 }
