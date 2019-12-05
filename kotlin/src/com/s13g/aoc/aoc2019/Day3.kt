@@ -43,11 +43,6 @@ class Day3 : Solver {
 }
 
 private data class XY(val x: Int, val y: Int) {
-  fun add(xy: XY): XY {
-    return XY(x + xy.x, y + xy.y)
-  }
-
-  fun manhattan(): Int {
-    return abs(x) + abs(y)
-  }
+  fun add(xy: XY) = XY(x + xy.x, y + xy.y)
+  fun manhattan() = abs(x) + abs(y)
 }
