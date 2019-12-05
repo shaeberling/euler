@@ -22,7 +22,7 @@ class Day2 : Solver {
   }
 }
 
-class VM(private val initV: List<Int>) {
+private class VM(private val initV: List<Int>) {
   fun run(noun: Int, verb: Int): Int {
     val v = initV.toMutableList()
     v[1] = noun
