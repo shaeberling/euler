@@ -4,7 +4,7 @@ import com.s13g.aoc.Result
 import com.s13g.aoc.Solver
 import java.lang.Integer.max
 
-/** https://adventofcode.com/2019/day/5 */
+/** https://adventofcode.com/2019/day/7 */
 class Day7 : Solver {
   override fun solve(lines: List<String>): Result {
     val input = lines[0].split(",").map { it.toInt() }
