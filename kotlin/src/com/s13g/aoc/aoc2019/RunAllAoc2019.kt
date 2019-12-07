@@ -23,14 +23,14 @@ import com.s13g.aoc.createProblem
 private const val AOC19_ROOT = "../data/aoc/2019/"
 private const val ONLY_RUN_NEW = false
 
-/** Runs all Kotlin AOC 2018 solvers. */
+/** Runs all Kotlin AOC 2019 solvers. */
 fun main() {
   val runner = PuzzleRunner(ONLY_RUN_NEW, AOC19_ROOT,
-      arrayOf(/*createProblem(2019, 1, "3394689", "5089160", Day1()),
+      arrayOf(createProblem(2019, 1, "3394689", "5089160", Day1()),
           createProblem(2019, 2, "3850704", "6718", Day2()),
           createProblem(2019, 3, "303", "11222", Day3()),
           createProblem(2019, 4, "481", "299", Day4()),
-          createProblem(2019, 5, "7157989", "7873292", Day5()),*/
+          createProblem(2019, 5, "7157989", "7873292", Day5()),
           createProblem(2019, 6, "278744", "475", Day6())))
   runner.run()
 }
