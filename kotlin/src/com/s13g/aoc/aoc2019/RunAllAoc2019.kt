@@ -21,7 +21,7 @@ import com.s13g.aoc.PuzzleRunner
 import com.s13g.aoc.createProblem
 
 private const val AOC19_ROOT = "../data/aoc/2019/"
-private const val ONLY_RUN_NEW = false
+private const val ONLY_RUN_NEW = true
 
 /** Runs all Kotlin AOC 2019 solvers. */
 fun main() {
@@ -31,6 +31,7 @@ fun main() {
           createProblem(2019, 3, "303", "11222", Day3()),
           createProblem(2019, 4, "481", "299", Day4()),
           createProblem(2019, 5, "7157989", "7873292", Day5()),
-          createProblem(2019, 6, "278744", "475", Day6())))
+          createProblem(2019, 6, "278744", "475", Day6()),
+          createProblem(2019, 7, "398674", "39431233", Day7())))
   runner.run()
 }
