@@ -25,7 +25,7 @@ class Day2 : Solver {
     val p = program.toMutableList()
     p[1] = noun
     p[2] = verb
-    val vm = VM19(p)
+    val vm = createVm(p)
     vm.run()
     return vm.get(0)
   }

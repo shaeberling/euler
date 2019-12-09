@@ -1,11 +1,22 @@
 package com.s13g.aoc.aoc2019
 
+import java.lang.Exception
+import java.math.BigInteger
+
+fun createVm(v: MutableList<Int>, input: MutableList<Int> = mutableListOf()): VM19 {
+  val program = v.map { it.toBigInteger() }.toMutableList()
+  val inp = input.map { it.toBigInteger() }.toMutableList()
+  return VM19(program, inp)
+}
+
 /** Intcode computer for AoC 2019, used in multiple days */
-class VM19(private val v: MutableList<Int>,
-           private var input: MutableList<Int> = mutableListOf()) {
-  var lastOutput = -1
+class VM19(private val v: MutableList<BigInteger>,
+           private var input: MutableList<BigInteger> = mutableListOf()) {
+  var lastOutput = 0.toBigInteger()
+  var outputStr = ""
   var outputVm: VM19? = null
   var isHalted = false
+  var relBase = 0
 
   private var ip = 0
   fun run(): Int {
@@ -14,7 +25,7 @@ class VM19(private val v: MutableList<Int>,
         break
       }
     }
-    return lastOutput
+    return lastOutput.toInt()
   }
 
   fun step(): Boolean {
@@ -24,62 +35,89 @@ class VM19(private val v: MutableList<Int>,
       return false
     }
     if (instr.op == 1) { // ADD
-      v[v[ip + 3]] =
-          get(v[ip + 1], instr.mode1) + get(v[ip + 2], instr.mode2)
+      put(v[ip + 3], instr.mode3,
+          get(v[ip + 1], instr.mode1) + get(v[ip + 2], instr.mode2))
       ip += 4
     } else if (instr.op == 2) { // MUL
-      v[v[ip + 3]] =
-          get(v[ip + 1], instr.mode1) * get(v[ip + 2], instr.mode2)
+      put(v[ip + 3], instr.mode3,
+          get(v[ip + 1], instr.mode1) * get(v[ip + 2], instr.mode2))
       ip += 4
     } else if (instr.op == 3) { // GET INPUT
+      println("Input param mode: ${instr.mode1} relBase: $relBase")
       if (!hasNextInput()) return true
-      v[v[ip + 1]] = getNextInput()
+      put(v[ip + 1], instr.mode1, getNextInput())
       ip += 2
     } else if (instr.op == 4) { // ADD OUTPUT
       onOutput(get(v[ip + 1], instr.mode1))
       ip += 2
     } else if (instr.op == 5) { // JUMP IF NOT ZERO
-      if (get(v[ip + 1], instr.mode1) != 0) {
-        ip = get(v[ip + 2], instr.mode2)
+      if (get(v[ip + 1], instr.mode1).toInt() != 0) {
+        ip = get(v[ip + 2], instr.mode2).toInt()
       } else {
         ip += 3
       }
     } else if (instr.op == 6) {  // JUMP IF ZERO
-      if (get(v[ip + 1], instr.mode1) == 0) {
-        ip = get(v[ip + 2], instr.mode2)
+      if (get(v[ip + 1], instr.mode1).toInt() == 0) {
+        ip = get(v[ip + 2], instr.mode2).toInt()
       } else {
         ip += 3
       }
     } else if (instr.op == 7) { // LESS THAN
-      v[v[ip + 3]] =
-          if (get(v[ip + 1], instr.mode1) < get(v[ip + 2], instr.mode2)) 1 else 0
+      put(v[ip + 3], instr.mode3,
+          if (get(v[ip + 1], instr.mode1) < get(v[ip + 2], instr.mode2)) BigInteger.ONE else BigInteger.ZERO)
       ip += 4
     } else if (instr.op == 8) { // EQUALS
-      v[v[ip + 3]] =
-          if (get(v[ip + 1], instr.mode1) == get(v[ip + 2], instr.mode2)) 1 else 0
+      put(v[ip + 3], instr.mode3,
+          if (get(v[ip + 1], instr.mode1) == get(v[ip + 2], instr.mode2)) BigInteger.ONE else BigInteger.ZERO)
       ip += 4
+    } else if (instr.op == 9) { // ADJUST RELATIVE BASE
+      relBase += get(v[ip + 1], instr.mode1).toInt()
+      ip += 2
     }
     return true
   }
 
-  fun get(r: Int, mode: Int = 0) = if (mode == 1) r else v[r]
+  fun get(r: Int): Int {
+    return get(r.toBigInteger()).toInt()
+  }
+
+  fun get(r: BigInteger, mode: Int = 0) = when (mode) {
+    0 -> v[r.toInt()]
+    1 -> r
+    2 -> v[r.toInt() + relBase]
+    else -> throw Exception("Unknown mode")
+  }
+
+  private fun put(r: BigInteger, mode: Int = 0, value: BigInteger) {
+    when (mode) {
+      0 -> v[r.toInt()] = value
+      1 -> throw Exception("Illegal mode for put")
+      2 -> v[r.toInt() + relBase] = value
+      else -> throw Exception("Unknown mode")
+    }
+  }
 
   private fun hasNextInput(): Boolean {
     return input.isNotEmpty()
   }
 
-  private fun getNextInput(): Int {
+  private fun getNextInput(): BigInteger {
     val result = input[0]
     input = input.drop(1).toMutableList()
     return result
   }
 
-  private fun onOutput(out: Int) {
+  private fun onOutput(out: BigInteger) {
     lastOutput = out
+    outputStr += (if (outputStr.isBlank()) "" else ",") + "$out"
     outputVm?.addInput(out)
   }
 
   internal fun addInput(n: Int) {
+    input.add(n.toBigInteger())
+  }
+
+  internal fun addInput(n: BigInteger) {
     input.add(n)
   }
 

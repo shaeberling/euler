@@ -7,8 +7,8 @@ import com.s13g.aoc.Solver
 class Day5 : Solver {
   override fun solve(lines: List<String>): Result {
     val regs = lines[0].split(",").map { it.toInt() }
-    val solutionA = VM19(regs.toMutableList(), arrayListOf(1)).run()
-    val solutionB = VM19(regs.toMutableList(), arrayListOf(5)).run()
+    val solutionA = createVm(regs.toMutableList(), arrayListOf(1)).run()
+    val solutionB = createVm(regs.toMutableList(), arrayListOf(5)).run()
     return Result("$solutionA", "$solutionB")
   }
 }

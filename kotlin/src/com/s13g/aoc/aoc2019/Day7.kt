@@ -35,7 +35,7 @@ class Day7 : Solver {
 
   private fun runA(phasing: List<Int>, program: List<Int>): Int {
     val vms =
-        (0..4).map { VM19(program.toMutableList(), mutableListOf(phasing[it])) }
+        (0..4).map { createVm(program.toMutableList(), mutableListOf(phasing[it])) }
     var lastOutput = 0
     for (vm in vms) {
       vm.addInput(lastOutput)
@@ -46,7 +46,7 @@ class Day7 : Solver {
 
   private fun runB(phasing: List<Int>, program: List<Int>): Int {
     val vms =
-        (0..4).map { VM19(program.toMutableList(), mutableListOf(phasing[it])) }
+        (0..4).map { createVm(program.toMutableList(), mutableListOf(phasing[it])) }
     for (i in 0..4) {
       vms[i].sendOutputTo(vms[(i + 1) % vms.size])
     }
@@ -57,6 +57,6 @@ class Day7 : Solver {
         vm.step()
       }
     }
-    return vms[4].lastOutput
+    return vms[4].lastOutput.toInt()
   }
 }
