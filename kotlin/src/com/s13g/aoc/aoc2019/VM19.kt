@@ -43,7 +43,6 @@ class VM19(private val v: MutableList<BigInteger>,
           get(v[ip + 1], instr.mode1) * get(v[ip + 2], instr.mode2))
       ip += 4
     } else if (instr.op == 3) { // GET INPUT
-      println("Input param mode: ${instr.mode1} relBase: $relBase")
       if (!hasNextInput()) return true
       put(v[ip + 1], instr.mode1, getNextInput())
       ip += 2

@@ -21,7 +21,7 @@ import com.s13g.aoc.PuzzleRunner
 import com.s13g.aoc.createProblem
 
 private const val AOC19_ROOT = "../data/aoc/2019/"
-private const val ONLY_RUN_NEW = true
+private const val ONLY_RUN_NEW = false
 
 const val result8B = """
 ####.#...####..#....#..#.
@@ -42,7 +42,7 @@ fun main() {
           createProblem(2019, 6, "278744", "475", Day6()),
           createProblem(2019, 7, "398674", "39431233", Day7()),
           createProblem(2019, 8, "2480", result8B, Day8()),
-          createProblem(2019, 9, "2662308295", "", Day9())))
+          createProblem(2019, 9, "2662308295", "63441", Day9())))
   runner.run()
 
 }
