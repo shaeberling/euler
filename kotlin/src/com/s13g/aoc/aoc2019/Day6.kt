@@ -4,7 +4,7 @@ import com.s13g.aoc.Result
 import com.s13g.aoc.Solver
 import kotlin.math.min
 
-/** https://adventofcode.com/2019/day/5 */
+/** https://adventofcode.com/2019/day/6 */
 class Day6 : Solver {
   private var map = mutableMapOf<String, Node>()
 
