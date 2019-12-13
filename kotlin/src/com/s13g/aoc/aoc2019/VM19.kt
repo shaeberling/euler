@@ -1,18 +1,15 @@
 package com.s13g.aoc.aoc2019
 
-import java.lang.Exception
-import java.math.BigInteger
-
 fun createVm(v: MutableList<Int>, input: MutableList<Int> = mutableListOf()): VM19 {
-  val program = v.map { it.toBigInteger() }.toMutableList()
-  val inp = input.map { it.toBigInteger() }.toMutableList()
+  val program = v.map { it.toLong() }.toMutableList()
+  val inp = input.map { it.toLong() }.toMutableList()
   return VM19(program, inp)
 }
 
 /** Intcode computer for AoC 2019, used in multiple days */
-class VM19(private val v: MutableList<BigInteger>,
-           private var input: MutableList<BigInteger> = mutableListOf()) {
-  var lastOutput = 0.toBigInteger()
+class VM19(private val v: MutableList<Long>,
+           private var input: MutableList<Long> = mutableListOf()) {
+  var lastOutput = 0.toLong()
   var outputStr = ""
   var outputVm: VM19? = null
   var isHalted = false
@@ -63,11 +60,11 @@ class VM19(private val v: MutableList<BigInteger>,
       }
     } else if (instr.op == 7) { // LESS THAN
       put(v[ip + 3], instr.mode3,
-          if (get(v[ip + 1], instr.mode1) < get(v[ip + 2], instr.mode2)) BigInteger.ONE else BigInteger.ZERO)
+          if (get(v[ip + 1], instr.mode1) < get(v[ip + 2], instr.mode2)) 1 else 0)
       ip += 4
     } else if (instr.op == 8) { // EQUALS
       put(v[ip + 3], instr.mode3,
-          if (get(v[ip + 1], instr.mode1) == get(v[ip + 2], instr.mode2)) BigInteger.ONE else BigInteger.ZERO)
+          if (get(v[ip + 1], instr.mode1) == get(v[ip + 2], instr.mode2)) 1 else 0)
       ip += 4
     } else if (instr.op == 9) { // ADJUST RELATIVE BASE
       relBase += get(v[ip + 1], instr.mode1).toInt()
@@ -77,17 +74,17 @@ class VM19(private val v: MutableList<BigInteger>,
   }
 
   fun get(r: Int): Int {
-    return get(r.toBigInteger()).toInt()
+    return get(r.toLong()).toInt()
   }
 
-  fun get(r: BigInteger, mode: Int = 0) = when (mode) {
+  fun get(r: Long, mode: Int = 0) = when (mode) {
     0 -> v[r.toInt()]
     1 -> r
     2 -> v[r.toInt() + relBase]
     else -> throw Exception("Unknown mode")
   }
 
-  private fun put(r: BigInteger, mode: Int = 0, value: BigInteger) {
+  private fun put(r: Long, mode: Int = 0, value: Long) {
     when (mode) {
       0 -> v[r.toInt()] = value
       1 -> throw Exception("Illegal mode for put")
@@ -100,23 +97,23 @@ class VM19(private val v: MutableList<BigInteger>,
     return input.isNotEmpty()
   }
 
-  private fun getNextInput(): BigInteger {
+  private fun getNextInput(): Long {
     val result = input[0]
     input = input.drop(1).toMutableList()
     return result
   }
 
-  private fun onOutput(out: BigInteger) {
+  private fun onOutput(out: Long) {
     lastOutput = out
     outputStr += (if (outputStr.isBlank()) "" else ",") + "$out"
     outputVm?.addInput(out)
   }
 
   internal fun addInput(n: Int) {
-    input.add(n.toBigInteger())
+    input.add(n.toLong())
   }
 
-  internal fun addInput(n: BigInteger) {
+  internal fun addInput(n: Long) {
     input.add(n)
   }
 
