@@ -8,9 +8,7 @@ import kotlin.math.abs
 class Day12 : Solver {
   override fun solve(lines: List<String>): Result {
     val planetsA = lines.map { parse(it) }
-    for (n in 1..1000) {
-      step(planetsA)
-    }
+    (1..1000).forEach { _ -> step(planetsA) }
     val energyA = planetsA.map { it.energy() }.sum()
 
     val planetsB = lines.map { parse(it) }
