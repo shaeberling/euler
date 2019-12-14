@@ -14,6 +14,7 @@ class VM19(private val v: MutableList<Long>,
   var outputVm: VM19? = null
   var isHalted = false
   var relBase = 0
+  var vmIo: VmIO? = null
 
   private var ip = 0
   fun run(): Int {
@@ -94,16 +95,24 @@ class VM19(private val v: MutableList<Long>,
   }
 
   private fun hasNextInput(): Boolean {
+    if (vmIo != null) return true
     return input.isNotEmpty()
   }
 
   private fun getNextInput(): Long {
+    if (vmIo != null) {
+      return vmIo!!.onInput()
+    }
+
     val result = input[0]
     input = input.drop(1).toMutableList()
     return result
   }
 
   private fun onOutput(out: Long) {
+    if (vmIo != null) {
+      vmIo!!.onOutput(out)
+    }
     lastOutput = out
     outputStr += (if (outputStr.isBlank()) "" else ",") + "$out"
     outputVm?.addInput(out)
@@ -129,4 +138,9 @@ class VM19(private val v: MutableList<Long>,
   }
 
   private data class Instr(val op: Int, val mode1: Int, val mode2: Int, val mode3: Int)
+
+  interface VmIO {
+    fun onInput(): Long
+    fun onOutput(out: Long)
+  }
 }
