@@ -10,11 +10,10 @@ fun createVm(v: MutableList<Int>, input: MutableList<Int> = mutableListOf()): VM
 class VM19(private val v: MutableList<Long>,
            private var input: MutableList<Long> = mutableListOf()) {
   var lastOutput = 0.toLong()
-  var outputStr = ""
-  var outputVm: VM19? = null
   var isHalted = false
-  var relBase = 0
   var vmIo: VmIO? = null
+  private var outputVm: VM19? = null
+  private var relBase = 0
 
   private var ip = 0
   fun run(): Int {
@@ -85,6 +84,10 @@ class VM19(private val v: MutableList<Long>,
     else -> throw Exception("Unknown mode")
   }
 
+  fun cloneMem(): MutableList<Long> {
+    return v.toMutableList()
+  }
+
   private fun put(r: Long, mode: Int = 0, value: Long) {
     when (mode) {
       0 -> v[r.toInt()] = value
@@ -114,7 +117,6 @@ class VM19(private val v: MutableList<Long>,
       vmIo!!.onOutput(out)
     }
     lastOutput = out
-    outputStr += (if (outputStr.isBlank()) "" else ",") + "$out"
     outputVm?.addInput(out)
   }
 
