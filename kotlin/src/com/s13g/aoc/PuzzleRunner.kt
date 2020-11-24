@@ -36,18 +36,19 @@ class PuzzleRunner(private val onlyRunNew: Boolean,
   private var problems = mutableListOf<Problem>()
 
   fun run() {
-    for (p in problems) {
-      if (onlyRunNew && (p.solutionA != "" && p.solutionB != "")) continue
-      println("Running $ANSI_YELLOW'${p.title}'$ANSI_RESET ...")
-      val start = Instant.now()
-      val solution =
-          p.puzzle.solve(readAsString(Paths.get(fileRoot, p.inputFile)))
-      val duration = Duration.between(start, Instant.now())
+    problems
+        .filter { p -> !onlyRunNew || (p.solutionA == "" || p.solutionB == "") }
+        .forEach { p ->
+          println("Running $ANSI_YELLOW'${p.title}'$ANSI_RESET ...")
+          val start = Instant.now()
+          val solution =
+              p.puzzle.solve(readAsString(Paths.get(fileRoot, p.inputFile)))
+          val duration = Duration.between(start, Instant.now())
 
-      println("[${p.title}] - ${duration.toMillis()} ms")
-      println(" --> Solution A:  ${compareResult(p.solutionA, solution.a)}")
-      println(" --> Solution B:  ${compareResult(p.solutionB, solution.b)}\n")
-    }
+          println("[${p.title}] - ${duration.toMillis()} ms")
+          println(" --> Solution A:  ${compareResult(p.solutionA, solution.a)}")
+          println(" --> Solution B:  ${compareResult(p.solutionB, solution.b)}\n")
+        }
   }
 
   fun addProblem(day: Int, solver: Solver, solutionA: String,
