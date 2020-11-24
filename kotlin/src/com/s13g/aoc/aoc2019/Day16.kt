@@ -11,7 +11,7 @@ import kotlin.math.abs
 class Day16 : Solver {
   override fun solve(lines: List<String>): Result {
     val input = lines[0].map { "$it".toInt() }
-    val patterns = genPatterns(listOf(0, 1, 0, -1), input.size*10000)
+    val patterns = genPatterns(listOf(0, 1, 0, -1), input.size)
     println("Patterns generated")
 
     var state = input
@@ -21,21 +21,20 @@ class Day16 : Solver {
     val resultA = state.subList(0, 8).map { "$it" }.reduce { acc, i -> acc + i }
 
     // Repeat input 10.000 times for PartB
-    val inputB = mutableListOf<Int>()
-    for (n in 1..10000) {
-      inputB.addAll(input)
-    }
-    var stateB = inputB.toList()
-    for (n in 1..100) {
-      stateB = phaseStep(stateB, patterns)
-    }
+//    val inputB = mutableListOf<Int>()
+//    for (n in 1..10000) {
+//      inputB.addAll(input)
+//    }
+//    var stateB = inputB.toList()
+//    for (n in 1..100) {
+//      stateB = phaseStep(stateB, patterns)
+//    }
 
     return Result(resultA, "n/a")
   }
 
   private fun phaseStep(input: List<Int>, patterns: List<List<Int>>): List<Int> {
     val output = mutableListOf<Int>()
-
     for (i in input.indices) {
       output.add(calcItem(input, patterns[i]))
     }
@@ -49,10 +48,6 @@ class Day16 : Solver {
     }
     return abs(result % 10)
   }
-
-//  private fun getPatternValAt(base: List<Int>): Int {
-//
-//  }
 
   private fun genPatterns(base: List<Int>, num: Int): List<List<Int>> {
     val result = mutableListOf<List<Int>>()

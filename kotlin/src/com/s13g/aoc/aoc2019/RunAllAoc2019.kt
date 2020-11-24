@@ -58,7 +58,7 @@ fun main() {
           createProblem(2019, 13, "298", "13956", Day13()),
           createProblem(2019, 14, "337862", "3687786", Day14()),
           createProblem(2019, 15, "210", "290", Day15()),
-          /*createProblem(2019, 16, "73127523", "", Day16()),*/
+          createProblem(2019, 16, "73127523", "", Day16()),
           createProblem(2019, 17, "5680", "895965", Day17()),
 //          createProblem(2019, 18, "", "", Day18()),
           createProblem(2019, 19, "169", "7001134", Day19()),
