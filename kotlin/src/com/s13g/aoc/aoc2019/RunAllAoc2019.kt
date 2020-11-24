@@ -64,7 +64,7 @@ fun main() {
           createProblem(2019, 19, "169", "7001134", Day19()),
           /*createProblem(2019, 20, "", "", Day20()),*/
           createProblem(2019, 23, "24954", "17091", Day23()),
-//          createProblem(2019, 24, "28781019", "", Day24())))
+          createProblem(2019, 24, "28781019", "", Day24())))
   runner.run()
 
 }
