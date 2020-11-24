@@ -18,7 +18,6 @@
 package com.s13g.aoc.aoc2019
 
 import com.s13g.aoc.PuzzleRunner
-import com.s13g.aoc.createProblem
 
 private const val AOC19_ROOT = "../data/aoc/2019/"
 private const val ONLY_RUN_NEW = false
@@ -42,29 +41,28 @@ const val result11B = """
 
 /** Runs all Kotlin AOC 2019 solvers. */
 fun main() {
-  val runner = PuzzleRunner(ONLY_RUN_NEW, AOC19_ROOT,
-      arrayOf(createProblem(2019, 1, "3394689", "5089160", Day1()),
-          createProblem(2019, 2, "3850704", "6718", Day2()),
-          createProblem(2019, 3, "303", "11222", Day3()),
-          createProblem(2019, 4, "481", "299", Day4()),
-          createProblem(2019, 5, "7157989", "7873292", Day5()),
-          createProblem(2019, 6, "278744", "475", Day6()),
-          createProblem(2019, 7, "398674", "39431233", Day7()),
-          createProblem(2019, 8, "2480", result8B, Day8()),
-          createProblem(2019, 9, "2662308295", "63441", Day9()),
-          createProblem(2019, 10, "274", "305", Day10()),
-          createProblem(2019, 11, "1709", result11B, Day11()),
-          createProblem(2019, 12, "8960", "314917503970904", Day12()),
-          createProblem(2019, 13, "298", "13956", Day13()),
-          createProblem(2019, 14, "337862", "3687786", Day14()),
-          createProblem(2019, 15, "210", "290", Day15()),
-          createProblem(2019, 16, "73127523", "", Day16()),
-          createProblem(2019, 17, "5680", "895965", Day17()),
-//          createProblem(2019, 18, "", "", Day18()),
-          createProblem(2019, 19, "169", "7001134", Day19()),
-          /*createProblem(2019, 20, "", "", Day20()),*/
-          createProblem(2019, 23, "24954", "17091", Day23()),
-          createProblem(2019, 24, "28781019", "", Day24())))
+  val runner = PuzzleRunner(ONLY_RUN_NEW, 2019)
+  runner.addProblem(1, Day1(), "3394689", "5089160")
+  runner.addProblem(2, Day2(), "3850704", "6718")
+  runner.addProblem(3, Day3(), "303", "11222")
+  runner.addProblem(4, Day4(), "481", "299")
+  runner.addProblem(5, Day5(), "7157989", "7873292")
+  runner.addProblem(6, Day6(), "278744", "475")
+  runner.addProblem(7, Day7(), "398674", "39431233")
+  runner.addProblem(8, Day8(), "2480", result8B)
+  runner.addProblem(9, Day9(), "2662308295", "63441")
+  runner.addProblem(10, Day10(), "274", "305")
+  runner.addProblem(11, Day11(), "1709", result11B)
+  runner.addProblem(12, Day12(), "8960", "314917503970904")
+  runner.addProblem(13, Day13(), "298", "13956")
+  runner.addProblem(14, Day14(), "337862", "3687786")
+  runner.addProblem(15, Day15(), "210", "290")
+  runner.addProblem(16, Day16(), "73127523", "")
+  runner.addProblem(17, Day17(), "5680", "895965")
+//          runner.addProblem(18, Day18(), "", "")
+  runner.addProblem(19, Day19(), "169", "7001134")
+  /*runner.addProblem(20, Day20(), "", "")*/
+  runner.addProblem(23, Day23(), "24954", "17091")
+  runner.addProblem(24, Day24(), "28781019", "")
   runner.run()
-
 }

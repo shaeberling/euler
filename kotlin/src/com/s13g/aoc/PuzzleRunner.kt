@@ -31,8 +31,10 @@ const val ANSI_CYAN = "\u001B[36m"
 const val ANSI_WHITE = "\u001B[37m"
 
 class PuzzleRunner(private val onlyRunNew: Boolean,
-                   private val fileRoot: String,
-                   private val problems: Array<Problem>) {
+                   private val year: Int) {
+  private val fileRoot = "../data/aoc/$year/"
+  private var problems = mutableListOf<Problem>()
+
   fun run() {
     for (p in problems) {
       if (onlyRunNew && (p.solutionA != "" && p.solutionB != "")) continue
@@ -48,6 +50,13 @@ class PuzzleRunner(private val onlyRunNew: Boolean,
     }
   }
 
+  fun addProblem(day: Int, solver: Solver, solutionA: String,
+                 solutionB: String) {
+    problems.add(Problem("$year.${day.toString().padStart(2, '0')}",
+        "day$day.txt", solutionA, solutionB, solver))
+
+  }
+
   private fun compareResult(expected: String, actual: String) =
       if (actual == expected) {
         "${ANSI_GREEN}OK '$actual'$ANSI_RESET"
@@ -55,11 +64,6 @@ class PuzzleRunner(private val onlyRunNew: Boolean,
         "${ANSI_RED}FAIL - Was '$actual' but expected '$expected'$ANSI_RESET"
       }
 }
-
-fun createProblem(year: Int, day: Int, solutionA: String,
-                  solutionB: String, solver: Solver) =
-    Problem("$year.${day.toString().padStart(2, '0')}",
-        "day$day.txt", solutionA, solutionB, solver)
 
 data class Problem(val title: String,
                    val inputFile: String,
