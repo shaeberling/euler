@@ -17,6 +17,7 @@
 package com.s13g.aoc
 
 import com.google.common.collect.ImmutableList
+import java.io.File
 import java.io.IOException
 import java.nio.file.Files
 import java.nio.file.NoSuchFileException
@@ -29,9 +30,25 @@ import java.nio.file.Path
 @Throws(IOException::class)
 fun readAsString(file: Path): List<String> {
   return try {
-    ImmutableList.copyOf(Files.readAllLines(file))
+    ImmutableList.copyOf(file.toFile().readLines())
   } catch (e: NoSuchFileException) {
     System.err.println("Cannot read file: ${e.message}")
     emptyList()
   }
+}
+
+fun List<Long>.mul(): Long {
+  var result: Long = this[0]
+  for (idx in 1 until this.size) {
+    result *= this[idx]
+  }
+  return result
+}
+
+fun List<Int>.mul(): Int {
+  var result: Int = this[0]
+  for (idx in 1 until this.size) {
+    result *= this[idx]
+  }
+  return result
 }
