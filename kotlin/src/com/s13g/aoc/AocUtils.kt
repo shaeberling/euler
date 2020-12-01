@@ -17,10 +17,8 @@
 package com.s13g.aoc
 
 import com.google.common.collect.ImmutableList
-import java.io.File
+import java.io.FileNotFoundException
 import java.io.IOException
-import java.nio.file.Files
-import java.nio.file.NoSuchFileException
 import java.nio.file.Path
 
 
@@ -31,7 +29,7 @@ import java.nio.file.Path
 fun readAsString(file: Path): List<String> {
   return try {
     ImmutableList.copyOf(file.toFile().readLines())
-  } catch (e: NoSuchFileException) {
+  } catch (e: FileNotFoundException) {
     System.err.println("Cannot read file: ${e.message}")
     emptyList()
   }
