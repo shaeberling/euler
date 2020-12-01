@@ -18,9 +18,9 @@ class Day1 : Solver {
     val result = arrayOf(0L, 0L)
     for (i in input.indices) {
       for (j in i + 1 until input.size) {
-        (result[0] == 0L).let { if (it) result[0] = test(listOf(input[i], input[j])) }
+        if (result[0] == 0L) result[0] = test(listOf(input[i], input[j]))
         for (k in j + 1 until input.size) {
-          (result[1] == 0L).let { if (it) result[1] = test(listOf(input[i], input[j], input[k])) }
+          if (result[1] == 0L) result[1] = test(listOf(input[i], input[j], input[k]))
         }
       }
     }
