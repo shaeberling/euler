@@ -37,7 +37,7 @@ class PuzzleRunner(private val onlyRunNew: Boolean,
 
   fun run() {
     problems
-        .filter { p -> !onlyRunNew || (p.solutionA == "" || p.solutionB == "") }
+        .filter { p -> !onlyRunNew || (p.solutionA == "" || p.solutionB == "" || p.forceRun) }
         .forEach { p ->
           println("Running $ANSI_YELLOW'${p.title}'$ANSI_RESET ...")
           val start = Instant.now()
@@ -52,9 +52,9 @@ class PuzzleRunner(private val onlyRunNew: Boolean,
   }
 
   fun addProblem(day: Int, solver: Solver, solutionA: String,
-                 solutionB: String) {
+                 solutionB: String, forceRun: Boolean = false) {
     problems.add(Problem("$year.${day.toString().padStart(2, '0')}",
-        "day$day.txt", solutionA, solutionB, solver))
+        "day$day.txt", solutionA, solutionB, solver, forceRun))
 
   }
 
@@ -70,4 +70,5 @@ data class Problem(val title: String,
                    val inputFile: String,
                    val solutionA: String,
                    val solutionB: String,
-                   val puzzle: Solver)
+                   val puzzle: Solver,
+                   val forceRun: Boolean)
