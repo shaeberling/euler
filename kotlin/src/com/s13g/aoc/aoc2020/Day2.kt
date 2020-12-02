@@ -21,9 +21,9 @@ class Day2 : Solver {
     val (a, b, ch, pass) = regex.find(row)!!.destructured
     return Rule(a.toInt(), b.toInt(), ch[0], pass)
   }
+
+  private data class Rule(val a: Int, val b: Int, val ch: Char, val pass: String)
+
+  private fun Rule.isLegalA() = pass.filter { it == ch }.count().let { it in a..b }
+  private fun Rule.isLegalB() = (pass.length >= a && pass[a - 1] == ch) xor (pass.length >= b && pass[b - 1] == ch)
 }
-
-private data class Rule(val a: Int, val b: Int, val ch: Char, val pass: String)
-
-private fun Rule.isLegalA() = pass.filter { it == ch }.count().let { it in a..b }
-private fun Rule.isLegalB() = (pass.length >= a && pass[a - 1] == ch) xor (pass.length >= b && pass[b - 1] == ch)
