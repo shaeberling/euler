@@ -18,7 +18,7 @@ class Day2 : Solver {
   }
 
   private fun parse(row: String): Rule {
-    val (a, b, ch, pass) = regex.find(row)!!.destructured
+    val (a, b, ch, pass) = row.match(regex)
     return Rule(a.toInt(), b.toInt(), ch[0], pass)
   }
 
@@ -27,3 +27,5 @@ class Day2 : Solver {
   private fun Rule.isLegalA() = pass.filter { it == ch }.count().let { it in a..b }
   private fun Rule.isLegalB() = (pass.length >= a && pass[a - 1] == ch) xor (pass.length >= b && pass[b - 1] == ch)
 }
+
+private fun String.match(r: Regex) = r.find(this)!!.destructured
