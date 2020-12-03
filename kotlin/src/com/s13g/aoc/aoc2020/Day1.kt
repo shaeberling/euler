@@ -13,12 +13,12 @@ class Day1 : Solver {
     return Result("$resultA", "$resultB")
   }
 
-  private fun run(input: Set<Long>): Array<Long> {
+  private fun run(input: Set<Long>, year: Int = 2020): Array<Long> {
     val result = arrayOf(0L, 0L)
     for (i in input) {
-      if (input.contains(2020 - i)) result[0] = i * (2020 - i)
+      if (input.contains(year - i)) result[0] = i * (year - i)
       for (j in input) {
-        if (input.contains(2020 - (i + j))) result[1] = i * j * (2020 - (i + j))
+        if (input.contains(year - (i + j))) result[1] = i * j * (year - (i + j))
       }
     }
     return result
