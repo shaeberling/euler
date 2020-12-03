@@ -2,7 +2,6 @@ package com.s13g.aoc.aoc2020
 
 import com.s13g.aoc.Result
 import com.s13g.aoc.Solver
-import com.s13g.aoc.mul
 
 /**
  * --- Day 1: Report Repair ---
@@ -24,6 +23,4 @@ class Day1 : Solver {
     }
     return result
   }
-
-  private fun test(items: List<Long>) = if (items.sum() == 2020L) items.mul() else 0
 }
