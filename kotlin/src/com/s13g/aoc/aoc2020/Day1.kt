@@ -10,18 +10,16 @@ import com.s13g.aoc.mul
  */
 class Day1 : Solver {
   override fun solve(lines: List<String>): Result {
-    val (resultA, resultB) = run(lines.map { it.toLong() })
+    val (resultA, resultB) = run(lines.map { it.toLong() }.toHashSet())
     return Result("$resultA", "$resultB")
   }
 
-  private fun run(input: List<Long>): Array<Long> {
+  private fun run(input: Set<Long>): Array<Long> {
     val result = arrayOf(0L, 0L)
-    for (i in input.indices) {
-      for (j in i + 1 until input.size) {
-        if (result[0] == 0L) result[0] = test(listOf(input[i], input[j]))
-        for (k in j + 1 until input.size) {
-          if (result[1] == 0L) result[1] = test(listOf(input[i], input[j], input[k]))
-        }
+    for (i in input) {
+      if (input.contains(2020 - i)) result[0] = i * (2020 - i)
+      for (j in input) {
+        if (input.contains(2020 - (i + j))) result[1] = i * j * (2020 - (i + j))
       }
     }
     return result
