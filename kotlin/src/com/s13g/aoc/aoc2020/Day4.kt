@@ -5,7 +5,7 @@ import com.s13g.aoc.Solver
 
 /**
  * --- Day 4: Passport Processing ---
- * https://adventofcode.com/2020/day/3
+ * https://adventofcode.com/2020/day/4
  */
 class Day4 : Solver {
   override fun solve(lines: List<String>): Result {
@@ -38,7 +38,7 @@ class Day4 : Solver {
   private val hclRegex = """^#[a-f0-9]{6}""".toRegex()
   private val eclRegex = """amb|blu|brn|gry|grn|hzl|oth""".toRegex()
   private val hgtRegex = """^(\d+)(cm|in)$""".toRegex()
-  private val pidRegex = """[0-9]{9}""".toRegex()
+  private val pidRegex = """[\d]{9}""".toRegex()
   private fun isComponentValid(comp: Map.Entry<String, String>): Boolean {
     return when (comp.key) {
       "byr" -> comp.value.toInt() in 1920..2002
