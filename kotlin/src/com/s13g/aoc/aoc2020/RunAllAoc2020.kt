@@ -13,5 +13,6 @@ fun main() {
   runner.addProblem(1, Day1(), "787776", "262738554")
   runner.addProblem(2, Day2(), "396", "428")
   runner.addProblem(3, Day3(), "282", "958815792")
+  runner.addProblem(4, Day4(), "233", "111")
   runner.run()
 }
