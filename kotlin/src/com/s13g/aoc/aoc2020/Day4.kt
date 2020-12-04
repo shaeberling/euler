@@ -40,16 +40,13 @@ fun isComponentValid(comp: String): Boolean {
   val (key, valueRaw) = comp.split(':')
   return when (key) {
     "byr" -> {
-      val byr = valueRaw.toInt()
-      byr in 1920..2002
+      valueRaw.toInt() in 1920..2002
     }
     "iyr" -> {
-      val byr = valueRaw.toInt()
-      byr in 2010..2020
+      valueRaw.toInt() in 2010..2020
     }
     "eyr" -> {
-      val byr = valueRaw.toInt()
-      byr in 2020..2030
+      valueRaw.toInt() in 2020..2030
     }
     "hgt" -> {
       val r = hgt_regex.find(valueRaw)
