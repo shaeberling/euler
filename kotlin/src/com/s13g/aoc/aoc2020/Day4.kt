@@ -9,14 +9,14 @@ import com.s13g.aoc.Solver
  */
 class Day4 : Solver {
   override fun solve(lines: List<String>): Result {
-    val passports = mutableListOf<List<String>>()
-    var current = mutableListOf<String>()
+    val passports = mutableListOf<Map<String, String>>()
+    var current = mutableMapOf<String, String>()
 
     for (line in lines) {
-      line.split(' ').forEach { current.add(it) }
+      line.split(' ').filter { it.isNotBlank() }.forEach { it.split(":").let { s -> current.put(s[0], s[1]) } }
       if (line.isBlank()) {
         passports.add(current)
-        current = mutableListOf()
+        current = mutableMapOf()
       }
     }
     // Add the last one if there was no new-line at the end of the file.
@@ -24,62 +24,42 @@ class Day4 : Solver {
     passports.add(current)
 
     val resultA = passports.map { it.hasAllRequiredFields() }.filter { it }.count()
-    val resultB = passports.map { it.isValid() }.filter { it }.count()
+    val resultB = passports.map { it.hasAllRequiredFields() && it.isValid() }.filter { it }.count()
     return Result("$resultA", "$resultB")
   }
-}
 
-fun List<String>.isValid() = this.hasAllRequiredFields() &&
-    this.map { it.isNotBlank() && !isComponentValid(it) }.count { it } == 0
+  // Part 1 validation check.
+  private fun Map<String, String>.hasAllRequiredFields() =
+      this.keys.containsAll(listOf("byr", "iyr", "eyr", "hgt", "hcl", "ecl", "pid"))
 
-val hcl_regex = """^#[a-f0-9]{6}""".toRegex()
-val ecl_regex = """amb|blu|brn|gry|grn|hzl|oth""".toRegex()
-val hgt_regex = """^(\d+)(cm|in)$""".toRegex()
-val pid_regex = """[0-9]{9}""".toRegex()
-fun isComponentValid(comp: String): Boolean {
-  val (key, valueRaw) = comp.split(':')
-  return when (key) {
-    "byr" -> {
-      valueRaw.toInt() in 1920..2002
-    }
-    "iyr" -> {
-      valueRaw.toInt() in 2010..2020
-    }
-    "eyr" -> {
-      valueRaw.toInt() in 2020..2030
-    }
-    "hgt" -> {
-      val r = hgt_regex.find(valueRaw)
-      if (r == null) false
-      else {
-        val value = r.groupValues[1].toInt()
-        when (r.groupValues[2]) {
-          "cm" -> value in 150..193
-          "in" -> value in 59..76
-          else -> false
+  // Part 2 validation check.
+  private fun Map<String, String>.isValid() = this.map { !isComponentValid(it) }.count { it } == 0
+
+  private val hclRegex = """^#[a-f0-9]{6}""".toRegex()
+  private val eclRegex = """amb|blu|brn|gry|grn|hzl|oth""".toRegex()
+  private val hgtRegex = """^(\d+)(cm|in)$""".toRegex()
+  private val pidRegex = """[0-9]{9}""".toRegex()
+  private fun isComponentValid(comp: Map.Entry<String, String>): Boolean {
+    return when (comp.key) {
+      "byr" -> comp.value.toInt() in 1920..2002
+      "iyr" -> comp.value.toInt() in 2010..2020
+      "eyr" -> comp.value.toInt() in 2020..2030
+      "hgt" -> {
+        val r = hgtRegex.find(comp.value)
+        if (r == null) false
+        else {
+          val value = r.groupValues[1].toInt()
+          when (r.groupValues[2]) {
+            "cm" -> value in 150..193
+            "in" -> value in 59..76
+            else -> false
+          }
         }
       }
+      "hcl" -> comp.value.matches(hclRegex)
+      "ecl" -> comp.value.matches(eclRegex)
+      "pid" -> comp.value.matches(pidRegex)
+      else -> true
     }
-    "hcl" -> {
-      valueRaw.matches(hcl_regex)
-    }
-    "ecl" -> {
-      valueRaw.matches(ecl_regex)
-    }
-    "pid" -> {
-      valueRaw.matches(pid_regex)
-    }
-    else -> true
   }
 }
-
-fun List<String>.hasAllRequiredFields() =
-    this.hasField("byr:") &&
-        this.hasField("iyr:") &&
-        this.hasField("eyr:") &&
-        this.hasField("hgt:") &&
-        this.hasField("hcl:") &&
-        this.hasField("ecl:") &&
-        this.hasField("pid:")
-
-fun List<String>.hasField(field: String) = this.map { it.startsWith(field) }.count { it } > 0
