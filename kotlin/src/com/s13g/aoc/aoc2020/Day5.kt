@@ -16,11 +16,7 @@ class Day5 : Solver {
 
   // Solution for Part B
   private fun findSeat(occupiedSeats: Set<Int>): Int {
-    var searchActive = false
-    for (x in 0..(127 * 7)) {
-      if (occupiedSeats.contains(x)) searchActive = true
-      else if (searchActive) return x
-    }
+    for (x in 1..(127 * 7)) if (occupiedSeats.contains(x - 1) && !occupiedSeats.contains(x)) return x
     error("Cannot find free seat.")
   }
 }
