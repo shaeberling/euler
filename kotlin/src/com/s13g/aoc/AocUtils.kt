@@ -50,3 +50,9 @@ fun List<Int>.mul(): Int {
   }
   return result
 }
+
+fun <E> Collection<Collection<E>>.intersectAll(): Set<E> {
+  var common = this.first().toSet()
+  this.map { it.toMutableSet() }.forEach { common = common.intersect(it) }
+  return common
+}
