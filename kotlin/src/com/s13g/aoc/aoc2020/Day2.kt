@@ -12,8 +12,8 @@ class Day2 : Solver {
 
   override fun solve(lines: List<String>): Result {
     val input = lines.map { parse(it) }
-    val resultA = input.map { it.isLegalA() }.count { it }
-    val resultB = input.map { it.isLegalB() }.count { it }
+    val resultA = input.count { it.isLegalA() }
+    val resultB = input.count { it.isLegalB() }
     return Result("$resultA", "$resultB")
   }
 
@@ -24,7 +24,7 @@ class Day2 : Solver {
 
   private data class Rule(val a: Int, val b: Int, val ch: Char, val pass: String)
 
-  private fun Rule.isLegalA() = pass.filter { it == ch }.count().let { it in a..b }
+  private fun Rule.isLegalA() = pass.count { it == ch }.let { it in a..b }
   private fun Rule.isLegalB() = (pass.length >= a && pass[a - 1] == ch) xor (pass.length >= b && pass[b - 1] == ch)
 }
 

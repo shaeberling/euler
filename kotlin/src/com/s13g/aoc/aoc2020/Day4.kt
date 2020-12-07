@@ -23,8 +23,8 @@ class Day4 : Solver {
     // If passport is empty, it's going to be invalid anyway.
     passports.add(current)
 
-    val resultA = passports.map { it.hasAllRequiredFields() }.filter { it }.count()
-    val resultB = passports.map { it.hasAllRequiredFields() && it.isValid() }.filter { it }.count()
+    val resultA = passports.count { it.hasAllRequiredFields() }
+    val resultB = passports.count { it.hasAllRequiredFields() && it.isValid() }
     return Result("$resultA", "$resultB")
   }
 
@@ -33,7 +33,7 @@ class Day4 : Solver {
       this.keys.containsAll(listOf("byr", "iyr", "eyr", "hgt", "hcl", "ecl", "pid"))
 
   // Part 2 validation check.
-  private fun Map<String, String>.isValid() = this.map { !isComponentValid(it) }.count { it } == 0
+  private fun Map<String, String>.isValid() = this.count { !isComponentValid(it) } == 0
 
   private val hclRegex = """^#[a-f0-9]{6}""".toRegex()
   private val eclRegex = """amb|blu|brn|gry|grn|hzl|oth""".toRegex()

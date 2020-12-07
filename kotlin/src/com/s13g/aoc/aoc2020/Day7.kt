@@ -12,7 +12,7 @@ typealias Baggage = Map<String, Map<String, Int>>
 class Day7 : Solver {
   override fun solve(lines: List<String>): Result {
     val allBags = parseBags(lines)
-    val resultA = allBags.keys.map { hasGoldenBag(it, allBags) }.filter { it }.count()
+    val resultA = allBags.keys.map { hasGoldenBag(it, allBags) }.count { it }
     val resultB = countWithin("shiny gold", allBags) - 1
     return Result("$resultA", "$resultB")
   }
