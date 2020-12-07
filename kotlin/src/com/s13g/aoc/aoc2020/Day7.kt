@@ -25,10 +25,8 @@ class Day7 : Solver {
       val (bagKey, bagValue) = mainBagSplit.find(line)!!.destructured
       allBags[bagKey] = mutableMapOf()
       if (bagValue.trim() != "no other bags.") {
-        for (contained in bagValue.split(",")) {
-          val (countStr, name) = numBagRegex.find(contained.trim())!!.destructured
-          allBags[bagKey]!![name] = countStr.toInt()
-        }
+        for (inside in bagValue.split(","))
+          numBagRegex.find(inside.trim())!!.destructured.let { (num, name) -> allBags[bagKey]!![name] = num.toInt() }
       }
     }
     return allBags
