@@ -40,9 +40,9 @@ class PuzzleRunner(private val onlyRunNew: Boolean,
         .filter { p -> !onlyRunNew || (p.solutionA == "" || p.solutionB == "" || p.forceRun) }
         .forEach { p ->
           println("Running $ANSI_YELLOW'${p.title}'$ANSI_RESET ...")
+          val input = readAsString(Paths.get(fileRoot, p.inputFile))
           val start = Instant.now()
-          val solution =
-              p.puzzle.solve(readAsString(Paths.get(fileRoot, p.inputFile)))
+          val solution = p.puzzle.solve(input)
           val duration = Duration.between(start, Instant.now())
 
           println("[${p.title}] - ${duration.toMillis()} ms")
