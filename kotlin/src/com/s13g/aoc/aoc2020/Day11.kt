@@ -7,15 +7,10 @@ import com.s13g.aoc.*
  * https://adventofcode.com/2020/day/11
  */
 class Day11 : Solver {
-  override fun solve(input: List<String>): Result {
-    val dim = XY(input[0].length, input.size)
+  override fun solve(lines: List<String>): Result {
+    val dim = XY(lines[0].length, lines.size)
     val map = mutableMapOf<XY, Char>()
-
-    for (y in input.indices) {
-      for (x in input[y].indices) {
-        map[XY(x, y)] = input[y][x]
-      }
-    }
+    lines.indices.forEach { y -> lines[y].indices.forEach { x -> map[XY(x, y)] = lines[y][x] } }
     return Result("${dance(map, dim, 4, true).countOccupied()}", "${dance(map, dim, 5, false).countOccupied()}")
   }
 }
