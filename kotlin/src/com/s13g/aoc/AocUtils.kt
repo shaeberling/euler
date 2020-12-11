@@ -56,3 +56,10 @@ fun <E> Collection<Collection<E>>.intersectAll(): Set<E> {
   this.map { it.toMutableSet() }.forEach { common = common.intersect(it) }
   return common
 }
+
+data class XY(var x: Int, var y: Int)
+
+fun XY.addTo(other: XY) {
+  this.x += other.x
+  this.y += other.y
+}
