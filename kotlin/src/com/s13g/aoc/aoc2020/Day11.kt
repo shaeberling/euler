@@ -8,27 +8,28 @@ import com.s13g.aoc.*
  */
 class Day11 : Solver {
   override fun solve(input: List<String>): Result {
-    return Result("${dance(input, 4, true).countOccupied()}", "${dance(input, 5, false).countOccupied()}")
+    val dim = XY(input[0].length, input.size)
+    val map = mutableMapOf<XY, Char>()
+
+    for (y in input.indices) {
+      for (x in input[y].indices) {
+        map[XY(x, y)] = input[y][x]
+      }
+    }
+    return Result("${dance(map, dim, 4, true).countOccupied()}", "${dance(map, dim, 5, false).countOccupied()}")
   }
 }
 
 // Iterate over the whole seating config and produce a new one as we go.
-fun dance(input: List<String>, minAdj: Int, isA: Boolean): List<String> {
-  var current = input.toMutableList()
+fun dance(input: Map<XY, Char>, dim: XY, minAdj: Int, isA: Boolean): Map<XY, Char> {
+  var current = input.toMutableMap()
   while (true) {
-    val newOne = current.toMutableList()
-    for (y in input.indices) {
-      var newLine = ""
-      for (x in input[y].indices) {
-        val seat = current.seat(XY(x, y))
-        val num = if (isA) current.numAdj(XY(x, y), 1) else current.numAdj(XY(x, y), 1000)
-        newLine += if (seat == 'L' && num == 0) {
-          '#'
-        } else if (seat == '#' && num >= minAdj) {
-          'L'
-        } else current.seat(XY(x, y))
-      }
-      newOne[y] = newLine
+    val newOne = current.toMutableMap()
+    for (pos in input.keys) {
+      val num = if (isA) current.numAdj(pos, 1) else current.numAdj(pos, dim.max())
+      newOne[pos] = if (current[pos] == 'L' && num == 0) '#'
+      else if (current[pos] == '#' && num >= minAdj) 'L'
+      else current[pos]!!
     }
     if (current == newOne) return current
     current = newOne
@@ -37,21 +38,17 @@ fun dance(input: List<String>, minAdj: Int, isA: Boolean): List<String> {
 
 // Iterate over the eight directions for 'max' maximum steps. For part A that's '1'.
 val dirs = listOf(XY(-1, -1), XY(0, -1), XY(1, -1), XY(-1, 0), XY(1, 0), XY(-1, 1), XY(0, 1), XY(1, 1))
-fun List<String>.numAdj(xy: XY, max: Int): Int {
+fun Map<XY, Char>.numAdj(xy: XY, max: Int): Int {
   var count = 0
   for (dir in dirs) {
     val pos = xy.copy()
     for (i in 1..max) {
       pos.addTo(dir)
-      if (seat(pos) == '#') count++
-      if (seat(pos) != '.' || seat(pos) == 'E') break
+      if (this[pos] == '#') count++
+      if (pos !in this || this[pos] != '.') break
     }
   }
   return count
 }
 
-fun List<String>.seat(xy: XY) =
-    if (xy.x < 0 || xy.y < 0 || xy.y >= this.size || xy.x >= this[xy.y].length) 'E' else this[xy.y][xy.x]
-
-fun List<String>.countOccupied() = this.flatMap { it.toList() }.count { it == '#' }
-
+fun Map<XY, Char>.countOccupied() = this.values.count { it == '#' }

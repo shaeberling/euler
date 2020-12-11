@@ -63,3 +63,4 @@ fun XY.addTo(other: XY) {
   this.x += other.x
   this.y += other.y
 }
+fun XY.max() = maxOf(x, y)
