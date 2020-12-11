@@ -21,7 +21,7 @@ class Day11 : Solver {
 }
 
 // Iterate over the whole seating config and produce a new one as we go.
-fun dance(input: Map<XY, Char>, dim: XY, minAdj: Int, isA: Boolean): Map<XY, Char> {
+private fun dance(input: Map<XY, Char>, dim: XY, minAdj: Int, isA: Boolean): Map<XY, Char> {
   var current = input.toMutableMap()
   while (true) {
     val newOne = current.toMutableMap()
@@ -37,8 +37,8 @@ fun dance(input: Map<XY, Char>, dim: XY, minAdj: Int, isA: Boolean): Map<XY, Cha
 }
 
 // Iterate over the eight directions for 'max' maximum steps. For part A that's '1'.
-val dirs = listOf(XY(-1, -1), XY(0, -1), XY(1, -1), XY(-1, 0), XY(1, 0), XY(-1, 1), XY(0, 1), XY(1, 1))
-fun Map<XY, Char>.numAdj(xy: XY, max: Int): Int {
+private val dirs = listOf(XY(-1, -1), XY(0, -1), XY(1, -1), XY(-1, 0), XY(1, 0), XY(-1, 1), XY(0, 1), XY(1, 1))
+private fun Map<XY, Char>.numAdj(xy: XY, max: Int): Int {
   var count = 0
   for (dir in dirs) {
     val pos = xy.copy()
@@ -51,4 +51,4 @@ fun Map<XY, Char>.numAdj(xy: XY, max: Int): Int {
   return count
 }
 
-fun Map<XY, Char>.countOccupied() = this.values.count { it == '#' }
+private fun Map<XY, Char>.countOccupied() = this.values.count { it == '#' }
