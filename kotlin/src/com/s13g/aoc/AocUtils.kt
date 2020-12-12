@@ -20,6 +20,7 @@ import com.google.common.collect.ImmutableList
 import java.io.FileNotFoundException
 import java.io.IOException
 import java.nio.file.Path
+import kotlin.math.abs
 
 
 /**
@@ -63,4 +64,18 @@ fun XY.addTo(other: XY) {
   this.x += other.x
   this.y += other.y
 }
+
 fun XY.max() = maxOf(x, y)
+
+/** Rotates the point times*90 degrees around the origin. */
+fun XY.rotate90(times: Int, left: Boolean): XY {
+  val result = XY(this.x, this.y)
+  for (t in 0 until times) {
+    val tempX = result.x
+    result.x = (if (left) -1 else 1) * result.y; result.y = (if (!left) -1 else 1) * tempX
+  }
+  return result
+}
+
+/** Manhattan distance to the origin */
+fun XY.manhattan() = abs(this.x) + abs(this.y)
