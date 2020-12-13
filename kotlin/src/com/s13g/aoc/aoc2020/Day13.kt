@@ -46,12 +46,12 @@ fun partB(data: String): Long {
 
   // The current time point we are looking at.
   var currentTime = 0L
-  // The step size will grow as a multiple of busId Ids.
+  // The step size will grow as a multiple of busIds.
   var stepSize = 1L
 
   // Go through all the buses...
   for ((offset, busId) in busTimes) {
-    // Move forward in time until the current busId schedule lines and a bus
+    // Move forward in time until the current busId schedule lines up and a bus
     // departs (including offset).,
     while ((currentTime + offset) % busId != 0L) {
       currentTime += stepSize
