@@ -22,7 +22,7 @@ fun main() {
   runner.addProblem(10, Day10(), "2346", "6044831973376")
   runner.addProblem(11, Day11(), "2277", "2066")
   runner.addProblem(12, Day12(), "1533", "25235")
-//  runner.addProblem(13, Day13(), "", "", true)
+  runner.addProblem(13, Day13(), "4808", "741745043105674")
 //  runner.addProblem(14, Day14(), "", "", true)
 //  runner.addProblem(15, Day15(), "", "", true)
 //  runner.addProblem(16, Day16(), "", "", true)
