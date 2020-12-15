@@ -15,26 +15,23 @@ class Day15 : Solver {
   }
 
   private fun solveUntil(limit: Int, input: List<Int>): Int {
-    val positions = input
+    val lastPositions = input
         .withIndex()
-        .associate { Pair(it.value, mutableListOf(it.index)) }
+        .filter { it.index < input.size - 1 }
+        .associate { Pair(it.value, it.index) }
         .toMutableMap()
 
     var lastNum = input.last()
-    var chainSize = input.size
-    while (chainSize < limit) {
+    var chainSize = input.size - 1
+    while (chainSize < limit - 1) {
       var age = 0
-      if (lastNum in positions && positions[lastNum]!!.size > 1) {
-        val l = positions[lastNum]!!.size - 1
-        age = positions[lastNum]!![l] - positions[lastNum]!![l - 1]
+      if (lastNum in lastPositions) {
+        age = chainSize - lastPositions[lastNum]!!
       }
-      // If diff was found, age is > 0, else 0. Add it to the list of positions.
-      if (age !in positions) positions[age] = mutableListOf()
-      positions[age]!!.add(chainSize)
+      lastPositions[lastNum] = chainSize
       lastNum = age
       chainSize++
     }
-    // Return the last number found.
     return lastNum
   }
 }
