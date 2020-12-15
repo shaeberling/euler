@@ -2,7 +2,6 @@ package com.s13g.aoc.aoc2020
 
 import com.s13g.aoc.Result
 import com.s13g.aoc.Solver
-import java.util.*
 
 /**
  * --- Day 15: Rambunctious Recitation ---
@@ -18,7 +17,7 @@ class Day15 : Solver {
   private fun solveUntil(limit: Int, input: List<Int>): Int {
     val positions = input
         .withIndex()
-        .associate { Pair(it.value, TreeSet<Int>(listOf(it.index))) }
+        .associate { Pair(it.value, mutableListOf(it.index)) }
         .toMutableMap()
 
     var lastNum = input.last()
@@ -26,12 +25,11 @@ class Day15 : Solver {
     while (chainSize < limit) {
       var age = 0
       if (lastNum in positions && positions[lastNum]!!.size > 1) {
-        val posSorted = positions[lastNum]!!
-        val iter = posSorted.descendingIterator()
-        age = iter.next() - iter.next()
+        val l = positions[lastNum]!!.size - 1
+        age = positions[lastNum]!![l] - positions[lastNum]!![l - 1]
       }
       // If diff was found, age is > 0, else 0. Add it to the list of positions.
-      if (age !in positions) positions[age] = TreeSet()
+      if (age !in positions) positions[age] = mutableListOf()
       positions[age]!!.add(chainSize)
       lastNum = age
       chainSize++
