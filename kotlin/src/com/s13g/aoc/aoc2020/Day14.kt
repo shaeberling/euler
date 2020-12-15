@@ -1,7 +1,6 @@
 package com.s13g.aoc.aoc2020
 
 import com.s13g.aoc.*
-import java.math.BigInteger
 
 /**
  * --- Day 14: Docking Data ---
@@ -17,13 +16,13 @@ class Day14 : Solver {
     // Part A: Use Mask to change the value. Leave address unchanged.
     val memA = mutableMapOf<Int, Long>()
     for (assignment in input) {
-      val newValue = BigInteger(String(decTo36Bin(assignment.value).mapIndexed { idx, it ->
+      val newValue = String(decTo36Bin(assignment.value).mapIndexed { idx, it ->
         when (assignment.mask[idx]) {
           '0' -> '0'
           '1' -> '1'
           else -> it
         }
-      }.toCharArray()), 2).toLong()
+      }.toCharArray()).toLong(2)
       memA[assignment.addr] = newValue
     }
 
@@ -46,7 +45,7 @@ class Day14 : Solver {
   }
 
   private fun genAllFloatingAddresses(str: CharArray, result: MutableList<Long>) {
-    if (str.count { it == 'X' } == 0) result.add(BigInteger(String(str), 2).toLong())
+    if (str.count { it == 'X' } == 0) result.add(String(str).toLong(2))
 
     for (s in str.indices) {
       if (str[s] == 'X') {
