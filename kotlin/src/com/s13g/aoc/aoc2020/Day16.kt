@@ -49,7 +49,6 @@ class Day16 : Solver {
 
           // Remove this position from all other words' possible placements.
           placements.values.forEach { it.remove(place) }
-          break
         }
       }
     return result
