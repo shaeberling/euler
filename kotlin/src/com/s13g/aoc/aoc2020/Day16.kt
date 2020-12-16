@@ -74,13 +74,11 @@ class Day16 : Solver {
       if (rangeMatch != null) {
         val (word, from1, to1, from2, to2) = rangeMatch.destructured
         wordRanges[word] = WordRange(Range(from1.toInt(), to1.toInt()), Range(from2.toInt(), to2.toInt()))
-      }
-      if ((l - 1) in lines.indices && lines[l - 1] == "your ticket:") {
+      } else if ((l - 1) in lines.indices && lines[l - 1] == "your ticket:") {
         yourTicket.addAll(lines[l].split(',').map { it.toInt() })
-      }
-      if ((l - 1) in lines.indices && lines[l - 1] == "nearby tickets:") {
+      } else if ((l - 1) in lines.indices && lines[l - 1] == "nearby tickets:") {
         lines.subList(l, lines.size).map { line -> nearbyTickets.add(line.split(',').map { it.toInt() }) }
-        break
+        break  // We're done parsing after processing nearby tickets.
       }
     }
     return Triple(wordRanges, yourTicket, nearbyTickets)
