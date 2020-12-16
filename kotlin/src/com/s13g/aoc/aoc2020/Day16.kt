@@ -20,7 +20,7 @@ class Day16 : Solver {
     val allPlaces = setOf(*Array(yourTicket.size) { it })
     val words = wordRanges.keys
 
-    // Map of word to which viable placements. We start our with all positions and then remove bad ones.
+    // Map of word to viable placements. We start out with all positions and then remove bad ones.
     val possiblePlaces = words.associateWith { allPlaces.toMutableSet() }
     for (word in words) {
       for (tix in validTix) {
@@ -47,7 +47,7 @@ class Day16 : Solver {
           val place = placements[word]!!.first()
           result[word] = place
 
-          // Remove this position from all other value's possible placements.
+          // Remove this position from all other words' possible placements.
           placements.values.forEach { it.remove(place) }
           break
         }
