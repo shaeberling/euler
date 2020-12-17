@@ -30,7 +30,7 @@ class Day17 : Solver {
         for (z in (map.minZ() - 1)..(map.maxZ() + 1)) {
           for (w in (if (countW) (map.minW() - 1) else 0)..(if (countW) (map.maxW() + 1) else 0)) {
             val pos = XYZW(x, y, z, w)
-            val numNeighbors = countNeighbors(map, pos);
+            val numNeighbors = countNeighbors(map, pos)
             if (map.isActive(pos) && (numNeighbors in 2..3)) result[pos] = true
             else result[pos] = !map.isActive(pos) && numNeighbors == 3
           }
