@@ -19,12 +19,12 @@ class Day9 : Solver {
 
 private fun partA(preamble: Int, input: List<Long>): Long {
   for (i in preamble until input.size) {
-    if (!isValid(i, input, preamble)) return input[i]
+    if (!isValidTicket(i, input, preamble)) return input[i]
   }
   error("Cannot find solution for Part A")
 }
 
-private fun isValid(i: Int, input: List<Long>, preamble: Int): Boolean {
+private fun isValidTicket(i: Int, input: List<Long>, preamble: Int): Boolean {
   for (x in i - preamble until i) {
     for (y in x until i) {
       if (input[x] + input[y] == input[i]) return true
