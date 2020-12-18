@@ -25,10 +25,11 @@ class Day17 : Solver {
 
   private fun runCycle(map: Map<XYZW, Boolean>, countW: Boolean = false): Map<XYZW, Boolean> {
     val result = mutableMapOf<XYZW, Boolean>()
-    for (x in (map.minX() - 1)..(map.maxX() + 1)) {
-      for (y in (map.minY() - 1)..(map.maxY() + 1)) {
-        for (z in (map.minZ() - 1)..(map.maxZ() + 1)) {
-          for (w in (if (countW) (map.minW() - 1) else 0)..(if (countW) (map.maxW() + 1) else 0)) {
+    val (min, max) = listOf(map.mapKeys { it.min()!! }, map.mapKeys { it.max()!! })
+    for (x in (min.x - 1)..(max.x + 1)) {
+      for (y in (min.y - 1)..(max.y + 1)) {
+        for (z in (min.z - 1)..(max.z + 1)) {
+          for (w in (if (countW) (min.w - 1) else 0)..(if (countW) (max.w + 1) else 0)) {
             val pos = XYZW(x, y, z, w)
             val numNeighbors = countNeighbors(map, pos)
             if (map.isActive(pos) && (numNeighbors in 2..3)) result[pos] = true
@@ -46,10 +47,7 @@ class Day17 : Solver {
       for (y in (pos.y - 1)..(pos.y + 1)) {
         for (z in (pos.z - 1)..(pos.z + 1)) {
           for (w in (pos.w - 1)..(pos.w + 1)) {
-            val pozz = XYZW(x, y, z, w)
-            if (pos != pozz) {
-              if (map.isActive(pozz)) result++
-            }
+            XYZW(x, y, z, w).apply { if (this != pos && map.isActive(this)) result++ }
           }
         }
       }
@@ -59,15 +57,9 @@ class Day17 : Solver {
 
   private fun Map<XYZW, Boolean>.isActive(xyz: XYZW) = (xyz in this && this[xyz]!!)
 
-  private fun Map<XYZW, Boolean>.minX() = this.keys.map { it.x }.min()!!
-  private fun Map<XYZW, Boolean>.minY() = this.keys.map { it.y }.min()!!
-  private fun Map<XYZW, Boolean>.minZ() = this.keys.map { it.z }.min()!!
-  private fun Map<XYZW, Boolean>.minW() = this.keys.map { it.w }.min()!!
-
-  private fun Map<XYZW, Boolean>.maxX() = this.keys.map { it.x }.max()!!
-  private fun Map<XYZW, Boolean>.maxY() = this.keys.map { it.y }.max()!!
-  private fun Map<XYZW, Boolean>.maxZ() = this.keys.map { it.z }.max()!!
-  private fun Map<XYZW, Boolean>.maxW() = this.keys.map { it.w }.max()!!
+  private fun Map<XYZW, Boolean>.mapKeys(f: (List<Int>) -> Int): XYZW {
+    keys.apply { return XYZW(f(map { it.x }), f(map { it.y }), f(map { it.z }), f(map { it.w })) }
+  }
 
   private data class XYZW(val x: Int, val y: Int, val z: Int = 0, val w: Int = 0)
 }
