@@ -12,5 +12,6 @@ fun main() {
   val runner = PuzzleRunner(ONLY_RUN_NEW, 2015)
   runner.addProblem(1, Day1(), "138", "1771")
   runner.addProblem(4, Day4(), "117946", "3938038")
+  runner.addProblem(5, Day5(), "238", "69")
   runner.run()
 }
