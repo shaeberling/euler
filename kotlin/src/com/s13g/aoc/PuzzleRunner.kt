@@ -61,6 +61,8 @@ class PuzzleRunner(private val onlyRunNew: Boolean,
   private fun compareResult(expected: String, actual: String) =
       if (actual == expected) {
         "${ANSI_GREEN}OK '$actual'$ANSI_RESET"
+      } else if (expected.isBlank()) {
+        "${ANSI_PURPLE}IN PROGRESS: '$actual'$ANSI_RESET"
       } else {
         "${ANSI_RED}FAIL - Was '$actual' but expected '$expected'$ANSI_RESET"
       }
