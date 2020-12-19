@@ -19,8 +19,11 @@ package com.s13g.aoc.aoc2015
 import com.s13g.aoc.Solver
 import com.s13g.aoc.Result
 
-/** http://adventofcode.com/2015/day/1 */
-class P1Floors : Solver {
+/**
+ * --- Day 1: Not Quite Lisp ---
+ * http://adventofcode.com/2015/day/1
+ */
+class Day1 : Solver {
   override fun solve(lines: List<String>): Result {
     val resultA = lines[0].sumBy { c -> if (c == '(') 1 else -1 }
     var resultB = 0
