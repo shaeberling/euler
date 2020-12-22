@@ -2,6 +2,7 @@ package com.s13g.aoc.aoc2020
 
 import com.s13g.aoc.Result
 import com.s13g.aoc.Solver
+import java.util.*
 
 /**
  * --- Day 22: Crab Combat ---
@@ -11,7 +12,7 @@ class Day22 : Solver {
   override fun solve(lines: List<String>): Result {
     val playersA = parse(lines)
     // Make copy for Part B where we have to start over.
-    val playersB = playersA.map { it.toMutableList() }
+    val playersB = playersA.map { LinkedList(it) }
 
     // The game is going while none of them ran out of cards.
     while (playersA[0].isNotEmpty() && playersA[1].isNotEmpty()) {
@@ -42,14 +43,15 @@ class Day22 : Solver {
     while (players[0].isNotEmpty() && players[1].isNotEmpty()) {
       // Player 0 wins when history repeats.
       if (players[0].hashCode() in history[0] || players[1].hashCode() in history[1]) return 0
-      listOf(0, 1).forEach { history[it].add(players[it].hashCode()) }
+      history[0].add(players[0].hashCode())
+      history[1].add(players[1].hashCode())
       // Top cards.
       val top = Pair(players[0].removeAt(0), players[1].removeAt(0))
 
       roundWinner = if (players[0].size >= top.first && players[1].size >= top.second) {
         // Play sub-game, recursive combat! Create copies so that our list is not changed.
-        val subListA = players[0].subList(0, top.first.toInt()).toMutableList()
-        val subListB = players[1].subList(0, top.second.toInt()).toMutableList()
+        val subListA = LinkedList(players[0].subList(0, top.first.toInt()))
+        val subListB = LinkedList(players[1].subList(0, top.second.toInt()))
         recursiveCombat(listOf(subListA, subListB), gameNo + 1)
       } else if (top.first > top.second) 0 else 1
       // Add cards to the round winners deck in the right order (winner's first).
@@ -61,7 +63,7 @@ class Day22 : Solver {
   }
 
   private fun parse(lines: List<String>): List<MutableList<Long>> {
-    val players = mutableListOf<MutableList<Long>>(mutableListOf(), mutableListOf())
+    val players = mutableListOf<LinkedList<Long>>(LinkedList(), LinkedList())
     var activePlayerParsing = 0
     for (line in lines) {
       if (line.startsWith("Player 1:") || line.isBlank()) continue
