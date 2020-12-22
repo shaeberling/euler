@@ -35,7 +35,7 @@ class Day22 : Solver {
     return Result("$resultA", "$resultB")
   }
 
-  private fun recursiveCombat(players: List<MutableList<Long>>, gameNo: Int): Int {
+  private fun recursiveCombat(players: List<LinkedList<Long>>, gameNo: Int): Int {
     val history = Array(2) { mutableSetOf<Int>() }
 
     var roundNo = 1
@@ -46,7 +46,7 @@ class Day22 : Solver {
       history[0].add(players[0].hashCode())
       history[1].add(players[1].hashCode())
       // Top cards.
-      val top = Pair(players[0].removeAt(0), players[1].removeAt(0))
+      val top = Pair(players[0].pop(), players[1].pop())
 
       roundWinner = if (players[0].size >= top.first && players[1].size >= top.second) {
         // Play sub-game, recursive combat! Create copies so that our list is not changed.
@@ -62,7 +62,7 @@ class Day22 : Solver {
     return roundWinner
   }
 
-  private fun parse(lines: List<String>): List<MutableList<Long>> {
+  private fun parse(lines: List<String>): List<LinkedList<Long>> {
     val players = mutableListOf<LinkedList<Long>>(LinkedList(), LinkedList())
     var activePlayerParsing = 0
     for (line in lines) {
