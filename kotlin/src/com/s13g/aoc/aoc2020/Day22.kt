@@ -35,21 +35,21 @@ class Day22 : Solver {
   }
 
   private fun recursiveCombat(players: List<MutableList<Long>>, gameNo: Int): Int {
-    val history = Array(2) { mutableSetOf<List<Long>>() }
+    val history = Array(2) { mutableSetOf<Int>() }
 
     var roundNo = 1
     var roundWinner = -42
     while (players[0].isNotEmpty() && players[1].isNotEmpty()) {
       // Player 0 wins when history repeats.
-      if (players[0] in history[0] || players[1] in history[1]) return 0
-      listOf(0, 1).forEach { history[it].add(players[it].toMutableList()) }
+      if (players[0].hashCode() in history[0] || players[1].hashCode() in history[1]) return 0
+      listOf(0, 1).forEach { history[it].add(players[it].hashCode()) }
       // Top cards.
       val top = Pair(players[0].removeAt(0), players[1].removeAt(0))
 
       roundWinner = if (players[0].size >= top.first && players[1].size >= top.second) {
         // Play sub-game, recursive combat! Create copies so that our list is not changed.
-        val subListA = players[0].toMutableList().subList(0, top.first.toInt())
-        val subListB = players[1].toMutableList().subList(0, top.second.toInt())
+        val subListA = players[0].subList(0, top.first.toInt()).toMutableList()
+        val subListB = players[1].subList(0, top.second.toInt()).toMutableList()
         recursiveCombat(listOf(subListA, subListB), gameNo + 1)
       } else if (top.first > top.second) 0 else 1
       // Add cards to the round winners deck in the right order (winner's first).
