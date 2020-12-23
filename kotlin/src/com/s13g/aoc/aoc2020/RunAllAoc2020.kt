@@ -32,7 +32,7 @@ fun main() {
   runner.addProblem(20, Day20(), "19955159604613", "1639")
   runner.addProblem(21, Day21(), "1685", "ntft,nhx,kfxr,xmhsbd,rrjb,xzhxj,chbtp,cqvc")
   runner.addProblem(22, Day22(), "33403", "29177")
-//  runner.addProblem(23, Day23(), "", "", true)
+  runner.addProblem(23, Day23(), "38925764", "131152940564")
 //  runner.addProblem(24, Day24(), "", "", true)
 //  runner.addProblem(25, Day25(), "", "", true)
   runner.run()
