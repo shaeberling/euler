@@ -9,16 +9,10 @@ import com.s13g.aoc.Solver
  */
 class Day25 : Solver {
   override fun solve(lines: List<String>): Result {
-    val pubKey1 = lines[0].toLong()
-    val pubKey2 = lines[1].toLong()
-
-    val loopSize1 = transform(7, pubKey1)
-    val loopSize2 = transform(7, pubKey2)
-
-    val encKey1 = loopIt(pubKey1, loopSize2)
-    val encKey2 = loopIt(pubKey2, loopSize1)
+    val input = lines.map { it.toLong() }.map { Pair(it, transform(7, it)) }
+    val encKey1 = loopIt(input[0].first, input[1].second)
+    val encKey2 = loopIt(input[1].first, input[0].second)
     assert(encKey1 == encKey2)
-
     return Result("$encKey1", "")
   }
 
@@ -26,8 +20,7 @@ class Day25 : Solver {
     var value = 1L
     var loop = 0L
     for (i in 1..times) {
-      value *= subjectNo
-      value %= 20201227L
+      value = (value * subjectNo) % 20201227L
       loop++
     }
     return value
@@ -37,8 +30,7 @@ class Day25 : Solver {
     var value = 1L
     var loop = 0L
     while (value != key) {
-      value *= subjectNo
-      value %= 20201227L
+      value = (value * subjectNo) % 20201227L
       loop++
     }
     return loop
