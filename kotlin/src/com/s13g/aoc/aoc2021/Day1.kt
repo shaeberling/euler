@@ -10,10 +10,10 @@ import com.s13g.aoc.resultFrom
  */
 class Day1 : Solver {
   override fun solve(lines: List<String>): Result {
-    val m1 = lines.map { it.toLong() }.toList()
-    val m2 = m1.mapIndexedNotNull { i, _ -> if (i < m1.size - 2) m1[i] + m1[i + 1] + m1[i + 2] else null }
+    val m1 = lines.map { it.toLong() }
+    val m2 = m1.windowed(3) { it.sum() }
     return resultFrom(m1.measure(), m2.measure())
   }
 
-  private fun List<Long>.measure() = this.mapIndexed { i, v -> if (i == 0) false else v > this[i - 1] }.count { it }
+  private fun List<Long>.measure() = this.windowed(2) { it[0] < it[1] }.count { it }
 }
