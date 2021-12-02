@@ -24,3 +24,6 @@ interface Solver {
 }
 
 data class Result(val a: String, val b: String)
+
+fun resultFrom(a: Long, b: Long) = Result(a.toString(), b.toString())
+fun resultFrom(a: Int, b: Int) = Result(a.toString(), b.toString())
