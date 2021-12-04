@@ -29,16 +29,24 @@ func (r *Runner) AddPuzzle(day int, solver SolverFunc, solA string, solB string)
 	r.puzzles = append(r.puzzles, puzzle{name, filename, solver, solA, solB})
 }
 
-func (r Runner) Run() {
+func (r Runner) Run(lastOnly bool) {
 	fmt.Printf("Will run %d puzzles\n", len(r.puzzles))
-	// Go through all puzzles and run them.
-	for _, puzzle := range r.puzzles {
-		solutionA, solutionB, elapsed, err := solve(r.dataDir, &puzzle)
-		if err != nil {
-			fmt.Printf("Error running puzzle solver: %s\n", err)
-		} else {
-			fmt.Printf(compareResults(solutionA, solutionB, &puzzle, elapsed))
+	if !lastOnly {
+		// Go through all puzzles and run them.
+		for _, p := range r.puzzles {
+			r.RunPuzzle(&p)
 		}
+	} else {
+		r.RunPuzzle(&r.puzzles[len(r.puzzles)-1])
+	}
+}
+
+func (r Runner) RunPuzzle(p *puzzle) {
+	solutionA, solutionB, elapsed, err := solve(r.dataDir, p)
+	if err != nil {
+		fmt.Printf("Error running puzzle solver: %s\n", err)
+	} else {
+		fmt.Printf(compareResults(solutionA, solutionB, p, elapsed))
 	}
 }
 

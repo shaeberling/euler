@@ -54,5 +54,5 @@ func Run(dataDir string) {
 	// r.AddPuzzle(24, p24.Solve, "n/a", "n/a")
 	// r.AddPuzzle(25, p25.Solve, "305", "n/a")
 
-	r.Run()
+	r.Run(false)
 }
