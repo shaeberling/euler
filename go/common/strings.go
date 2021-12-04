@@ -1,6 +1,7 @@
 package common
 
 import (
+	"bufio"
 	"fmt"
 	"log"
 	"math/big"
@@ -81,10 +82,10 @@ func SplitByWhitespaceTrim(content string) []string {
 }
 
 func SplitByNewline(content string) []string {
-	values := strings.FieldsFunc(content, func(c rune) bool { return c == '\n' })
-	result := make([]string, len(values))
-	for i, v := range values {
-		result[i] = strings.TrimSpace(v)
+	var result []string
+	sc := bufio.NewScanner(strings.NewReader(content))
+	for sc.Scan() {
+		result = append(result, sc.Text())
 	}
 	return result
 }
