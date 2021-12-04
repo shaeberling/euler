@@ -1,8 +1,9 @@
 package aocvm
 
 import (
-	c "common"
 	"fmt"
+
+	c "s13g.com/euler/common"
 )
 
 // Instruction is the common interface for all instructions.
