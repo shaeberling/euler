@@ -3,23 +3,18 @@ package aoc21
 import (
 	"s13g.com/euler/aoc21/p01"
 	"s13g.com/euler/aoc21/p02"
+	"s13g.com/euler/aoc21/p03"
 	"s13g.com/euler/runner"
 )
 
-// Run all the AOC 2018 puzzles
+// Run all the AOC 2021 puzzles
 func Run(dataDir string) {
-	// Note: Add new puzzles here.
-	puzzles := []runner.Puzzle{
-		{Name: "AOC 2021.01",
-			Filename:  "aoc/2021/day1.txt",
-			Solver:    p01.Solve,
-			SolutionA: "1462",
-			SolutionB: "1497"},
-		{Name: "AOC 2021.02",
-			Filename:  "aoc/2021/day2.txt",
-			Solver:    p02.Solve,
-			SolutionA: "2215080",
-			SolutionB: "1864715580"},
-	}
-	runner.Run(dataDir, puzzles)
+	r := runner.InitRunner(2021, dataDir)
+
+	r.AddPuzzle(1, p01.Solve, "1462", "1497")
+	r.AddPuzzle(2, p02.Solve, "2215080", "1864715580")
+	r.AddPuzzle(3, p03.Solve, "3549854", "3765399")
+	// r.AddPuzzle(1, p04.Solve, "33462", "30070")
+
+	r.Run()
 }

@@ -10,12 +10,12 @@ import (
 
 // Run all the AOC 2016 puzzles
 func Run(dataDir string) {
-	// Note: Add new puzzles here.
-	puzzles := []runner.Puzzle{
-		{"AOC 2016.01", "aoc/2016/day1.txt", p01.Solve, "161", "110"},
-		{"AOC 2016.02", "aoc/2016/day2.txt", p02.Solve, "69642", "8CB23"},
-		{"AOC 2016.03", "aoc/2016/day3.txt", p03.Solve, "1032", "1838"},
-		{"AOC 2016.04", "aoc/2016/day4.txt", p04.Solve, "137896", "501"},
-	}
-	runner.Run(dataDir, puzzles)
+	r := runner.InitRunner(2016, dataDir)
+
+	r.AddPuzzle(1, p01.Solve, "161", "110")
+	r.AddPuzzle(2, p02.Solve, "69642", "8CB23")
+	r.AddPuzzle(3, p03.Solve, "1032", "1838")
+	r.AddPuzzle(4, p04.Solve, "137896", "501")
+
+	r.Run()
 }
