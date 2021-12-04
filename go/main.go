@@ -4,7 +4,7 @@ import (
 	"log"
 	"os"
 
-	"s13g.com/euler/aoc17"
+	"s13g.com/euler/aoc21"
 	"s13g.com/euler/common"
 )
 
@@ -28,7 +28,8 @@ func main() {
 	log.SetOutput(f)
 
 	// aoc16.Run(dirname)
-	aoc17.Run(dirname)
+	// aoc17.Run(dirname)
 	// aoc18.Run(dirname)
+	aoc21.Run(dirname)
 	//stairs.Stairs()
 }
