@@ -14,7 +14,7 @@ func Run(dataDir string) {
 	r.AddPuzzle(1, p01.Solve, "1462", "1497")
 	r.AddPuzzle(2, p02.Solve, "2215080", "1864715580")
 	r.AddPuzzle(3, p03.Solve, "3549854", "3765399")
-	// r.AddPuzzle(1, p04.Solve, "33462", "30070")
+	// r.AddPuzzle(4, p04.Solve, "33462", "30070")
 
 	r.Run(true)
 }
