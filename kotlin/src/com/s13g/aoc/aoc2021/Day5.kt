@@ -10,7 +10,9 @@ import kotlin.math.sign
  */
 class Day5 : Solver {
   override fun solve(lines: List<String>): Result {
-    val input = parse(lines)
+    val regex = """([0-9]+),([0-9]+) -> ([0-9]+),([0-9]+)""".toRegex()
+    val input = lines.map { regex.find(it)!!.destructured }
+      .map { (x1, y1, x2, y2) -> Line(Point(x1.toInt(), y1.toInt()), Point(x2.toInt(), y2.toInt())) }
     val area = mutableListOf<Point>()
     for (i in input) {
       val validForA = i.a.x == i.b.x || i.a.y == i.b.y
@@ -29,10 +31,4 @@ class Day5 : Solver {
 
   private data class Point(var x: Int, var y: Int, val partA: Boolean = false)
   private data class Line(val a: Point, val b: Point)
-
-  private fun parse(lines: List<String>): List<Line> {
-    val regex = """([0-9]+),([0-9]+) -> ([0-9]+),([0-9]+)""".toRegex()
-    return lines.map { regex.find(it)!!.destructured }
-      .map { (x1, y1, x2, y2) -> Line(Point(x1.toInt(), y1.toInt()), Point(x2.toInt(), y2.toInt())) }
-  }
 }
