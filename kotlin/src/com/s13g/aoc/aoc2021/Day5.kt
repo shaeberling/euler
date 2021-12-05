@@ -2,7 +2,7 @@ package com.s13g.aoc.aoc2021
 
 import com.s13g.aoc.Result
 import com.s13g.aoc.Solver
-import kotlin.math.abs
+import kotlin.math.sign
 
 /**
  * --- Day 5: Hydrothermal Venture ---
@@ -14,14 +14,12 @@ class Day5 : Solver {
     val area = mutableListOf<Point>()
     for (i in input) {
       val validForA = i.a.x == i.b.x || i.a.y == i.b.y
-      val xDir = if (i.b.x != i.a.x) (i.b.x - i.a.x) / abs(i.b.x - i.a.x) else 0
-      val yDir = if (i.b.y != i.a.y) (i.b.y - i.a.y) / abs(i.b.y - i.a.y) else 0
-      val p = Point(i.a.x, i.a.y)
-      area.add(Point(p.x, p.y, validForA))
-      while (p.x != i.b.x || p.y != i.b.y) {
-        p.x += xDir
-        p.y += yDir
-        area.add(Point(p.x, p.y, validForA))
+      val dir = Point((i.b.x - i.a.x).sign, (i.b.y - i.a.y).sign)
+      area.add(Point(i.a.x, i.a.y, validForA))
+      while (i.a != i.b) {
+        i.a.x += dir.x
+        i.a.y += dir.y
+        area.add(Point(i.a.x, i.a.y, validForA))
       }
     }
     val partA = area.filter { it.partA }.groupBy { it }.count { it.value.size > 1 }
