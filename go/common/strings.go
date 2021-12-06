@@ -27,6 +27,10 @@ func ToString(v int) string {
 	return fmt.Sprintf("%d", v)
 }
 
+func ToString64(v int64) string {
+	return fmt.Sprintf("%d", v)
+}
+
 func ToStringBig(v *big.Int) string {
 	return fmt.Sprintf("%v", v)
 }
