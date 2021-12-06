@@ -63,3 +63,8 @@ func Contains(arr []string, str string) bool {
 	}
 	return false
 }
+
+func MapStrIntContains(m map[string]int, str string) bool {
+	_, exists := m[str]
+	return exists
+}

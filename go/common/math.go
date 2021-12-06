@@ -28,7 +28,6 @@ func MinMax(a int, b int) (int, int) {
 	}
 }
 
-
 func IsPrime(value int) bool {
 	for i := 2; i <= int(math.Floor(math.Sqrt(float64(value)))); i++ {
 		if value%i == 0 {
@@ -77,6 +76,14 @@ func Abs(n int) int {
 		return -n
 	}
 	return n
+}
+
+func Sign(n int) int {
+	if n != 0 {
+		return n / Abs(n)
+	} else {
+		return 0
+	}
 }
 
 // A grid that can also have negative indices.
