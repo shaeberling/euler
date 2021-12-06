@@ -30,7 +30,6 @@ func (r *Runner) AddPuzzle(day int, solver SolverFunc, solA string, solB string)
 }
 
 func (r Runner) Run(lastOnly bool) {
-	fmt.Printf("Will run %d puzzles\n", len(r.puzzles))
 	if !lastOnly {
 		// Go through all puzzles and run them.
 		for _, p := range r.puzzles {
