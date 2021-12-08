@@ -20,90 +20,52 @@ class Day8 : Solver {
   }
 
   private fun calcLine(inputs: List<String>, outputs: List<String>): Int {
-    //  0000
-    // 1    2
-    // 1    2
-    //  3333
-    // 4    5
-    // 4    5
-    //  6666
+    assert(inputs.size == 10)  // Important constraints of the input, every position is unique.
+    val inputCandidates = MutableList(inputs.size) { mutableSetOf(0, 1, 2, 3, 4, 5, 6, 7, 8, 9) }
+    val digitToCode = mutableMapOf<Int, String>()  // Digits for which we definitely know the code.
 
-    // Unique lengths: 1(2), 7(3), 4(4), 8(7)
-    val digitsToSegments = listOf(
-      setOf(0, 1, 2, 4, 5, 6), setOf(2, 5), setOf(0, 2, 3, 4, 6),
-      setOf(0, 2, 3, 5, 6), setOf(1, 2, 3, 5), setOf(0, 1, 3, 5, 6), setOf(0, 1, 3, 4, 5, 6),
-      setOf(0, 2, 5), setOf(0, 1, 2, 3, 4, 5, 6), setOf(0, 1, 2, 3, 5, 6)
-    )
+    // Called to lock in a digit. Remove from all candidate sets except the one, and set code.
+    val lockDigit = { inputIdx: Int, digit: Int, code: String ->
+      inputCandidates.forEach { it.remove(digit) }
+      inputCandidates[inputIdx] = mutableSetOf(digit)
+      digitToCode[digit] = code.sorted()
+    }
 
-    val segmentsToDigits = MutableList(7) { mutableSetOf<Int>() }
-    for (d in digitsToSegments.indices) {
-      for (segment in digitsToSegments[d]) {
-        segmentsToDigits[segment].add(d)
+    // If we compare a locked number with codes of given length, lock digit if overlap matches.
+    val reduce = { num: Int, length: Int, input: String, i: Int, overlap: Int, digit: Int ->
+      if (digitToCode.containsKey(num) && input.length == length) {
+        if (digitToCode[num]!!.toSet().intersect(input.toSet()).size == overlap) {
+          lockDigit(i, digit, input)
+        }
       }
     }
 
-    // Set initial candidates list based on length.
-    val numSegmentsToDigits = MutableList<MutableSet<Int>>(7) { mutableSetOf() }
-    digitsToSegments.withIndex().forEach { numSegmentsToDigits[it.value.size - 1].add(it.index) }
-    val inputCandidates = MutableList(inputs.size) { setOf(0, 1, 2, 3, 4, 5, 6, 7, 8, 9) }
-    for (i in inputs.indices) {
-      inputCandidates[i] = numSegmentsToDigits[inputs[i].length - 1]
+    // Lock in the unique numbers first.
+    for ((i, input) in inputs.withIndex()) {
+      if (input.length == 2) lockDigit(i, 1, input)
+      if (input.length == 3) lockDigit(i, 7, input)
+      if (input.length == 4) lockDigit(i, 4, input)
+      if (input.length == 7) lockDigit(i, 8, input)
     }
-    val segmentLetterCandidates = MutableList(7) { setOf('a', 'b', 'c', 'd', 'e', 'f', 'g') }
-    val finishedDigitLetters = MutableList(10) { setOf<Char>() }
 
-    // Loop until every input has only a single candidate left.
+    // Reduce until we have exactly one candidate per input position.
     while (inputCandidates.count { it.size != 1 } != 0) {
-      for (i in inputs.indices) {
-        val input = inputs[i]
-        val chars = input.toCharArray().toSet()
-
-        // Custom rules to reduce the options based on overlapping segments.
-        val reduce = { primDigit: Int, numSegs: Int, numOverlap: Int, result: Int ->
-          if (finishedDigitLetters[primDigit].isNotEmpty() && input.length == numSegs) {
-            if (chars.count { finishedDigitLetters[primDigit].contains(it) } == numOverlap) {
-              inputCandidates[i] = setOf(result)
-            } else {
-              inputCandidates[i] = inputCandidates[i].minus(result)
-            }
-          }
-        }
-        reduce(1, 5, 2, 3)
-        reduce(7, 6, 2, 6)
-        reduce(4, 6, 4, 9)
-        reduce(4, 5, 2, 2)
-
-        for (o in inputCandidates.indices) {
-          // If an input has only a single candidate left, it is set.
-          if (inputCandidates[o].size == 1) {
-            val digit = inputCandidates[o].first()
-            val digitLetters = inputs[o].toCharArray().toSet()
-            val segsNotInDigit = digitsToSegments[8].subtract(digitsToSegments[digit])
-            for (seg in digitsToSegments[digit]) segmentLetterCandidates[seg] =
-              segmentLetterCandidates[seg].intersect(digitLetters)
-            for (seg in segsNotInDigit) segmentLetterCandidates[seg] =
-              segmentLetterCandidates[seg].subtract(digitLetters)
-            finishedDigitLetters[digit] = digitLetters
-          }
-        }
+      for ((i, input) in inputs.withIndex()) {
+        reduce(1, 5, input, i, 2, 3)
+        reduce(7, 6, input, i, 2, 6)
+        reduce(4, 6, input, i, 4, 9)
+        reduce(4, 5, input, i, 2, 2)
+        reduce(6, 5, input, i, 5, 5)
       }
     }
 
-    val letterToSegment = mutableMapOf<Char, Int>()
-    for ((segment, letters) in segmentLetterCandidates.withIndex()) {
-      assert(letters.size == 1)
-      letterToSegment[letters.first()] = segment
+    // Ensure all codes are set.
+    for ((idx, digit) in inputCandidates.withIndex()) {
+      digitToCode[digit.first()] = inputs[idx].sorted()
     }
-    return decodeOutputPartB(outputs, letterToSegment, digitsToSegments)
-  }
-
-  private fun decodeOutputPartB(outs: List<String>, letterToSeg: Map<Char, Int>, digitsToSegs: List<Set<Int>>): Int {
-    var result = ""
-    for (out in outs) {
-      val segments = out.map { ch -> letterToSeg[ch] }.toSet()
-      digitsToSegs.withIndex().filter { segments == it.value }.map { it.index.toString() }.forEach { result += it }
-    }
-    return result.toInt()
+    // Create map from code to digit and use it to construct final output result.
+    val codeToDigit = digitToCode.map { it.value to it.key }.toMap()
+    return outputs.map { it.sorted() }.map { codeToDigit[it] }.joinToString("").toInt()
   }
 
   private fun parseLine(str: String): Line {
@@ -112,4 +74,6 @@ class Day8 : Solver {
   }
 
   private data class Line(val input: List<String>, val output: List<String>)
+
+  private fun String.sorted() = this.toCharArray().sorted().joinToString("")
 }
