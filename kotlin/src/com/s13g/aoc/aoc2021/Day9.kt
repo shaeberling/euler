@@ -28,12 +28,8 @@ class Day9 : Solver {
     val flownInto = mutableMapOf<XY, MutableSet<XY>>()
     for (x in 0 until input.width) {
       for (y in 0 until input.height) {
-        flownInto[XY(x, y)] = mutableSetOf()
-      }
-    }
-    for (x in 0 until input.width) {
-      for (y in 0 until input.height) {
         val pos = XY(x, y)
+        flownInto[pos] = mutableSetOf()
         val elevation = input.height(pos)
         val checkCandidate = { p: XY ->
           val neighbor = input.height(p)
