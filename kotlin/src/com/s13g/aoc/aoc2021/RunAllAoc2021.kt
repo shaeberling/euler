@@ -2,11 +2,11 @@ package com.s13g.aoc.aoc2021
 
 import com.s13g.aoc.PuzzleRunner
 
-private const val ONLY_RUN_NEW = true
+private const val ONLY_RUN_NEW = false
 
 /**
- * ---- Advent of Code 2020 ----
- * https://adventofcode.com/2020
+ * ---- Advent of Code 2021 ----
+ * https://adventofcode.com/2021
  */
 fun main() {
   val runner = PuzzleRunner(ONLY_RUN_NEW, 2021)
@@ -19,7 +19,7 @@ fun main() {
   runner.addProblem(7, Day7(), "329389", "86397080")
   runner.addProblem(8, Day8(), "237", "1009098")
   runner.addProblem(9, Day9(), "631", "821560")
-//  runner.addProblem(10, Day10(), "", "", true)
+  runner.addProblem(10, Day10(), "321237", "2360030859")
 //  runner.addProblem(11, Day11(), "", "", true)
 //  runner.addProblem(12, Day12(), "", "", true)
 //  runner.addProblem(13, Day13(), "", "", true)
