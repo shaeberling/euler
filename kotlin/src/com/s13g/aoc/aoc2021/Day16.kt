@@ -10,56 +10,44 @@ import com.s13g.aoc.mul
  */
 class Day16 : Solver {
   override fun solve(lines: List<String>): Result {
-    val input = lines[0].map { it.toString().toInt(16) }.map { it.toBinary() }.reduce { all, it -> all + it }
+    val input =
+      Data(lines[0].map { it.toString().toInt(16) }.map { it.toBinary() }.reduce { all, it -> all + it })
     val versionNumbers = mutableListOf<Int>()
-    val partB = parse(0, input, versionNumbers).second
+    val partB = parse(input, versionNumbers)
     val partA = versionNumbers.sum()
     return Result("$partA", "$partB")
   }
 
-  fun parse(idx_: Int, input: String, partA: MutableList<Int>): Pair<Int, Long> {
-    var idx = idx_
-    val version = input.substring(idx, idx + 3).toInt(2)
+  private fun parse(input: Data, partA: MutableList<Int>): Long {
+    val version = input.take(3).toInt(2)
+    val typeId = input.take(3).toInt(2)
     partA.add(version)
-    idx += 3
-    val typeId = input.substring(idx, idx + 3).toInt(2)
-    idx += 3
 
-    var value = 0L
+    var value: Long
     if (typeId == 4) {
       // Literal Packet
       var literalStr = ""
       while (true) {
-        val lastGroup = input[idx] == '0'
-        idx++
-        literalStr += input.substring(idx, idx + 4)
-        idx += 4
+        val lastGroup = input.take(1) == "0"
+        literalStr += input.take(4)
         if (lastGroup) break;
       }
       value = literalStr.toLong(2)
     } else {
       // Operator Packet
-      val lengthTypeId = input[idx]
-      idx++
-
+      val lengthTypeId = input.take(1)
       var totalLength = Int.MAX_VALUE
       var numSubPackets = Int.MAX_VALUE
-      if (lengthTypeId == '0') {
-        totalLength = input.substring(idx, idx + 15).toInt(2)
-        idx += 15
+      if (lengthTypeId == "0") {
+        totalLength = input.take(15).toInt(2)
       } else {
-        numSubPackets = input.substring(idx, idx + 11).toInt(2)
-        idx += 11
+        numSubPackets = input.take(11).toInt(2)
       }
       // Parse sub-packets
-      val subPacketsStart = idx
-      var numSubs = 0
+      val subPacketsStart = input.idx
       val subResults = mutableListOf<Long>()
-      while ((idx - subPacketsStart) < totalLength && numSubs < numSubPackets) {
-        val ret = parse(idx, input, partA)
-        idx = ret.first
-        subResults.add(ret.second)
-        numSubs++
+      while ((input.idx - subPacketsStart) < totalLength && subResults.size < numSubPackets) {
+        subResults.add(parse(input, partA))
       }
 
       value = when (typeId) {
@@ -73,7 +61,14 @@ class Day16 : Solver {
         else -> error("Unknown typeId: $typeId")
       }
     }
-    return Pair(idx, value)
+    return value
+  }
+
+  private class Data(val input: String, var idx: Int = 0) {
+    fun take(num: Int): String {
+      idx += num
+      return this.input.substring(idx - num, idx)
+    }
   }
 
   private fun Int.toBinary(): String {
