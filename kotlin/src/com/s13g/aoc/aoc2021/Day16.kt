@@ -3,6 +3,7 @@ package com.s13g.aoc.aoc2021
 import com.s13g.aoc.Result
 import com.s13g.aoc.Solver
 import com.s13g.aoc.mul
+import com.s13g.aoc.toBinary
 
 /**
  * --- Day 16: Packet Decoder ---
@@ -10,22 +11,19 @@ import com.s13g.aoc.mul
  */
 class Day16 : Solver {
   override fun solve(lines: List<String>): Result {
-    val input =
-      Data(lines[0].map { it.toString().toInt(16) }.map { it.toBinary() }.reduce { all, it -> all + it })
+    val input = Data(lines[0].map { it.toString().toInt(16).toBinary(4) }.reduce { all, it -> all + it })
     val versionNumbers = mutableListOf<Int>()
     val partB = parse(input, versionNumbers)
     val partA = versionNumbers.sum()
     return Result("$partA", "$partB")
   }
 
-  private fun parse(input: Data, partA: MutableList<Int>): Long {
-    val version = input.take(3).toInt(2)
+  private fun parse(input: Data, versionNumbers: MutableList<Int>): Long {
+    versionNumbers.add(input.take(3).toInt(2))
     val typeId = input.take(3).toInt(2)
-    partA.add(version)
 
-    var value: Long
-    if (typeId == 4) {
-      // Literal Packet
+    val value: Long
+    if (typeId == 4) {  // Literal Packet
       var literalStr = ""
       while (true) {
         val lastGroup = input.take(1) == "0"
@@ -33,8 +31,7 @@ class Day16 : Solver {
         if (lastGroup) break;
       }
       value = literalStr.toLong(2)
-    } else {
-      // Operator Packet
+    } else {  // Operator Packet
       val lengthTypeId = input.take(1)
       var totalLength = Int.MAX_VALUE
       var numSubPackets = Int.MAX_VALUE
@@ -47,9 +44,8 @@ class Day16 : Solver {
       val subPacketsStart = input.idx
       val subResults = mutableListOf<Long>()
       while ((input.idx - subPacketsStart) < totalLength && subResults.size < numSubPackets) {
-        subResults.add(parse(input, partA))
+        subResults.add(parse(input, versionNumbers))
       }
-
       value = when (typeId) {
         0 -> subResults.sum()
         1 -> subResults.mul()
@@ -69,9 +65,5 @@ class Day16 : Solver {
       idx += num
       return this.input.substring(idx - num, idx)
     }
-  }
-
-  private fun Int.toBinary(): String {
-    return String.format("%4s", this.toString(2)).replace(" ".toRegex(), "0")
   }
 }

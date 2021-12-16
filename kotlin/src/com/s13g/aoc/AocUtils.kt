@@ -58,6 +58,10 @@ fun <E> Collection<Collection<E>>.intersectAll(): Set<E> {
   return common
 }
 
+fun Int.toBinary(length: Int): String {
+  return String.format("%4s", this.toString(2)).replace(" ".toRegex(), "0")
+}
+
 data class XY(var x: Int, var y: Int)
 
 fun XY.addTo(other: XY) {
