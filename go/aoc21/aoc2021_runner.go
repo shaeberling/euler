@@ -7,6 +7,7 @@ import (
 	"s13g.com/euler/aoc21/p05"
 	"s13g.com/euler/aoc21/p06"
 	"s13g.com/euler/aoc21/p07"
+	"s13g.com/euler/aoc21/p17"
 	"s13g.com/euler/runner"
 )
 
@@ -21,6 +22,7 @@ func Run(dataDir string) {
 	r.AddPuzzle(5, p05.Solve, "5169", "22083")
 	r.AddPuzzle(6, p06.Solve, "383160", "1721148811504")
 	r.AddPuzzle(7, p07.Solve, "329389", "86397080")
+	r.AddPuzzle(17, p17.Solve, "5995", "3202")
 
 	r.Run(true)
 }
