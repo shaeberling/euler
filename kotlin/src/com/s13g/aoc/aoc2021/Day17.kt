@@ -28,16 +28,16 @@ class Day17 : Solver {
 
   private fun runSimulation(x1: Int, x2: Int, y1: Int, y2: Int): Pair<Int, Int> {
     var highestY = 0
-    val hittingVelocities = mutableSetOf<XY>()
+    var numHittingVelocities = 0
     // Based on our input, both x values are positive.
     for (dX in 0..300) {
       for (dY in -200..200) {
         val highY = simulate(dX, dY, x1, x2, y1, y2)
-        if (highY != Int.MIN_VALUE) hittingVelocities.add(XY(dX, dY))
+        if (highY != Int.MIN_VALUE) numHittingVelocities++
         highestY = max(highestY, highY)
       }
     }
-    return Pair(highestY, hittingVelocities.size)
+    return Pair(highestY, numHittingVelocities)
   }
 
   private fun simulate(dX: Int, dY: Int, x1: Int, x2: Int, y1: Int, y2: Int): Int {
@@ -48,7 +48,9 @@ class Day17 : Solver {
     while (pos.x <= max(x1, x2) && pos.y >= min(y1, y2)) {
       pos.addTo(vel)
       maxY = max(maxY, pos.y)
-      if (pos.x in x1..x2 && pos.y in y1..y2) return maxY
+      if (pos.x in x1..x2 && pos.y in y1..y2) {
+        return maxY
+      }
       vel.x += -vel.x.sign
       vel.y -= 1
     }
