@@ -5,9 +5,9 @@ import com.s13g.aoc.Solver
 
 class Day24 : Solver {
   override fun solve(lines: List<String>): Result {
-    val partA = OptimizedALU(9 downTo 1).solve(-1, 0, 0, 0, 0).second.toLong()
-    val partB = OptimizedALU(1..9).solve(-1, 0, 0, 0, 0).second.toLong()
-    return Result("$partA", "$partB")
+    val partA = OptimizedALU(9 downTo 1).solve(-1, 0, 0, 0, 0).second
+    val partB = OptimizedALU(1..9).solve(-1, 0, 0, 0, 0).second
+    return Result(partA, partB)
   }
 
   private class OptimizedALU(val numRange: IntProgression) {
@@ -31,7 +31,7 @@ class Day24 : Solver {
 
     // Memoization of the solve function.
     val cache = mutableMapOf<AluState, Pair<Boolean, String>>()
-    fun isInputValidCached(
+    fun solveCached(
       block: Int,
       input: Long,
       xx: Long,
@@ -76,7 +76,7 @@ class Day24 : Solver {
 
       // Continue with the next digits. Depth first search...
       for (n in numRange) {
-        val res = isInputValidCached(block + 1, n.toLong(), x, y, z)
+        val res = solveCached(block + 1, n.toLong(), x, y, z)
         if (res.first) {
           return Pair(true, "$n${res.second}")
         }
