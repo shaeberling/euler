@@ -2,6 +2,7 @@ package com.s13g.aoc.aoc2021
 
 import com.s13g.aoc.Result
 import com.s13g.aoc.Solver
+import kotlin.math.abs
 
 class Day22 : Solver {
   val regex =
@@ -19,29 +20,29 @@ class Day22 : Solver {
     val world = mutableSetOf<Cuboid>()
 
     for (line in lines) {
-      val (newCube, on) = parseLine(line)
-      if (partA) {
-        val coords = listOf(
-          newCube.from.x,
-          newCube.from.y,
-          newCube.from.z,
-          newCube.to.x,
-          newCube.to.y,
-          newCube.to.z
-        )
-        if (coords.min()!! < -50 || coords.max()!! > 50) continue
-      }
+      val (cube, on) = parseLine(line)
+      // Only consider lines within the -50..50 space for partA.
+      if (partA &&
+        listOf(
+          cube.from.x,
+          cube.from.y,
+          cube.from.z,
+          cube.to.x,
+          cube.to.y,
+          cube.to.z
+        ).map { abs(it) }.max()!! > 50
+      ) continue
 
       // We cut away the overlapping pieces from all existing cubes.
       // This way if the new cube is on, we can add it completely.
       // If it's off, we don't add it and thus remove the intersection.
       for (existingCube in world.toList()) {
-        if (newCube.intersects(existingCube)) {
+        if (cube.intersects(existingCube)) {
           world.remove(existingCube)
-          world.addAll(existingCube.carve(newCube))
+          world.addAll(existingCube.carve(cube))
         }
       }
-      if (on) world.add(newCube)
+      if (on) world.add(cube)
       // After each step there should be no intersecting cubes.
     }
     return world.map { it.size() }.sum()
