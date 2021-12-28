@@ -2,7 +2,7 @@ package com.s13g.aoc.aoc2021
 
 import com.s13g.aoc.PuzzleRunner
 
-private const val ONLY_RUN_NEW = true
+private const val ONLY_RUN_NEW = false
 
 private const val DAY13_PART2 = """
 ####..##..#..#..##..#..#.###..####..##.
@@ -41,9 +41,9 @@ fun main() {
   runner.addProblem(20, Day20(), "5359", "12333")
   runner.addProblem(21, Day21(), "518418", "116741133558209")
   runner.addProblem(22, Day22(), "647062", "1319618626668022")
-//  runner.addProblem(23, Day23(), "", "", true)
+  runner.addProblem(23, Day23(), "15237", "47509")
   runner.addProblem(24, Day24(), "29599469991739", "17153114691118", true)
-//  runner.addProblem(25, Day25(), "534", "Happy Holidays", true)
+  runner.addProblem(25, Day25(), "534", "Happy Holidays")
   runner.run()
 
 }

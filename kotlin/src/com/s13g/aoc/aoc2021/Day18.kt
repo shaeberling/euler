@@ -2,10 +2,7 @@ package com.s13g.aoc.aoc2021
 
 import com.s13g.aoc.Result
 import com.s13g.aoc.Solver
-import kotlin.math.ceil
-import kotlin.math.floor
 import kotlin.math.max
-import kotlin.test.fail
 
 /**
  * --- Day 18: Snailfish ---
@@ -103,11 +100,11 @@ class Day18 : Solver {
     override fun rightMostLeaf() = this
     override fun leftMostLeaf() = this
     override fun firstLeftUp(): SfNum? {
-      fail("Should never be called")
+      error("Should never be called")
     }
 
     override fun firstRightUp(): SfNum? {
-      fail("Should never be called")
+      error("Should never be called")
     }
 
     override fun magnitude() = num

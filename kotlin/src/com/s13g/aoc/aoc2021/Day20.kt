@@ -2,7 +2,6 @@ package com.s13g.aoc.aoc2021
 
 import com.s13g.aoc.Result
 import com.s13g.aoc.Solver
-import kotlin.test.fail
 
 /**
  * --- Day 20: Trench Map ---
@@ -52,7 +51,7 @@ class Day20 : Solver {
         if (result == newSize) return result
         result = newSize
       }
-      fail("Unreachable")
+      error("Unreachable")
     }
 
     private fun isLit(x: Int, y: Int) = if (x < 0 || y < 0 || x >= width || y >= height) false else str[y][x]
