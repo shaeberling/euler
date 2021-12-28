@@ -5,6 +5,10 @@ import com.s13g.aoc.Solver
 import kotlin.math.max
 import kotlin.math.min
 
+/**
+ * --- Day 23: Amphipod ---
+ * https://adventofcode.com/2021/day/23
+ */
 class Day23 : Solver {
 
   companion object {

@@ -3,6 +3,10 @@ package com.s13g.aoc.aoc2021
 import com.s13g.aoc.Result
 import com.s13g.aoc.Solver
 
+/**
+ * --- Day 25: Sea Cucumber ---
+ * https://adventofcode.com/2021/day/25
+ */
 class Day25 : Solver {
   override fun solve(lines: List<String>): Result {
     val width = lines[0].length

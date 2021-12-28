@@ -4,6 +4,10 @@ import com.s13g.aoc.Result
 import com.s13g.aoc.Solver
 import kotlin.math.abs
 
+/**
+ * --- Day 22: Reactor Reboot ---
+ * https://adventofcode.com/2021/day/22
+ */
 class Day22 : Solver {
   val regex =
     """(\w+)+ x=([-]*\d+)..([-]*\d+),y=([-]*\d+)..([-]*\d+),z=([-]*\d+)..([-]*\d+)""".toRegex()
