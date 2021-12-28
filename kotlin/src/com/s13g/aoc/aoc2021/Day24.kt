@@ -4,6 +4,7 @@ import com.s13g.aoc.Result
 import com.s13g.aoc.Solver
 
 class Day24 : Solver {
+
   override fun solve(lines: List<String>): Result {
     val partA = OptimizedALU(9 downTo 1).solve(-1, 0, 0, 0, 0).second
     val partB = OptimizedALU(1..9).solve(-1, 0, 0, 0, 0).second
@@ -11,6 +12,8 @@ class Day24 : Solver {
   }
 
   private class OptimizedALU(val numRange: IntProgression) {
+    val NO_RESULT = Pair(false, "")
+
     // This is extracted from the input...
     val params = listOf(
       Parameters(14L, 1L, 7L),
@@ -39,7 +42,7 @@ class Day24 : Solver {
       zz: Long
     ): Pair<Boolean, String> {
       // A bit of a hack, but this shortens the number of tries significantly.
-      if (zz > 5000000) return Pair(false, "")
+      if (zz > 5000000) return NO_RESULT
       val state = AluState(block, input, xx, yy, zz)
       if (cache.containsKey(state)) return cache[state]!!
       val result = solve(block, input, xx, yy, zz)
@@ -49,7 +52,7 @@ class Day24 : Solver {
 
     fun solve(
       block: Int,
-      input: Long,
+      inp: Long,
       xx: Long,
       yy: Long,
       zz: Long
@@ -60,13 +63,8 @@ class Day24 : Solver {
 
       if (block >= 0) {
         // Reverse engineered from the input.
-        x = z % 26L + params[block].a
-        z /= params[block].b
-        x = if (x == input) 0 else 1
-        y = (25L * x) + 1
-        z *= y
-        y = (input + params[block].c) * x
-        z += y
+        x = if ((z % 26 + params[block].a) == inp) 0 else 1
+        z = (z / params[block].b) * ((25 * x) + 1) + (inp + params[block].c) * x
       }
 
       // This was the last block.
@@ -81,7 +79,7 @@ class Day24 : Solver {
           return Pair(true, "$n${res.second}")
         }
       }
-      return Pair(false, "")
+      return NO_RESULT
     }
   }
 
