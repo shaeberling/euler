@@ -6,93 +6,78 @@ import kotlin.math.max
 import kotlin.math.min
 
 class Day23 : Solver {
+
+  companion object {
+    val podCost = mutableMapOf(
+      "A" to 1,
+      "B" to 10,
+      "C" to 100,
+      "D" to 1000
+    )
+  }
+
   override fun solve(lines: List<String>): Result {
-    // FIXME: Parse this.
+    // These are taken from the input.
     val podsPartA = setOf(
-      Pod("B", XY(3, 2), false),
-      Pod("A", XY(5, 2), false),
-      Pod("a", XY(7, 2), false),
-      Pod("d", XY(9, 2), false),
-      Pod("D", XY(3, 3), false),
-      Pod("C", XY(5, 3), false),
-      Pod("b", XY(7, 3), false),
-      Pod("c", XY(9, 3), false)
+      Pod("B", XY(3, 2)),
+      Pod("A", XY(5, 2)),
+      Pod("A", XY(7, 2)),
+      Pod("D", XY(9, 2)),
+      Pod("D", XY(3, 3)),
+      Pod("C", XY(5, 3)),
+      Pod("B", XY(7, 3)),
+      Pod("C", XY(9, 3))
     )
     val podsPartB = setOf(
-      Pod("B", XY(3, 2), false),
-      Pod("A", XY(5, 2), false),
-      Pod("a", XY(7, 2), false),
-      Pod("d", XY(9, 2), false),
-      Pod("D", XY(3, 3), false),
-      Pod("C", XY(5, 3), false),
-      Pod("B", XY(7, 3), false),
-      Pod("A", XY(9, 3), false),
-      Pod("D", XY(3, 4), false),
-      Pod("B", XY(5, 4), false),
-      Pod("A", XY(7, 4), false),
-      Pod("C", XY(9, 4), false),
-      Pod("D", XY(3, 5), false),
-      Pod("C", XY(5, 5), false),
-      Pod("b", XY(7, 5), false),
-      Pod("c", XY(9, 5), false)
+      Pod("B", XY(3, 2)),
+      Pod("A", XY(5, 2)),
+      Pod("A", XY(7, 2)),
+      Pod("D", XY(9, 2)),
+      Pod("D", XY(3, 3)),
+      Pod("C", XY(5, 3)),
+      Pod("B", XY(7, 3)),
+      Pod("A", XY(9, 3)),
+      Pod("D", XY(3, 4)),
+      Pod("B", XY(5, 4)),
+      Pod("A", XY(7, 4)),
+      Pod("C", XY(9, 4)),
+      Pod("D", XY(3, 5)),
+      Pod("C", XY(5, 5)),
+      Pod("B", XY(7, 5)),
+      Pod("C", XY(9, 5))
     )
 
-    // Example config...
-    val examplePartB = setOf(
-      Pod("B", XY(3, 2), false),
-      Pod("C", XY(5, 2), false),
-      Pod("b", XY(7, 2), false),
-      Pod("D", XY(9, 2), false),
-
-      Pod("D", XY(3, 3), false),
-      Pod("C", XY(5, 3), false),
-      Pod("B", XY(7, 3), false),
-      Pod("A", XY(9, 3), false),
-
-      Pod("D", XY(3, 4), false),
-      Pod("B", XY(5, 4), false),
-      Pod("A", XY(7, 4), false),
-      Pod("C", XY(9, 4), false),
-
-      Pod("A", XY(3, 5), false),
-      Pod("d", XY(5, 5), false),
-      Pod("c", XY(7, 5), false),
-      Pod("a", XY(9, 5), false)
-    )
-
-
-    val partA = cheapestWayCached(podsPartA)
-    val partB = 0
+    val partA = cheapestWayCached(podsPartA, WorldData(false))
+    val partB = cheapestWayCached(podsPartB, WorldData(true))
     return Result("$partA", "$partB")
 
   }
 
+  // Memoization for the 'cheapestWay' function.
   private val cache = mutableMapOf<Set<Pod>, Int>()
-  private fun cheapestWayCached(pods: Set<Pod>): Int {
+  private fun cheapestWayCached(pods: Set<Pod>, world: WorldData): Int {
     if (cache.containsKey(pods)) return cache[pods]!!
-    val result = cheapestWay(pods)
+    val result = cheapestWay(pods, world)
     cache[pods] = result
     return result
   }
 
-  private fun cheapestWay(pods: Set<Pod>): Int {
-    val state = State(pods)
+  private fun cheapestWay(pods: Set<Pod>, world: WorldData): Int {
+    val state = State(pods, world)
     if (state.isDone()) {
-      println("Done!")
       return 0
     }
 
-    // Sort options by cost
+    // Sort options by cost. If no options exist, return immediately.
     val options = state.genNextSteps().sortedBy { it.second }
     if (options.isEmpty()) return Int.MAX_VALUE
 
-
     var cheapestCost = Int.MAX_VALUE
-    for (option in options.toList()) {
+    for (option in options) {
       // Do not process if the cost for this step is higher than processing the
       // tail.
       if (option.second >= cheapestCost) continue
-      val cost = cheapestWayCached(option.first.pods)
+      val cost = cheapestWayCached(option.first.pods, world)
       if (cost != Int.MAX_VALUE) {
         val totalCost = cost + option.second
         cheapestCost = min(cheapestCost, totalCost)
@@ -101,9 +86,7 @@ class Day23 : Solver {
     return cheapestCost
   }
 
-
-  private data class State(val pods: Set<Pod>) {
-
+  private data class State(val pods: Set<Pod>, val world: WorldData) {
     fun genNextSteps(): Set<Pair<State, Int>> {
       if (isDone()) error("Should never be called")
 
@@ -111,30 +94,35 @@ class Day23 : Solver {
 
       // For each pod, figure out all the places it can go.
       for (pod in pods) {
-        // The pod has already moved but is not yet in its room, it now needs to
-        // find its way to its room.
+        // The pod has already moved into the hallways it now needs to find its
+        // way to its room.
         if (pod.pos.y == 1) {
           // First check of the room the pod needs to go to is empty or only
           // occupied by the correct pod.
           if (isRoomReadyToEnter(pod.id)) {
             // Second, check if the way is clear to enter the room
-            val goalX = horLocForType(pod.id)
+            val goalX = world.horLocForType(pod.id)
 
             var clearToGo = true
             var movesToRoom = 0
             for (x in min(goalX, pod.pos.x)..max(goalX, pod.pos.x)) {
               val tile = get(x, 1)
-              if (tile != "." && tile != pod.id) clearToGo = false
+              if (tile != "." && x != pod.pos.x) {
+                clearToGo = false
+                break
+              }
               movesToRoom++
             }
             if (clearToGo) {
-              // Check if the lower room is available.
-              if (isEmpty(goalX, 3)) {
-                val newState = this.newState(Pod(pod.id, XY(goalX, 3), true))
-                results.add(Pair(newState, (movesToRoom + 1) * pod.moveCost()))
-              } else {
-                val newState = this.newState(Pod(pod.id, XY(goalX, 2), true))
-                results.add(Pair(newState, (movesToRoom) * pod.moveCost()))
+              // What's the lowest slot in the room that's available...
+              for (y in world.vertLocsForRooms()) {
+                if (isEmpty(goalX, y)) {
+                  val newState =
+                    this.newState(pod, Pod(pod.id, XY(goalX, y), true))
+                  results.add(Pair(newState, (movesToRoom) * podCost[pod.id]!!))
+                  break
+                }
+                movesToRoom++
               }
             }
           }
@@ -155,8 +143,8 @@ class Day23 : Solver {
           // Check left way
           while (get(x, y) == ".") {
             if (x != 3 && x != 5 && x != 7 && x != 9) {
-              val newState = this.newState(Pod(pod.id, XY(x, y), true))
-              results.add(Pair(newState, moves * pod.moveCost()))
+              val newState = this.newState(pod, Pod(pod.id, XY(x, y), true))
+              results.add(Pair(newState, moves * podCost[pod.id]!!))
             }
             moves++
             x--
@@ -166,8 +154,8 @@ class Day23 : Solver {
           // Check right way
           while (get(x, y) == ".") {
             if (x != 3 && x != 5 && x != 7 && x != 9) {
-              val newState = this.newState(Pod(pod.id, XY(x, y), true))
-              results.add(Pair(newState, moves * pod.moveCost()))
+              val newState = this.newState(pod, Pod(pod.id, XY(x, y), true))
+              results.add(Pair(newState, moves * podCost[pod.id]!!))
             }
             moves++
             x++
@@ -177,54 +165,69 @@ class Day23 : Solver {
       return results
     }
 
-    private fun newState(replacePod: Pod): State {
-      val newState = pods.filter { it.id != replacePod.id }.toMutableSet()
+    private fun newState(oldPod: Pod, replacePod: Pod): State {
+      val newState = pods.filter { it != oldPod }.toMutableSet()
       newState.add(replacePod)
-      return State(newState)
+      return State(newState, world)
     }
 
-    fun isDone() =
-      get(3, 2).equals("A", true) && get(3, 3).equals("A", true) &&
-          get(5, 2).equals("B", true) && get(5, 3).equals("B", true) &&
-          get(7, 2).equals("C", true) && get(7, 3).equals("C", true) &&
-          get(9, 2).equals("D", true) && get(9, 3).equals("D", true)
+    fun isDone() = world
+      .podIds.sumBy { podID ->
+        world.roomLocations(podID)
+          .count { loc -> get(loc.x, loc.y) != podID }
+      } == 0
 
     private fun get(x: Int, y: Int): String {
       val pos = XY(x, y)
-      return pods.firstOrNull { it.pos == pos }?.id ?: tileType(pos)
+      return pods.firstOrNull { it.pos == pos }?.id ?: world.tileTypes[pos]!!
+    }
+
+    private fun isRoomReadyToEnter(podId: String): Boolean {
+      return world.roomLocations(podId).map { get(it.x, it.y) }
+        .count { it != podId && it != "." } == 0
+    }
+
+    private fun isEmpty(x: Int, y: Int): Boolean {
+      val pos = XY(x, y)
+      return pods.count { it.pos == pos } == 0 && world.tileTypes[pos] != "#"
+    }
+  }
+
+  private data class XY(val x: Int, val y: Int)
+  private data class Pod(
+    val id: String,
+    val pos: XY,
+    val moved: Boolean = false
+  )
+
+  private class WorldData(val partB: Boolean) {
+    val podIds = listOf("A", "B", "C", "D")
+    private val locsForRoom = podIds.associateWith { genLocsForRoom(it) }
+    val tileTypes = genTileTypes()
+
+
+    private fun genTileTypes(): Map<XY, String> {
+      val result = mutableMapOf<XY, String>()
+      for (y in 0..(if (partB) 6 else 4)) {
+        for (x in 0..12) {
+          val loc = XY(x, y)
+          result[loc] = tileType(loc)
+        }
+      }
+      return result
     }
 
     private fun tileType(pos: XY): String {
-      if (pos == XY(3, 2) || pos == XY(3, 3)) return "α"
-      if (pos == XY(5, 2) || pos == XY(5, 3)) return "β"
-      if (pos == XY(7, 2) || pos == XY(7, 3)) return "γ"
-      if (pos == XY(9, 2) || pos == XY(9, 3)) return "δ"
+      if (pos in locsForRoom["A"]!!) return "."
+      if (pos in locsForRoom["B"]!!) return "."
+      if (pos in locsForRoom["C"]!!) return "."
+      if (pos in locsForRoom["D"]!!) return "."
       if (pos.y == 1 && pos.x >= 1 && pos.x <= 11) return "."
       return "#"
     }
 
-    private fun isRoomReadyToEnter(podId: String): Boolean {
-      if (podId.equals("A", true)) {
-        return get(3, 2).equals("A", true) || get(3, 2) == "α" &&
-            get(3, 3).equals("A", true) || get(3, 3) == "α"
-      }
-      if (podId.equals("B", true)) {
-        return get(5, 2).equals("B", true) || get(5, 2) == "β" &&
-            get(5, 3).equals("B", true) || get(5, 3) == "β"
-      }
-      if (podId.equals("C", true)) {
-        return get(7, 2).equals("C", true) || get(7, 2) == "γ" &&
-            get(7, 3).equals("C", true) || get(7, 3) == "γ"
-      }
-      if (podId.equals("D", true)) {
-        return get(9, 2).equals("D", true) || get(9, 2) == "δ" &&
-            get(9, 3).equals("D", true) || get(9, 3) == "δ"
-      }
-      error("Unknown pod ID: $podId")
-    }
-
-    private fun horLocForType(podId: String): Int {
-      return when (podId.toUpperCase()) {
+    fun horLocForType(podId: String): Int {
+      return when (podId) {
         "A" -> 3
         "B" -> 5
         "C" -> 7
@@ -235,36 +238,20 @@ class Day23 : Solver {
       }
     }
 
-    private fun isHome(pod: Pod) =
-      pod.pos.y > 1 && pod.pos.x == horLocForType(pod.id)
-
-    private fun isEmpty(x: Int, y: Int): Boolean {
-      val pos = XY(x, y)
-      return pods.count { it.pos == pos } == 0 && tileType(pos) != "#"
+    fun roomLocations(podId: String): List<XY> {
+      return locsForRoom[podId]!!
     }
 
-    override fun toString(): String {
-      var result = ""
-      for (y in 0..4) {
-        for (x in 0..12) {
-          result += get(x, y)
-        }
-        result += "\n"
-      }
-      return result + "\n"
+    fun vertLocsForRooms() = if (partB) {
+      listOf(2, 3, 4, 5)
+    } else {
+      listOf(2, 3)
     }
-  }
 
-  private data class XY(val x: Int, val y: Int)
-  private data class Pod(val id: String, val pos: XY, val moved: Boolean) {
-    fun moveCost() = when (id.toUpperCase()) {
-      "A" -> 1
-      "B" -> 10
-      "C" -> 100
-      "D" -> 1000
-      else -> {
-        error("Ugh oh.")
-      }
+    private fun genLocsForRoom(podId: String): List<XY> {
+      val x = horLocForType(podId)
+      return vertLocsForRooms().map { XY(x, it) }
     }
+
   }
 }
