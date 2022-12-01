@@ -10,21 +10,11 @@ import com.s13g.aoc.resultFrom
  */
 class Day1 : Solver {
   override fun solve(lines: List<String>): Result {
-    val cals = mutableListOf<Int>()
-    var curr = 0
-    for (line in lines) {
-      if (line.isBlank()) {
-        cals.add(curr)
-        curr = 0
-      } else {
-        curr += line.toInt()
-      }
-    }
-    val desc = cals.sorted().reversed()
+    val elves = lines.joinToString("\n")
+      .split("\n\n")
+      .map { it -> it.split("\n").sumBy { it.toInt() } }
+      .sorted().reversed()
 
-    val m1 = desc[0]
-    val m2 = desc.subList(0, 3).sum()
-
-    return resultFrom(m1, m2)
+    return resultFrom(elves[0], elves.subList(0, 3).sum())
   }
 }
