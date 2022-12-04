@@ -6,6 +6,10 @@ import com.s13g.aoc.resultFrom
 import kotlin.math.max
 import kotlin.math.min
 
+/**
+ * --- Day 9: All in a Single Night ---
+ * https://adventofcode.com/2015/day/9
+ */
 class Day9 : Solver {
   override fun solve(lines: List<String>): Result {
     val re = """(\w+) to (\w+) = (\d+)$""".toRegex()
