@@ -18,10 +18,10 @@ class Day7 : Solver {
       else if (line.startsWith("$ cd ")) curr =
         curr.children[line.substring("$ cd ".length)]!!
       else if (line[0] != '$') {  // Always follows "$ ls".
-        val split = line.split(" ")
-        curr.children[split[1]] =
-          if (split[0] == "dir") FileItem(split[1], curr, 0)
-          else FileItem(split[1], curr, split[0].toLong())
+        val (sizeOrDir, name) = line.split(" ")
+        curr.children[name] =
+          if (sizeOrDir == "dir") FileItem(name, curr, 0)
+          else FileItem(name, curr, sizeOrDir.toLong())
       }
     }
     var sumPart1 = 0L
