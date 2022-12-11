@@ -25,8 +25,7 @@ class Day11 : Solver {
           var worry = if (monkey.op.operator == "*") item * monkey.opNumOr(item)
           else item + monkey.opNumOr(item)
           monkey.numInspections++
-          if (partB) worry %= monkeyDivs.mul()
-          else worry /= 3
+          worry = if (partB) worry % monkeyDivs.mul() else worry / 3
           // Throw to other monkey.
           monkeys[if (worry % monkey.divBy == 0L) monkey.decisionMonkeys.first
           else monkey.decisionMonkeys.second].items.add(worry)
@@ -34,8 +33,8 @@ class Day11 : Solver {
         monkey.items.clear()
       }
     }
-    return monkeys.map { it.numInspections }.sortedDescending().subList(0, 2)
-      .mul()
+    return monkeys.map { it.numInspections }
+      .sortedDescending().subList(0, 2).mul()
   }
 
   private fun parse(lines: List<String>): List<Monkey> {
