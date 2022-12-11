@@ -5,6 +5,10 @@ import com.s13g.aoc.Solver
 import kotlin.math.abs
 import kotlin.math.floor
 
+/**
+ * --- Day 10: Cathode-Ray Tube ---
+ * https://adventofcode.com/2022/day/10
+ */
 class Day10 : Solver {
   private var regX = 1
   private var cycle = 0
