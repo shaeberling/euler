@@ -4,7 +4,7 @@ import com.s13g.aoc.PuzzleRunner
 
 private const val ONLY_RUN_NEW = true
 
-val DAY_10_PART_2 = """
+const val DAY_10_PART_2 = """
 ####.#..#.###..####.#....###....##.###..
 #....#..#.#..#....#.#....#..#....#.#..#.
 ###..####.###....#..#....#..#....#.#..#.
@@ -29,9 +29,9 @@ fun main() {
   runner.addProblem(8, Day8(), "1814", "330786")
   runner.addProblem(9, Day9(), "6367", "2536")
   runner.addProblem(10, Day10(), "12640", DAY_10_PART_2)
-   runner.addProblem(11, Day11(), "55216", "12848882750")
-   runner.addProblem(12, Day12(), "437", "430", true)
-  // runner.addProblem(13, Day13(), "", "", true)
+  runner.addProblem(11, Day11(), "55216", "12848882750")
+  runner.addProblem(12, Day12(), "437", "430")
+  runner.addProblem(13, Day13(), "6478", "21922", true)
   // runner.addProblem(14, Day14(), "", "", true)
   // runner.addProblem(15, Day15(), "", "", true)
   // runner.addProblem(16, Day16(), "", "", true)
