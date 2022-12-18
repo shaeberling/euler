@@ -21,13 +21,9 @@ class Day18 : Solver {
   override fun solve(lines: List<String>): Result {
     val cubes = lines.map { it.split(",") }
       .map { XYZ(it[0].toInt(), it[1].toInt(), it[2].toInt()) }.toSet()
-
-    val minX = cubes.minOf { it.x }
-    val maxX = cubes.maxOf { it.x }
-    val minY = cubes.minOf { it.y }
-    val maxY = cubes.maxOf { it.y }
-    val minZ = cubes.minOf { it.z }
-    val maxZ = cubes.maxOf { it.z }
+    val (minX, maxX) = listOf(cubes.minOf { it.x }, cubes.maxOf { it.x })
+    val (minY, maxY) = listOf(cubes.minOf { it.y }, cubes.maxOf { it.y })
+    val (minZ, maxZ) = listOf(cubes.minOf { it.z }, cubes.maxOf { it.z })
 
     val allAir = mutableSetOf<XYZ>()
     for (x in minX..maxX) {
@@ -46,16 +42,8 @@ class Day18 : Solver {
       floodFill(air, group, cubes)
       alreadyLookedAt.addAll(group)
 
-      var trapped = true
-      for (a in group) {
-        if (a.x <= minX || a.x >= maxX ||
-          a.y <= minY || a.y >= maxY ||
-          a.z <= minZ || a.z >= maxZ
-        ) {
-          trapped = false
-          break
-        }
-      }
+      val trapped =
+        !group.any { a -> a.x !in minX..maxX || a.y !in minY..maxY || a.z !in minZ..maxZ }
       if (trapped) trappedAir.addAll(group)
     }
 
