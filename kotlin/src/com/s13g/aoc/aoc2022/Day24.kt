@@ -12,12 +12,9 @@ import java.lang.RuntimeException
  */
 class Day24 : Solver {
   enum class Type { UP, DOWN, LEFT, RIGHT, WALL }
-
   private data class Blizzard(val pos: XY, val type: Type)
 
   override fun solve(lines: List<String>): Result {
-    val end = XY(lines[0].length - 2, lines.size - 1)
-
     val map = mutableListOf<Blizzard>()
     for ((y, line) in lines.withIndex()) {
       for (x in line.indices) {
@@ -34,20 +31,18 @@ class Day24 : Solver {
       }
     }
     val world = World(map, lines[0].length, lines.size)
+    val end = XY(lines[0].length - 2, lines.size - 1)
     val partA = sim(setOf(XY(1, 0)), world, end)
     val partB1 = sim(setOf(end), partA.first, XY(1, 0))
     val partB2 = sim(setOf(XY(1, 0)), partB1.first, end)
 
     return resultFrom(
-      partA.second,
-      partA.second + partB1.second + partB2.second
+      partA.second, partA.second + partB1.second + partB2.second
     )
   }
 
   private fun sim(
-    initPos: Set<XY>,
-    initWorld: World,
-    end: XY
+    initPos: Set<XY>, initWorld: World, end: XY
   ): Pair<World, Int> {
     var world = initWorld
     val positions = initPos.toMutableSet()
@@ -57,16 +52,13 @@ class Day24 : Solver {
       val posCopy = positions.toSet()
       positions.clear()
       for (pos in posCopy) {
-        // Five options:Wait, Left, right, up, down
-        if (nextWorld.isFree(pos)) positions.add(pos)
-        val left = XY(pos.x - 1, pos.y)
-        if (nextWorld.isFree(left)) positions.add(left)
-        val right = XY(pos.x + 1, pos.y)
-        if (nextWorld.isFree(right)) positions.add(right)
-        val up = XY(pos.x, pos.y - 1)
-        if (nextWorld.isFree(up)) positions.add(up)
-        val down = XY(pos.x, pos.y + 1)
-        if (nextWorld.isFree(down)) positions.add(down)
+        positions.addAll(setOf(
+          pos, // Wait
+          XY(pos.x - 1, pos.y),
+          XY(pos.x + 1, pos.y),
+          XY(pos.x, pos.y - 1),
+          XY(pos.x, pos.y + 1)
+        ).filter { nextWorld.isFree(it) })
       }
       world = nextWorld
       minute++
@@ -81,7 +73,9 @@ class Day24 : Solver {
   ) {
 
     fun isFree(pos: XY) =
-      map.count { it.pos == pos } == 0 && pos.x in 0 until width && pos.y in 0 until height
+      map.count { it.pos == pos } == 0 &&
+          pos.x in 0 until width &&
+          pos.y in 0 until height
 
     fun next(): World {
       val result = mutableListOf<Blizzard>()
