@@ -11,7 +11,7 @@ import kotlin.math.pow
 class Day25 : Solver {
   val map = mapOf('0' to 0L, '1' to 1L, '2' to 2L, '-' to -1L, '=' to -2L)
   override fun solve(lines: List<String>): Result {
-    return Result(lines.sumOf { toDecimal(it) }.toSnafu(), "")
+    return Result(lines.sumOf { toDecimal(it) }.toSnafu(), "Happy Holidays")
   }
 
   private fun toDecimal(snafu: String) = snafu.reversed().withIndex()

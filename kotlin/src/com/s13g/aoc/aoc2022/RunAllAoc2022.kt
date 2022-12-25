@@ -34,7 +34,7 @@ fun main() {
   runner.addProblem(13, Day13(), "6478", "21922")
   runner.addProblem(14, Day14(), "745", "27551")
   runner.addProblem(15, Day15(), "4876693", "11645454855041")
-//  runner.addProblem(16, Day16(), "1559", "", true)
+  runner.addProblem(16, Day16(), "1559", "", true)
   runner.addProblem(17, Day17(), "3119", "1536994219669")
   runner.addProblem(18, Day18(), "4604", "2604")
   runner.addProblem(19, Day19(), "1427", "4400")
@@ -43,6 +43,6 @@ fun main() {
 //  runner.addProblem(22, Day22(), "", "", true)
   runner.addProblem(23, Day23(), "4236", "1023")
   runner.addProblem(24, Day24(), "260", "747")
-  runner.addProblem(25, Day25(), "2-21=02=1-121-2-11-0", "", true)
+  runner.addProblem(25, Day25(), "2-21=02=1-121-2-11-0", "Happy Holidays")
   runner.run()
 }
