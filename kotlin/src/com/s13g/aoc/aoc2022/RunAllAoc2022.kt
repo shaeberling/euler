@@ -40,9 +40,9 @@ fun main() {
   runner.addProblem(19, Day19(), "1427", "4400")
   runner.addProblem(20, Day20(), "10831", "6420481789383")
   runner.addProblem(21, Day21(), "84244467642604", "3759569926192")
-  // runner.addProblem(22, Day22(), "", "", true)
-  runner.addProblem(23, Day23(), "4236", "1023" , true)
+//  runner.addProblem(22, Day22(), "", "", true)
+  runner.addProblem(23, Day23(), "4236", "1023")
   runner.addProblem(24, Day24(), "260", "747")
-  // runner.addProblem(25, Day25(), "", "", true)
+  runner.addProblem(25, Day25(), "2-21=02=1-121-2-11-0", "", true)
   runner.run()
 }
