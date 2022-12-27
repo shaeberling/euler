@@ -5,6 +5,7 @@ import com.s13g.aoc.Solver
 import com.s13g.aoc.XY
 import com.s13g.aoc.add
 import com.s13g.aoc.addTo
+import com.s13g.aoc.aocRange
 import com.s13g.aoc.resultFrom
 
 /**
@@ -12,8 +13,6 @@ import com.s13g.aoc.resultFrom
  * https://adventofcode.com/2022/day/22
  */
 class Day22 : Solver {
-
-  private val tileSize = 50  // 50 for the real input.
   private val deltas = listOf(XY(1, 0), XY(0, 1), XY(-1, 0), XY(0, -1))
 
   private enum class Dir { LEFT, RIGHT, NOTHING }
@@ -26,38 +25,31 @@ class Day22 : Solver {
     val forward = setOf(
       AreaMapping( // A
         Area(XY(100, 50), XY(100, 99)),
-        Area(XY(100, 50), XY(199, 50)),
-        XY(0, 1), null, 0, 3
+        Area(XY(100, 50), XY(199, 50)), 0, 3
       ),
       AreaMapping( // B
         Area(XY(150, 0), XY(150, 49)),
-        Area(XY(100, 100), XY(100, 149)),
-        null, XY(0, -1), 0, 2
+        Area(XY(100, 149), XY(100, 100)), 0, 2
       ),
       AreaMapping( // C
         Area(XY(50, 150), XY(99, 150)),
-        Area(XY(50, 150), XY(50, 199)),
-        null, XY(1, 0), 1, 2
+        Area(XY(50, 150), XY(50, 199)), 1, 2
       ),
       AreaMapping( // D
         Area(XY(100, -1), XY(149, -1)),
-        Area(XY(0, 200), XY(49, 200)),
-        XY(1, 0), null, 3, 3
+        Area(XY(0, 200), XY(49, 200)), 3, 3
       ),
       AreaMapping( // E
         Area(XY(50, -1), XY(99, -1)),
-        Area(XY(-1, 150), XY(-1, 199)),
-        null, XY(1, 0), 3, 0
+        Area(XY(-1, 150), XY(-1, 199)), 3, 0
       ),
       AreaMapping( // F
         Area(XY(49, 0), XY(49, 49)),
-        Area(XY(-1, 100), XY(-1, 149)),
-        null, XY(0, -1), 2, 0
+        Area(XY(-1, 149), XY(-1, 100)), 2, 0
       ),
       AreaMapping( // G
         Area(XY(49, 50), XY(49, 99)),
-        Area(XY(0, 99), XY(49, 99)),
-        XY(0, 1), null, 2, 1
+        Area(XY(0, 99), XY(49, 99)), 2, 1
       )
     )
     return forward.plus(forward.map { it.inverse() })
@@ -74,10 +66,7 @@ class Day22 : Solver {
   }
 
   private fun solveB(
-    start: XY,
-    map: Map<XY, Tile>,
-    steps: List<Step>,
-    partA: Boolean
+    start: XY, map: Map<XY, Tile>, steps: List<Step>, partA: Boolean
   ): Int {
     var pos = start
     val maxX = map.keys.maxOf { it.x }
@@ -123,30 +112,22 @@ class Day22 : Solver {
   }
 
   private fun transportB(pos: XY, dir: Int): Pair<XY, Int> {
-    // Walk it back one step (opposite direction)
-    val oppDir = (dir + 2) % 4
-    val origPos = pos.add(deltas[oppDir])
-    val dX = origPos.x % tileSize
-    val dY = origPos.y % tileSize
     for (am in mappings) {
       if (am.dirFrom == dir && am.from.isInside(pos)) {
-        var newX = am.to.from.x
-        var newY = am.to.from.y
-        if (am.xFrom != null) {
-          if (am.xFrom.x != 0) {
-            newX += (if (am.xFrom.x == 1) dX else tileSize - dX - 1)
-          } else if (am.xFrom.y != 0) {
-            newX += if (am.xFrom.y == 1) dY else tileSize - dY - 1
-          }
+        val fromXs = aocRange(am.from.from.x, am.from.to.x).toList()
+        val fromYs = aocRange(am.from.from.y, am.from.to.y).toList()
+        val toXs = aocRange(am.to.from.x, am.to.to.x).toList()
+        val toYs = aocRange(am.to.from.y, am.to.to.y).toList()
+
+        val fromXIdx = fromXs.indexOf(pos.x)
+        val fromYIdx = fromYs.indexOf(pos.y)
+
+        // Check if X get mapped to X, or to Y.
+        return if (fromXs.size == toXs.size) {
+          Pair(XY(toXs[fromXIdx], toYs[fromYIdx]), am.dirTo)
+        } else {
+          Pair(XY(toXs[fromYIdx], toYs[fromXIdx]), am.dirTo)
         }
-        if (am.yFrom != null) {
-          if (am.yFrom.x != 0) {
-            newY += (if (am.yFrom.x == 1) dX else tileSize - dX - 1)
-          } else if (am.yFrom.y != 0) {
-            newY += if (am.yFrom.y == 1) dY else tileSize - dY - 1
-          }
-        }
-        return Pair(XY(newX, newY), am.dirTo)
       }
     }
     throw RuntimeException("Mapping not found for pos=$pos")
@@ -177,42 +158,19 @@ class Day22 : Solver {
     return result
   }
 
-  private data class Step(
-    val num: Int,
-    val dir: Dir
-  )
+  private data class Step(val num: Int, val dir: Dir)
 
   private data class Area(val from: XY, val to: XY) {
-    fun isInside(pos: XY) = pos.x in from.x..to.x && pos.y in from.y..to.y
+    fun isInside(pos: XY) =
+      pos.x in aocRange(from.x, to.x) && pos.y in aocRange(from.y, to.y)
   }
 
   private data class AreaMapping(
     val from: Area,
     val to: Area,
-    val xFrom: XY?,
-    val yFrom: XY?,
     val dirFrom: Int,
     val dirTo: Int,
   ) {
-    fun inverse(): AreaMapping {
-      var newXFrom: XY? = null
-      var newYFrom: XY? = null
-      if (xFrom != null) {
-        if (xFrom.x != 0) newXFrom = XY(xFrom.x, 0)
-        if (xFrom.y != 0) newYFrom = XY(xFrom.y, 0)
-      }
-      if (yFrom != null) {
-        if (yFrom.x != 0) newXFrom = XY(0, yFrom.x)
-        if (yFrom.y != 0) newYFrom = XY(0, yFrom.y)
-      }
-      return AreaMapping(
-        to,
-        from,
-        newXFrom,
-        newYFrom,
-        (dirTo + 2) % 4,
-        (dirFrom + 2) % 4
-      )
-    }
+    fun inverse() = AreaMapping(to, from, (dirTo + 2) % 4, (dirFrom + 2) % 4)
   }
 }
