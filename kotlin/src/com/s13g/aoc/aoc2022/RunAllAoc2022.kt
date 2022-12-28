@@ -2,7 +2,7 @@ package com.s13g.aoc.aoc2022
 
 import com.s13g.aoc.PuzzleRunner
 
-private const val ONLY_RUN_NEW = true
+private const val ONLY_RUN_NEW = false
 
 const val DAY_10_PART_2 = """
 ####.#..#.###..####.#....###....##.###..
