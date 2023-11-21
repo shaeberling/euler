@@ -36,6 +36,11 @@ fun readAsString(file: Path): List<String> {
   }
 }
 
+// Range that isn't depended on which one is larger
+fun aocRange(from: Int, to: Int) =
+  if (from < to) from..to
+  else from downTo to
+
 fun List<Long>.mul(): Long {
   var result: Long = this[0]
   for (idx in 1 until this.size) {
@@ -69,6 +74,9 @@ fun XY.addTo(other: XY) {
   this.y += other.y
 }
 
+fun XY.subtract(other: XY) = XY(x - other.x, y - other.y)
+fun XY.add(other: XY) = XY(x + other.x, y + other.y)
+
 fun XY.max() = maxOf(x, y)
 
 /** Rotates the point times*90 degrees around the origin. */
@@ -76,7 +84,8 @@ fun XY.rotate90(times: Int, left: Boolean): XY {
   val result = XY(this.x, this.y)
   for (t in 0 until times) {
     val tempX = result.x
-    result.x = (if (left) -1 else 1) * result.y; result.y = (if (!left) -1 else 1) * tempX
+    result.x = (if (left) -1 else 1) * result.y; result.y =
+      (if (!left) -1 else 1) * tempX
   }
   return result
 }
