@@ -11,5 +11,6 @@
     <orderEntry type="library" name="com.google.guava:guava:27.1-jre" level="project" />
     <orderEntry type="library" name="KotlinJavaRuntime" level="project" />
     <orderEntry type="library" name="google.guava" level="application" />
+    <orderEntry type="library" name="KotlinJavaRuntime" level="project" />
   </component>
 </module>
