@@ -10,7 +10,7 @@ private const val ONLY_RUN_NEW = true
  */
 fun main() {
   val runner = PuzzleRunner(ONLY_RUN_NEW, 2023)
-  runner.addProblem(1, Day1(), "", "")
+  runner.addProblem(1, Day1(), "55834", "53221", true)
 //  runner.addProblem(2, Day2(), "", "")
 //  runner.addProblem(3, Day3(), "", "")
 //  runner.addProblem(4, Day4(), "", "")
