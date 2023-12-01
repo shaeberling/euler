@@ -3,11 +3,7 @@
   <component name="Kotlin2JvmCompilerArguments">
     <option name="jvmTarget" value="11" />
   </component>
-  <component name="KotlinCommonCompilerArguments">
-    <option name="apiVersion" value="1.7" />
-    <option name="languageVersion" value="1.7" />
-  </component>
   <component name="KotlinJpsPluginSettings">
-    <option name="version" value="1.9.20-release-507" />
+    <option name="version" value="1.9.21-release-633" />
   </component>
 </project>

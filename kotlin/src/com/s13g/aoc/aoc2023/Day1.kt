@@ -3,6 +3,10 @@ package com.s13g.aoc.aoc2023
 import com.s13g.aoc.Result
 import com.s13g.aoc.Solver
 
+/**
+ * --- Day 1: Trebuchet?! ---
+ * https://adventofcode.com/2023/day/1
+ */
 class Day1 : Solver {
   val digitsStr = "one,two,three,four,five,six,seven,eight,nine".split(",")
 
