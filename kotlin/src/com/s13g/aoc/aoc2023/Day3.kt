@@ -34,30 +34,27 @@ class Day3 : Solver {
   }
 
   private fun extractParts(schematic: Schematic): MutableList<Part> {
+    val result = mutableListOf<Part>()
+
     class TempResult {
       var buf = ""
       var isPart = false
       var gearLocations = mutableSetOf<XY>()
+      fun addToResult() { result.add(Part(buf.toInt(), gearLocations)) }
     }
+    var tr: TempResult
 
-    val result = mutableListOf<Part>()
-
-    var tr = TempResult()
-    for (y in 0 until schematic.lines.size) {
-      if (tr.buf.isNotBlank() && tr.isPart) {
-        result.add(Part(tr.buf.toInt(), tr.gearLocations))
-      }
+    for ((y, line) in schematic.lines.withIndex()) {
       tr = TempResult()
-      val line = schematic.lines[y]
-      for (x in line.indices) {
-        val ch = line[x]
+      for ((x, ch) in line.withIndex()) {
         if (ch.isDigit()) {
           tr.buf += ch
           if (schematic.isSymbolSurrounding(x, y)) tr.isPart = true
           tr.gearLocations.addAll(schematic.getSurroundingGears(x, y))
-        } else { // not a digit...
+        }
+        if (!ch.isDigit() || x == line.indices.last) {
           if (tr.buf.isNotBlank() && tr.isPart) {
-            result.add(Part(tr.buf.toInt(), tr.gearLocations))
+           tr.addToResult()
           }
           tr = TempResult()
         }
