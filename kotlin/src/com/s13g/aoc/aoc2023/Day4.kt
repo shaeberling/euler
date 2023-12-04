@@ -31,15 +31,13 @@ class Day4 : Solver {
   private fun parseCard(line: String): Card {
     val numsStr = line.split(": ")[1]
     val (lhs, rhs) = numsStr.split(" | ")
-    return Card(
-      lhs.trim().split(" ").filter { it.isNotBlank() }
-        .map { it.trim().toInt() }.toSet(),
-      rhs.trim().split(" ").filter { it.isNotBlank() }
-        .map { it.trim().toInt() }.toSet()
-    )
+    return Card(lhs.getListOfNums(), rhs.getListOfNums())
   }
 
   private data class Card(val winning: Set<Int>, val have: Set<Int>)
 
   private fun Card.numMatching() = have.intersect(winning).count()
+  private fun String.getListOfNums() =
+    trim().split(" ").filter { it.isNotBlank() }
+      .map { it.trim().toInt() }.toSet()
 }
