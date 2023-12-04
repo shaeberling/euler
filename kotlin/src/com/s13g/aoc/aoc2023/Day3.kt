@@ -22,12 +22,12 @@ class Day3 : Solver {
     return resultFrom(parts.sumOf { it.num }, answerB)
   }
 
-  private fun mapGearsToNums(nums: List<Part>): Map<XY, List<Part>> {
+  private fun mapGearsToNums(parts: List<Part>): Map<XY, List<Part>> {
     val result = mutableMapOf<XY, MutableList<Part>>()
-    for (num in nums) {
-      for (gear in num.gearsAt) {
-        result.putIfAbsent(gear, mutableListOf())
-        result[gear]!!.add(num)
+    for (part in parts) {
+      for (sym in part.syms.filter { it.value == '*' }) {
+        result.putIfAbsent(sym.key, mutableListOf())
+        result[sym.key]!!.add(part)
       }
     }
     return result
@@ -38,9 +38,9 @@ class Day3 : Solver {
 
     class TempResult {
       var buf = ""
-      var isPart = false
-      var gearLocations = mutableSetOf<XY>()
-      fun addToResult() { result.add(Part(buf.toInt(), gearLocations)) }
+      var symbols = mutableMapOf<XY, Char>()
+      fun addToResult() { result.add(Part(buf.toInt(), symbols)) }
+      fun isPart() = symbols.isNotEmpty()
     }
     var tr: TempResult
 
@@ -49,12 +49,11 @@ class Day3 : Solver {
       for ((x, ch) in line.withIndex()) {
         if (ch.isDigit()) {
           tr.buf += ch
-          if (schematic.isSymbolSurrounding(x, y)) tr.isPart = true
-          tr.gearLocations.addAll(schematic.getSurroundingGears(x, y))
+          tr.symbols.putAll(schematic.getSurroundingSymbols(x, y))
         }
         if (!ch.isDigit() || x == line.indices.last) {
-          if (tr.buf.isNotBlank() && tr.isPart) {
-           tr.addToResult()
+          if (tr.buf.isNotBlank() && tr.isPart()) {
+            tr.addToResult()
           }
           tr = TempResult()
         }
@@ -63,37 +62,20 @@ class Day3 : Solver {
     return result
   }
 
-  data class Part(val num: Int, val gearsAt: Set<XY>)
+  data class Part(val num: Int, val syms: Map<XY, Char>)
 
   data class Schematic(val lines: List<String>)
 
-  private fun Schematic.isSymbolSurrounding(x: Int, y: Int): Boolean {
-    for (i in x - 1..x + 1) {
-      for (j in y - 1..y + 1) {
-        if (isSymbolAt(i, j)) return true
-      }
-    }
-    return false
-  }
-
-  private fun Schematic.isSymbolAt(x: Int, y: Int): Boolean {
-    if (y < 0 || y >= lines.size || x < 0 || x >= lines[y].length) return false
-    val ch = lines[y][x]
-    return !ch.isDigit() && ch != '.'
-  }
-
-  private fun Schematic.getSurroundingGears(x: Int, y: Int): Set<XY> {
-    val result = mutableSetOf<XY>()
-    for (i in x - 1..x + 1) {
-      for (j in y - 1..y + 1) {
-        if (isSymbolGear(i, j)) result.add(XY(i, j))
+  private fun Schematic.getSurroundingSymbols(x: Int, y: Int): Map<XY, Char> {
+    val result = mutableMapOf<XY, Char>()
+    for (yy in (y - 1).coerceAtLeast(0)..(y + 1).coerceAtMost(lines.size - 1)) {
+      for (xx in (x - 1).coerceAtLeast(0)..(x + 1).coerceAtMost(lines[yy].length - 1)) {
+        val ch = lines[yy][xx]
+        if (!ch.isDigit() && ch != '.') {
+          result[XY(xx, yy)] = ch
+        }
       }
     }
     return result
-  }
-
-  private fun Schematic.isSymbolGear(x: Int, y: Int): Boolean {
-    if (y < 0 || y >= lines.size || x < 0 || x >= lines[y].length) return false
-    return lines[y][x] == '*'
   }
 }
