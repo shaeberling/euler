@@ -21,6 +21,7 @@ import java.io.FileNotFoundException
 import java.io.IOException
 import java.nio.file.Path
 import kotlin.math.abs
+import kotlin.math.pow
 
 
 /**
@@ -92,3 +93,6 @@ fun XY.rotate90(times: Int, left: Boolean): XY {
 
 /** Manhattan distance to the origin */
 fun XY.manhattan() = abs(this.x) + abs(this.y)
+
+infix fun Int.`**`(exp: Int) = this.toDouble().pow(exp).toInt()
+infix fun Long.`**`(exp: Int) = this.toDouble().pow(exp).toLong()
