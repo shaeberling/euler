@@ -21,6 +21,7 @@ import java.io.FileNotFoundException
 import java.io.IOException
 import java.nio.file.Path
 import kotlin.math.abs
+import kotlin.math.max
 import kotlin.math.pow
 
 
@@ -96,3 +97,20 @@ fun XY.manhattan() = abs(this.x) + abs(this.y)
 
 infix fun Int.`**`(exp: Int) = this.toDouble().pow(exp).toInt()
 infix fun Long.`**`(exp: Int) = this.toDouble().pow(exp).toLong()
+
+/** Lowest common multiple of a list. */
+fun lcm(numbers: List<Long>) = numbers.reduce { acc, it -> lcm(acc, it) }
+
+/** Lowest common multiple of two numbers. */
+fun lcm(a: Long, b: Long): Long {
+  val larger = max(a, b)
+  val maxLcm = a * b
+  var lcm = larger
+  while (lcm <= maxLcm) {
+    if (lcm % a == 0L && lcm % b == 0L) {
+      return lcm
+    }
+    lcm += larger
+  }
+  return maxLcm
+}
