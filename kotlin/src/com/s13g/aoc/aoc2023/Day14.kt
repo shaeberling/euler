@@ -63,34 +63,36 @@ class Day14 : Solver {
     return Grid(data, h, w)
   }
 
-}
+  private data class Grid(val data: MutableList<Char>, val h: Int, val w: Int)
 
-private data class Grid(val data: MutableList<Char>, val h: Int, val w: Int)
-
-private fun Grid.xRange(dir: Dir) = when (dir) {
-  Dir.N, Dir.S -> 0 until w
-  Dir.W -> 1 until w
-  Dir.E -> w - 2 downTo 0
-}
-
-private fun Grid.yRange(dir: Dir) = when (dir) {
-  Dir.N -> 1 until h
-  Dir.W, Dir.E -> 0 until h
-  Dir.S -> h - 2 downTo 0
-}
-
-private operator fun Grid.get(x: Int, y: Int) = data[idx(x, y)]
-private operator fun Grid.set(x: Int, y: Int, ch: Char) {
-  data[idx(x, y)] = ch
-}
-
-private fun Grid.idx(x: Int, y: Int) = y * w + x
-
-private fun Grid.load() =
-  (0 until h).sumOf { x ->
-    (0 until w).filter { y -> this[x, y] == 'O' }.sumOf { h - it }
+  private fun Grid.xRange(dir: Dir) = when (dir) {
+    Dir.N, Dir.S -> 0 until w
+    Dir.W -> 1 until w
+    Dir.E -> w - 2 downTo 0
   }
 
-private enum class Dir(val d: XY) {
-  N(XY(0, -1)), W(XY(-1, 0)), S(XY(0, 1)), E(XY(1, 0))
+  private fun Grid.yRange(dir: Dir) = when (dir) {
+    Dir.N -> 1 until h
+    Dir.W, Dir.E -> 0 until h
+    Dir.S -> h - 2 downTo 0
+  }
+
+  private operator fun Grid.get(x: Int, y: Int) = data[idx(x, y)]
+  private operator fun Grid.set(x: Int, y: Int, ch: Char) {
+    data[idx(x, y)] = ch
+  }
+
+  private fun Grid.idx(x: Int, y: Int) = y * w + x
+
+  private fun Grid.load() =
+    (0 until h).sumOf { x ->
+      (0 until w).filter { y -> this[x, y] == 'O' }.sumOf { h - it }
+    }
+
+  private enum class Dir(val d: XY) {
+    N(XY(0, -1)), W(XY(-1, 0)), S(XY(0, 1)), E(XY(1, 0))
+  }
+
+
 }
+
