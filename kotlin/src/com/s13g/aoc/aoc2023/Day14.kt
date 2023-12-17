@@ -40,9 +40,9 @@ class Day14 : Solver {
       rocksMoved = 0
       for (y in g.yRange(dir)) {
         for (x in g.xRange(dir)) {
-          if (g[x, y] == 'O' && g[x + dir.d.x, y + dir.d.y] == '.') {
-            g[x + dir.d.x, y + dir.d.y] = 'O'
-            g[x, y] = '.'
+          if (g[x, y] == 1 && g[x + dir.d.x, y + dir.d.y] == 0) {
+            g[x + dir.d.x, y + dir.d.y] = 1
+            g[x, y] = 0
             rocksMoved++
           }
         }
@@ -52,18 +52,29 @@ class Day14 : Solver {
   }
 
   private fun Grid(lines: List<String>): Grid {
+    val intMap = mapOf('.' to 0, 'O' to 1, '#' to 2)
     val w = lines[0].length
     val h = lines.size
-    val data = MutableList(w * h) { '.' }
+    // Speeds Day 14 up 2x by using IntArray instead of a list.
+    val data = IntArray(w * h) { 0 }
     for ((y, line) in lines.withIndex()) {
       for ((x, ch) in line.withIndex()) {
-        data[y * w + x] = ch
+        data[y * w + x] = intMap[ch]!!
       }
     }
     return Grid(data, h, w)
   }
 
-  private data class Grid(val data: MutableList<Char>, val h: Int, val w: Int)
+  private data class Grid(val data: IntArray, val h: Int, val w: Int) {
+    override fun equals(other: Any?): Boolean {
+      if (this === other) return true
+      if (javaClass != other?.javaClass) return false
+      other as Grid
+      return data.contentEquals(other.data)
+    }
+
+    override fun hashCode() = data.contentHashCode()
+  }
 
   private fun Grid.xRange(dir: Dir) = when (dir) {
     Dir.N, Dir.S -> 0 until w
@@ -78,7 +89,7 @@ class Day14 : Solver {
   }
 
   private operator fun Grid.get(x: Int, y: Int) = data[idx(x, y)]
-  private operator fun Grid.set(x: Int, y: Int, ch: Char) {
+  private operator fun Grid.set(x: Int, y: Int, ch: Int) {
     data[idx(x, y)] = ch
   }
 
@@ -86,7 +97,7 @@ class Day14 : Solver {
 
   private fun Grid.load() =
     (0 until h).sumOf { x ->
-      (0 until w).filter { y -> this[x, y] == 'O' }.sumOf { h - it }
+      (0 until w).filter { y -> this[x, y] == 1 }.sumOf { h - it }
     }
 
   private enum class Dir(val d: XY) {
