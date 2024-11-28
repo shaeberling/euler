@@ -14,6 +14,11 @@ repositories {
   mavenCentral()
 }
 
+tasks.register<Copy>("CopyAocInputs") {
+  from("../data/aoc") // Adjust the path to your data folder
+  into("${layout.projectDirectory}/src/main/resources/") // Destination inside the build folder
+}
+
 dependencies {
   implementation(kotlin("stdlib"))
   implementation("com.google.guava:guava:27.1-jre")
@@ -23,4 +28,8 @@ dependencies {
 
 tasks.test {
   useJUnitPlatform()
+}
+
+tasks.processResources {
+  dependsOn("CopyAocInputs")
 }
