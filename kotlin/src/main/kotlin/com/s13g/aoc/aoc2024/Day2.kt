@@ -30,20 +30,13 @@ class Day2 : Solver {
   }
 
   private fun isSafe2(nums: List<Int>): Boolean {
+
     if (isSafe(nums)) return true;
     // Remove every single element from the list and see if it's legal now.
     for (i in 0 until nums.size) {
-      if (isSafe(removeElement(i, nums))) return true
+      val removed = nums.toMutableList().apply { removeAt(i) }
+      if (isSafe(removed)) return true
     }
     return false
-  }
-
-  /** Returns a list that has the n-th element from the input removed. */
-  private fun removeElement(n: Int, input: List<Int>): List<Int> {
-    val result = mutableListOf<Int>()
-    for (i in 0 until input.size) {
-      if (i != n) result.add(input[i])
-    }
-    return result
   }
 }
