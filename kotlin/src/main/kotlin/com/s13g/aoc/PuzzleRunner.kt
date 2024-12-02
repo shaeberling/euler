@@ -19,6 +19,9 @@ package com.s13g.aoc
 import java.nio.file.Paths
 import java.time.Duration
 import java.time.Instant
+import kotlin.io.path.fileSize
+import kotlin.io.path.notExists
+import kotlin.io.path.pathString
 
 const val ANSI_RESET = "\u001B[0m"
 const val ANSI_BLACK = "\u001B[30m"
@@ -32,7 +35,7 @@ const val ANSI_WHITE = "\u001B[37m"
 
 class PuzzleRunner(private val onlyRunNew: Boolean,
                    private val year: Int) {
-  private val fileRoot = "../data/aoc/$year/"
+  private val fileRoot = "src/main/resources/$year/"
   private var problems = mutableListOf<Problem>()
 
   fun run() {
@@ -40,6 +43,13 @@ class PuzzleRunner(private val onlyRunNew: Boolean,
         .filter { p -> !onlyRunNew || (p.solutionA == "" || p.solutionB == "" || p.forceRun) }
         .forEach { p ->
           println("Running $ANSI_YELLOW'${p.title}'$ANSI_RESET ...")
+          val inputFile = Paths.get(fileRoot, p.inputFile).toAbsolutePath()
+          if (inputFile.notExists() || inputFile.fileSize() == 0L) {
+            println("${ANSI_YELLOW}Input file (${inputFile.pathString}) does not exist. Downloading ..$ANSI_RESET")
+            fetchAdventOfCodeInput(year, p.day, inputFile)
+            println("${ANSI_GREEN}Successfully fetched input.$ANSI_RESET")
+          }
+
           val input = readAsString(Paths.get(fileRoot, p.inputFile))
           val start = Instant.now()
           val solution = p.puzzle.solve(input)
@@ -53,7 +63,7 @@ class PuzzleRunner(private val onlyRunNew: Boolean,
 
   fun addProblem(day: Int, solver: Solver, solutionA: String,
                  solutionB: String, forceRun: Boolean = false) {
-    problems.add(Problem("$year.${day.toString().padStart(2, '0')}",
+    problems.add(Problem("$year.${day.toString().padStart(2, '0')}", day,
         "day$day.txt", solutionA, solutionB, solver, forceRun))
 
   }
@@ -69,6 +79,7 @@ class PuzzleRunner(private val onlyRunNew: Boolean,
 }
 
 data class Problem(val title: String,
+                   val day: Int,
                    val inputFile: String,
                    val solutionA: String,
                    val solutionB: String,

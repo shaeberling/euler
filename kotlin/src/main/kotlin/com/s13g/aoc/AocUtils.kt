@@ -17,9 +17,17 @@
 package com.s13g.aoc
 
 import com.google.common.collect.ImmutableList
+import io.ktor.client.HttpClient
+import io.ktor.client.engine.cio.CIO
+import io.ktor.client.request.get
+import io.ktor.client.request.headers
+import io.ktor.client.statement.HttpResponse
+import io.ktor.client.statement.bodyAsBytes
+import kotlinx.coroutines.runBlocking
 import java.io.FileNotFoundException
 import java.io.IOException
 import java.nio.file.Path
+import kotlin.io.path.writeBytes
 import kotlin.math.abs
 import kotlin.math.max
 import kotlin.math.pow
@@ -35,6 +43,29 @@ fun readAsString(file: Path): List<String> {
   } catch (e: FileNotFoundException) {
     System.err.println("Cannot read file: ${e.message}")
     emptyList()
+  }
+}
+
+fun fetchAdventOfCodeInput(year: Int, day: Int, file: Path) {
+  runBlocking {
+    val session = readAsString(Path.of("session_cookie")).first()
+    if (session.isBlank()) {
+      throw RuntimeException("ERROR: Unable to read session_cookie file.")
+    }
+
+    val client = HttpClient(CIO)
+    val url = "https://adventofcode.com/$year/day/$day/input"
+    try {
+      val response: HttpResponse = client.get(url) {
+        headers { append("Cookie", "session=$session")}
+      }
+      file.writeBytes(response.bodyAsBytes())
+    } catch (e: Exception) {
+      println("Error fetching input: ${e.message}")
+      throw e
+    } finally {
+      client.close()
+    }
   }
 }
 
